@@ -1,16 +1,14 @@
 package prototypes;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class SampleExecutor {
+public class SampleExecutor extends Autonomous_Executor_Class{
 
 	public static void main(String[] args) {
 		Runnable task1 = new SomeRunnable1();
 		Runnable task2= new SomeRunnable2();
-		ExecutorService executor = Executors.newFixedThreadPool(2);
-		executor.execute(task1);
-		executor.execute(task2);
+		submit(task1);
+		submit(task2);
+		executeAll(taskList);
 
 	}
 	
@@ -35,8 +33,5 @@ public class SampleExecutor {
 		
 	}
 	
-	public void execute(Runnable task){
-		task.run();
-	}
-
+	
 }
