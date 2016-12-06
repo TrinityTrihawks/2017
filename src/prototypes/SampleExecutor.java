@@ -1,6 +1,10 @@
 package prototypes;
 
-
+/**
+ * Merely a class to test my Executor code (It works BTW)
+ * @author Jack Rausch
+ *
+ */
 public class SampleExecutor extends Autonomous_Executor_Class{
 
 	public static void main(String[] args) {

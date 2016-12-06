@@ -3,6 +3,11 @@ package prototypes;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains static methods used to execute tasks
+ * @author Jack Rausch
+ *
+ */
 public class Autonomous_Executor_Class {
 	
 	static List<Runnable> taskList = new ArrayList<Runnable>();
