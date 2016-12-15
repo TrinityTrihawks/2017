@@ -41,13 +41,4 @@ public class Autonomous_Executor_Class {
 		taskList.add(task);
 	}
 	
-	/**
-	 * Stops the List from executing
-	 * @param taskList
-	 * @throws InterruptedException
-	 * @author Jack Rausch
-	 */
-	public static void shutdown(List<Runnable> taskList) throws InterruptedException {
-		taskList.wait();
-	}
 }
