@@ -1,5 +1,8 @@
+.gradle/3.2.1/taskArtifacts/*
+desktop.ini
+.project
 *.class
-
+build/*
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
