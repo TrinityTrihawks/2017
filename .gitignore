@@ -1,4 +1,5 @@
-.gradle/3.2.1/taskArtifacts/*
+
+.gradle/*
 desktop.ini
 .project
 *.class
