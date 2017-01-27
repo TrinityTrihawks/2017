@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Wpilib"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/commons-lang3-3.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/libusb4java-1.2.0-linux-arm.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/libusb4java-1.2.0-linux-x86.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/libusb4java-1.2.0-linux-x86_64.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/libusb4java-1.2.0-osx-x86.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/libusb4java-1.2.0-osx-x86_64.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/libusb4java-1.2.0-windows-x86.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/libusb4java-1.2.0-windows-x86_64.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/usb4java-1.2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/usb4java-javax-1.2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/usb-api-1.0.2.jar"/>
-	<classpathentry kind="var" path="Properties"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry path="bin" kind="output"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
+	<classpathentry sourcepath="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/athena/2017.2.1/38c75d30d3cd6bd44be358c16a543cf664b8d4a1/athena-2017.2.1-sources.jar" kind="lib" path="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/athena/2017.2.1/584af5e7c4aa60d81c726571d5a4efcbb7db3d77/athena-2017.2.1.jar"/>
+	<classpathentry sourcepath="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilib.networktables.java/NetworkTables/3.1.6/9ab235b4ff1ed2ca246a61413b15e06cd502e88a/NetworkTables-3.1.6-sources.jar" kind="lib" path="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilib.networktables.java/NetworkTables/3.1.6/c1a1c6b4cfc45e5a4b833e1d4149836affa3301e/NetworkTables-3.1.6-arm.jar"/>
+	<classpathentry sourcepath="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilib.networktables.java/NetworkTables/3.1.6/9ab235b4ff1ed2ca246a61413b15e06cd502e88a/NetworkTables-3.1.6-sources.jar" kind="lib" path="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilib.networktables.java/NetworkTables/3.1.6/6615271ce73a69a4a12f5a375aea2a83f44cd45d/NetworkTables-3.1.6-desktop.jar"/>
+	<classpathentry sourcepath="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/org.opencv/opencv-java/3.1.0/30ac314db3d3a30fae0e3dc2e1740466708f1c0/opencv-java-3.1.0-sources.jar" kind="lib" path="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/org.opencv/opencv-java/3.1.0/2a534baab7f01c049ba9768adb645f9b0128f987/opencv-java-3.1.0.jar"/>
+	<classpathentry sourcepath="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/edu.wpi.cscore.java/cscore/1.0.1/59550e0db18f1c85b1fa0e49768a9c9f69ebe885/cscore-1.0.1-sources.jar" kind="lib" path="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/edu.wpi.cscore.java/cscore/1.0.1/5781d7a2c3b7a55cee6f4ba52595b86befe6ef4f/cscore-1.0.1-arm.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abcde/.gradle/caches/modules-2/files-2.1/thirdparty.frc.ctre/Toolsuite-Java/4.4.1.8/4b42c2e4f0c5f4a525b7c868e614cb2ba1b49a43/Toolsuite-Java-4.4.1.8.jar"/>
 </classpath>
