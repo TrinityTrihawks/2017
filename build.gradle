@@ -11,8 +11,11 @@ frc {
 }
 
 dependencies {
+	compile group: 'org.rxtx', name: 'rxtx', version: '2.2pre2'
     compile wpilib()
     compile talonSrx()
+    
+    
 }
 
 def robotManifest = {
