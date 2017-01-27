@@ -10,9 +10,15 @@ frc {
     robotClass = "org.usfirst.frc.team4215.Robot"
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile wpilib()
     compile talonSrx()
+    compile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
+    compile group: 'javax.usb', name: 'usb-api', version: '1.0.2'
 }
 
 def robotManifest = {
