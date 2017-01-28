@@ -77,3 +77,4 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
             break;
         }
     }
+}
