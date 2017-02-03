@@ -18,4 +18,5 @@ bin/
 
 # Eclipse Project Ignore due to Different Reference Path in .classpath and unnecessary logs in .metadata
 .classpath
-.metadata/
+.metadata/*
+.settings/*
