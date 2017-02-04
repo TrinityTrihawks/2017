@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4215.robot;
+package main.java.org.usfirst.frc.team4215.robot;
 
 
 	import edu.wpi.first.wpilibj.Talon;
@@ -17,7 +17,13 @@ package org.usfirst.frc.team4215.robot;
 				
 			}
 		
-	
+	public <CANTalon> void Drivetrain(){
+		CANTalon flWheel = new CANTalon(3);
+		CANTalon frWheel = new CANTalon(0);
+		CANTalon blWheel = new CANTalon(1);
+		CANTalon brWheel = new CANTalon(0);
+		
+	}
 		//21-24 declare talons
 		CANTalon flWheel = new CANTalon(3);
 		CANTalon frWheel = new CANTalon(0);
@@ -25,44 +31,6 @@ package org.usfirst.frc.team4215.robot;
 		CANTalon brWheel = new CANTalon(2);
 		
 		
-		
-		public void SetLeftWheels(double leftWheelPower) {
-		//91-94 sets min/max left wheel power to -1 and 1
-				if (leftWheelPower > 1) {
-					leftWheelPower = 1;
-				} else if (leftWheelPower < -1) {
-					leftWheelPower = -1;
-					flWheel.setPosition(3);
-				}
-		//28-31 sets wheels to left joystick position
-		flWheel.set(leftWheelPower);
-		blWheel.set(leftWheelPower);
-		}
-		
-		public void SetSideWheels (double SideWheelPower) {
-			if (SideWheelPower > 1) {
-				SideWheelPower = 1;
-			} else if (SideWheelPower < -1) {
-				SideWheelPower = -1;
-			}
-			flWheel.set(SideWheelPower);
-			brWheel.set(SideWheelPower);
-			SideWheelPower *= -1;
-			frWheel.set(SideWheelPower);
-			blWheel.set(SideWheelPower);
-			
-		}
-		public void SetRightWheels(double rightWheelPower) {
-		//91-94 sets min/max wheel power to -1 and 1
-				if (rightWheelPower > 1) {
-					rightWheelPower = -1;
-				} else if (rightWheelPower < -1) {
-					rightWheelPower = 1;
-				}
-				
-		frWheel.set(rightWheelPower);
-		brWheel.set(rightWheelPower);
-	}
 		
 		public void Go(double lFront, double lBack,double rFront, double rBack){
 			if (lFront > 1) {

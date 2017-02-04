@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import com.ctre.CANTalon.FeedbackDevice;
-import com.ctre.CANTalon.StatusFrameRate;
 import com.ctre.CANTalon.TalonControlMode;
 
 
@@ -105,6 +104,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 	
+public void toggleWhenPressed(double button);
+		
+		
 	//getting fwd position
 		GenericHID.Hand leftJoystick = GenericHID.Hand.kLeft;
 		double leftWheelPower = leftDriveJoystick.getY(leftJoystick);
