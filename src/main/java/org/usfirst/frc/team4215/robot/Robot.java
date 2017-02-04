@@ -7,14 +7,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
-
-import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
-
-
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -26,15 +21,9 @@ public class Robot extends IterativeRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	String autoSelected;
-	//two different wheel controllers in the Wwheels
-	Wwheels leftWheel;
-	Wwheels rightWheel;
-	Wwheels leftSideWheel;
-	Wwheels rightSideWheel;
 	//declare joysticks
 	Joystick leftDriveJoystick = new Joystick(0);
 	Joystick rightDriveJoystick = new Joystick(1);
-	Button AButton = new Button(1);
 	SendableChooser<String> chooser = new SendableChooser<>();
 
 	
@@ -103,44 +92,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-	
-public void toggleWhenPressed(double button);
 		
-		
-	//getting fwd position
-		GenericHID.Hand leftJoystick = GenericHID.Hand.kLeft;
-		double leftWheelPower = leftDriveJoystick.getY(leftJoystick);
-	
-	//setting wheels to the thing
-		leftWheel.SetLeftWheels(leftWheelPower);
-		
-		
-		
-		
-		GenericHID.Hand leftSideJoystick = GenericHID.Hand.kLeft;
-		double leftSideWheelPower = leftDriveJoystick.getX(leftSideJoystick);
-		
-		if (leftSideWheelPower > 1) {
-			leftSideWheelPower = 1;
-		} else if (leftSideWheelPower < -1) {
-			leftSideWheelPower = -1;
-		}
-	
-	
-		GenericHID.Hand rightJoystick = GenericHID.Hand.kRight;
-		double rightWheelPower = rightDriveJoystick.getY(rightJoystick);
-		
-		rightWheel.SetRightWheels(rightWheelPower);
-		
-		GenericHID.Hand rightSideJoystick = GenericHID.Hand.kRight;
-		double rightSideWheelPower = rightDriveJoystick.getX(rightSideJoystick);
-	
-		if (rightSideWheelPower > 1) {
-			rightSideWheelPower = -1;
-		} else if (rightSideWheelPower < -1) {
-			rightSideWheelPower = 1;
-		}
-		rightSideWheel.SetRightWheels(rightSideWheelPower);
 	}
 
 
