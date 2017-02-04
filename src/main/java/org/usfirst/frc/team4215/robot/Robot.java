@@ -1,11 +1,155 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.buttons.Button;
 
+import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
+import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.StatusFrameRate;
+import com.ctre.CANTalon.TalonControlMode;
+
+
+
+/**
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to each mode, as described in the IterativeRobot
+ * documentation. If you change the name of this class or the package after
+ * creating this project, you must also update the manifest file in the resource
+ * directory.
+ */
 public class Robot extends IterativeRobot {
+	final String defaultAuto = "Default";
+	final String customAuto = "My Auto";
+	String autoSelected;
+	//two different wheel controllers in the Wwheels
+	Wwheels leftWheel;
+	Wwheels rightWheel;
+	Wwheels leftSideWheel;
+	Wwheels rightSideWheel;
+	//declare joysticks
+	Joystick leftDriveJoystick = new Joystick(0);
+	Joystick rightDriveJoystick = new Joystick(1);
+	Button AButton = new Button(1);
+	SendableChooser<String> chooser = new SendableChooser<>();
 
-	public Robot() {
-		// TODO Auto-generated constructor stub
+	
+	
+	
+	/**
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	@Override
+	public void robotInit() {
+		chooser.addDefault("Default Auto", defaultAuto);
+		chooser.addObject("My Auto", customAuto);
+		SmartDashboard.putData("Auto choices", chooser);
+		//creating grouping for left/right wheels
+		Wwheels wwheels = Wwheels.Create();
+	
 	}
 
+	/**
+	 * This autonomous (along with the chooser code above) shows how to select
+	 * between different autonomous modes using the dashboard. The sendable
+	 * chooser code works with the Java SmartDashboard. If you prefer the
+	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+	 * getString line to get the auto name from the text box below the Gyro
+	 *
+	 * You can add additional auto modes by adding additional comparisons to the
+	 * switch structure below with additional strings. If using the
+	 * SendableChooser make sure to add them to the chooser code above as well.
+	 */
+	@Override
+	public void autonomousInit() {
+		autoSelected = chooser.getSelected();
+		// autoSelected = SmartDashboard.getString("Auto Selector",
+		// defaultAuto);
+		
+		//setting methods to functions in Wwheels
+/*		
+ leftWheel.SetLeftWheels(5);
+	
+		rightWheel.SetRightWheels(7);
+		SideWheel.SetSideWheels(8);
+		*/
+		
+		System.out.println("Auto selected: " + autoSelected);
+	}
+
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	@Override
+	public void autonomousPeriodic() {
+		switch (autoSelected) {
+		case customAuto:
+			// Put custom auto code here
+			break;
+		case defaultAuto:
+		default:
+			// Put default auto code here
+			break;
+		}
+	}
+
+	/**
+	 * This function is called periodically during operator control
+	 */
+	@Override
+	public void teleopPeriodic() {
+	
+	//getting fwd position
+		GenericHID.Hand leftJoystick = GenericHID.Hand.kLeft;
+		double leftWheelPower = leftDriveJoystick.getY(leftJoystick);
+	
+	//setting wheels to the thing
+		leftWheel.SetLeftWheels(leftWheelPower);
+		
+		
+		
+		
+		GenericHID.Hand leftSideJoystick = GenericHID.Hand.kLeft;
+		double leftSideWheelPower = leftDriveJoystick.getX(leftSideJoystick);
+		
+		if (leftSideWheelPower > 1) {
+			leftSideWheelPower = 1;
+		} else if (leftSideWheelPower < -1) {
+			leftSideWheelPower = -1;
+		}
+	
+	
+		GenericHID.Hand rightJoystick = GenericHID.Hand.kRight;
+		double rightWheelPower = rightDriveJoystick.getY(rightJoystick);
+		
+		rightWheel.SetRightWheels(rightWheelPower);
+		
+		GenericHID.Hand rightSideJoystick = GenericHID.Hand.kRight;
+		double rightSideWheelPower = rightDriveJoystick.getX(rightSideJoystick);
+	
+		if (rightSideWheelPower > 1) {
+			rightSideWheelPower = -1;
+		} else if (rightSideWheelPower < -1) {
+			rightSideWheelPower = 1;
+		}
+		rightSideWheel.SetRightWheels(rightSideWheelPower);
+	}
+
+
+	
+	
+	/**
+	 * This function is called periodically during test mode
+	 */
+	@Override
+	public void testPeriodic() {
+	}
 }
+
+
