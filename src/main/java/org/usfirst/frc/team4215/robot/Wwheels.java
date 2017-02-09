@@ -1,9 +1,9 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
-
-	import edu.wpi.first.wpilibj.Talon;
+import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.buttons.Button;
 	
-
 	public class Wwheels {
 		
 			private static Wwheels instance;
@@ -14,24 +14,25 @@ package main.java.org.usfirst.frc.team4215.robot;
 				return instance;
 			}
 			private Wwheels() {
-				
+				//21-24 declare talons
+				flWheel = new CANTalon(3);
+				frWheel = new CANTalon(0);
+				blWheel = new CANTalon(1);
+				brWheel = new CANTalon(2);			
 			}
-		
-	public <CANTalon> void Drivetrain(){
-		CANTalon flWheel = new CANTalon(3);
-		CANTalon frWheel = new CANTalon(0);
-		CANTalon blWheel = new CANTalon(1);
-		CANTalon brWheel = new CANTalon(0);
-		
-	}
+			
 		//21-24 declare talons
-		CANTalon flWheel = new CANTalon(3);
-		CANTalon frWheel = new CANTalon(0);
-		CANTalon blWheel = new CANTalon(1);
-		CANTalon brWheel = new CANTalon(2);
+		CANTalon flWheel;
+		CANTalon frWheel;
+		CANTalon blWheel;
+		CANTalon brWheel;
 		
 		
 		
+		/**
+		 * @Author Carl and Will
+		 * @Purpose floor/ceiling for power and setting wheels
+		 */
 		public void Go(double lFront, double lBack,double rFront, double rBack){
 			if (lFront > 1) {
 				lFront = 1;
@@ -62,9 +63,9 @@ package main.java.org.usfirst.frc.team4215.robot;
 			flWheel.set(lFront);
 			blWheel.set(lBack);
 		}
+		
 		public void Reset() {
 			Go(0,0,0,0);
 		}
 	}
 	
-
