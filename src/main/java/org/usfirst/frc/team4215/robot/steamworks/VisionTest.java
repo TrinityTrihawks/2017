@@ -5,24 +5,21 @@ import org.opencv.imgproc.Imgproc;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.vision.VisionPipeline;
-import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 public class VisionTest extends IterativeRobot {
 
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
+	// Sets Camera Image Resolution
 	
-	private VisionThread visionThread;
-	private double centerX = 0.0;
-	//private RobotDrive drive;
+	private VisionThread visionThread;			//Creates Vision Thread for future use
+	private double centerX = 0.0;			//Creates the variable centerX. 
 	
 	private final Object imgLock = new Object();
 	
 	@Override
 	public void robotInit() {
-	    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+	    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();	//Begins getting video from the camera
 	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 	    
 	    visionThread = new VisionThread(camera, new Pipeline(), pipeline -> {
@@ -30,22 +27,14 @@ public class VisionTest extends IterativeRobot {
 	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 	            synchronized (imgLock) {
 	                centerX = r.x + (r.width / 2);
+	                System.out.println(centerX); 	//if the code is actually working,
+	                System.out.println("Current Center X variable");          //a number should be displayed
 	            }
 	        }
 	    });
 	    visionThread.start();
 	        
-	    //drive = new RobotDrive(1, 2);
-	}
-	@Override
-	public void autonomousPeriodic() {
-		double centerX;
-		synchronized (imgLock) {
-			centerX = this.centerX;
-		}
-		double turn = centerX - (IMG_WIDTH / 2);
-		//drive.arcadeDrive(-0.6, turn * 0.005);
-	}
-
+	    	}
+	
 
 }

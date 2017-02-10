@@ -15,5 +15,13 @@
 	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/usb4java-javax-1.2.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/usb-api-1.0.2.jar"/>
 	<classpathentry kind="var" path="Properties"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/cscore.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/cscore-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/NetworkTables.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/NetworkTables-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/opencv.jar" sourcepath="C:/Users/Ransom/wpilib/java/current/lib/opencv.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/opencv-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/WPILib.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/WPILib-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
