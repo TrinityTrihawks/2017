@@ -1,4 +1,4 @@
-package main.java.robot;
+package main.java.org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -25,7 +25,7 @@ public class Robot extends IterativeRobot {
 	Joystick leftDriveJoystick = new Joystick(0);
 	Joystick rightDriveJoystick = new Joystick(1);
 	SendableChooser<String> chooser = new SendableChooser<>();
-	Drivetrain drivetrain;
+	Wwheels wwheels;
 	
 	
 	
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		//creating grouping for left/right wheels
-	    drivetrain = Drivetrain.Create();
+	    wwheels = Wwheels.Create();
 	
 	}
 

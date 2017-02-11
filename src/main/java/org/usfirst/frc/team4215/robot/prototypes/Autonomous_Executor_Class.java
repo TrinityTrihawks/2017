@@ -1,10 +1,10 @@
-package main.java.prototypes;
+package main.java.org.usfirst.frc.team4215.robot.prototypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contains a static method used to execute tasks
+ * Contains static methods used to execute tasks
  * @author Jack Rausch
  *
  */

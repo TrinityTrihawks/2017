@@ -1,7 +1,10 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
+<<<<<<< HEAD
 import com.ctre.CANTalon;
 
+=======
+>>>>>>> 0929399cce10900ffe0ad053bc35b5e55f319024
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -36,7 +39,6 @@ public class Pathmaker {
 		Trajectory trajectory = null;
 		TankModifier modifier = null;
 	}
-	
 	/**
 	 * This method creates the configuration based on certain parameters. 
 	 * If you wish to get the configuration use the getConfig method instead.
@@ -71,7 +73,11 @@ public class Pathmaker {
 	 * @author Jack Rausch
 	 * @param auto
 	 * @param config
+<<<<<<< HEAD
 	 * @return Trajectory
+=======
+	 * @return trajectory
+>>>>>>> 0929399cce10900ffe0ad053bc35b5e55f319024
 	 */
 	public Trajectory getTrajectory(Waypoint[] auto, Trajectory.Config config){
 		if (trajectory == null){
@@ -102,6 +108,7 @@ public class Pathmaker {
 				
 	}
 
+<<<<<<< HEAD
 	/**
 	 * This method creates a modified trajectory based on wheel base width, or merely gets it if you have already created said trajectory.
 	 * @author Jack Rausch
@@ -188,43 +195,9 @@ public class Pathmaker {
 		return pointListL;
 	}
 	
-	
-	
-	
+
 	
 	//Simple getters and setters
-	public double getDt() {
-		return dt;
-	}
-
-	public void setDt(double dt) {
-		this.dt = dt;
-	}
-
-	public double getMAX_VELOCITY() {
-		return MAX_VELOCITY;
-	}
-
-	public void setMAX_VELOCITY(double mAX_VELOCITY) {
-		MAX_VELOCITY = mAX_VELOCITY;
-	}
-
-	public double getMAX_ACCELERATION() {
-		return MAX_ACCELERATION;
-	}
-
-	public void setMAX_ACCELERATION(double mAX_ACCELERATION) {
-		MAX_ACCELERATION = mAX_ACCELERATION;
-	}
-
-	public double getMAX_JERK() {
-		return MAX_JERK;
-	}
-
-	public void setMAX_JERK(double mAX_JERK) {
-		MAX_JERK = mAX_JERK;
-	}
-
 	public Waypoint[] getAuto1() {
 		return auto1;
 	}
