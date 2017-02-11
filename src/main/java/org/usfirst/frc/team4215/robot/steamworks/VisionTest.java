@@ -1,12 +1,17 @@
 package main.java.org.usfirst.frc.team4215.robot.steamworks;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.cscore.AxisCamera;
 //import com.ctre.CANTalon;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-public class VisionTest extends IterativeRobot {
+import main.java.org.usfirst.frc.team4215.robot.steamworks.Pipeline;
+
+public class VisionTest {
 
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
@@ -16,10 +21,14 @@ public class VisionTest extends IterativeRobot {
 	private double centerX = 0.0;			//Creates the variable centerX. 
 	
 	private final Object imgLock = new Object();
+	public Object visionStop;
 	
-	@Override
-	public void robotInit() {
-	    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();	//Begins getting video from the camera
+	AxisCamera camera;
+	
+	public void visionInit() {
+		CameraServer server = CameraServer.getInstance();
+		camera = server.addAxisCamera("10.42.15.15");
+	    server.startAutomaticCapture();	//Begins getting video from the camera
 	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 	    
 	    visionThread = new VisionThread(camera, new Pipeline(), pipeline -> {
@@ -32,9 +41,18 @@ public class VisionTest extends IterativeRobot {
 	            }
 	        }
 	    });
-	    visionThread.start();
-	        
-	    	}
+	    
+	        	    	
+		}
+	
+	public void visionStart(){
+		visionThread.start();
+	}
+	@SuppressWarnings("deprecation")
+	public void visionStop(){
+		visionThread.stop();
+	}
+	
+}
 	
 
-}
