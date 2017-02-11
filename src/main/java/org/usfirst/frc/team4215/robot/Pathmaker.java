@@ -55,15 +55,15 @@ public class Pathmaker {
 	}
 	
 	Waypoint[] auto1 = new Waypoint[]{
-			//Put points here
+			//new Waypoint(x, y, Pathfinder.d2r(theta))
 	};
 	
 	Waypoint[] auto2 = new Waypoint[]{
-			//Put points here
+			//new Waypoint(x, y, Pathfinder.d2r(theta))
 	};
 	
 	Waypoint[] auto3 = new Waypoint[]{
-			//Put points here
+			//new Waypoint(x, y, Pathfinder.d2r(theta))
 	};
 	
 	/**
@@ -149,7 +149,9 @@ public class Pathmaker {
 	public double[][] convertRightTrajectory(Trajectory rightTraj){
 		double[][] pointListR =  new double[][]{};
 		for (int i = 0; i < rightTraj.length(); i++) {
+			//Retrieves a segment from the trajectory
 		    Trajectory.Segment seg = trajectory.get(i);
+		    //Creates point object
 		    CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
 		    
 		    point.position = seg.position;

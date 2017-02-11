@@ -35,6 +35,10 @@ import com.ctre.CANTalon;
 
 		private static Drivetrain instance;
 		
+		/**
+		 * Creates an instance of Drivetrain
+		 * @return
+		 */
 		public static Drivetrain Create() {
 			if (instance == null) {
 				instance = new Drivetrain();
@@ -57,10 +61,14 @@ import com.ctre.CANTalon;
 		 */
 		public void setTalonControlMode(CANTalon.TalonControlMode newMode){
 			controlMode = newMode;
+			flWheel.changeControlMode(newMode);
+			frWheel.changeControlMode(newMode);
+			blWheel.changeControlMode(newMode);
+			brWheel.changeControlMode(newMode);
 		}
 		
 		/**
-		 * Gets controlmode.
+		 * Gets control mode.
 		 * @return TalonControlMode
 		 */
 		public CANTalon.TalonControlMode getTalonCOntrolMode(){
@@ -94,6 +102,7 @@ import com.ctre.CANTalon;
 			
 		}
 		
+		/*
 		/**
 		 * Gets the number of rotations from each wheel.
 		 * @author Jack Rausch
@@ -102,7 +111,7 @@ import com.ctre.CANTalon;
 		 * @param blWheel
 		 * @param brWheel
 		 * @return int[]
-		 */
+		 *//*
 		public int[] getTicks(CANTalon flWheel, CANTalon frWheel, CANTalon blWheel, CANTalon brWheel){
 			int[] Ticks = new int[]{
 				flWheel.getEncPosition(),
@@ -113,12 +122,14 @@ import com.ctre.CANTalon;
 			return Ticks;
 			
 		}
-
+		*/
 		
 		public void Reset() {
 			Go(0,0,0,0);
 		}
 		
+		
+		//Just a billion getters and setters
 		public CANTalon getFlWheel() {
 			return flWheel;
 		}
