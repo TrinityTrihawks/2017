@@ -73,11 +73,8 @@ public class Pathmaker {
 	 * @author Jack Rausch
 	 * @param auto
 	 * @param config
-<<<<<<< HEAD
+
 	 * @return Trajectory
-=======
-	 * @return trajectory
->>>>>>> 0929399cce10900ffe0ad053bc35b5e55f319024
 	 */
 	public Trajectory getTrajectory(Waypoint[] auto, Trajectory.Config config){
 		if (trajectory == null){
@@ -108,7 +105,7 @@ public class Pathmaker {
 				
 	}
 
-<<<<<<< HEAD
+
 	/**
 	 * This method creates a modified trajectory based on wheel base width, or merely gets it if you have already created said trajectory.
 	 * @author Jack Rausch
