@@ -1,4 +1,4 @@
-package prototypes;
+package main.java.prototypes;
 
 import java.io.*;
 import java.nio.*;

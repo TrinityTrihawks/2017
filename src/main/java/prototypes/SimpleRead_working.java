@@ -1,3 +1,6 @@
+package main.java.prototypes;
+
+
 import java.io.*;
 import java.nio.*;
 import java.util.*;
@@ -8,7 +11,7 @@ import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
 
-public class SimpleRead implements Runnable, SerialPortEventListener {
+public class SimpleRead_working implements Runnable, SerialPortEventListener {
     private int BytesSize = 6;
     private InputStream inputStream;
     private SerialPort serialPort;
@@ -21,10 +24,10 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 
     	String portIdentifierName = "/dev/ttyUSB0";
 
-	SimpleRead reader;
+	SimpleRead_working reader;
 
 	try {
-		reader = SimpleRead.Create(portIdentifierName);
+		reader = SimpleRead_working.Create(portIdentifierName);
 		reader.Listen();
 		int dist;
 		while (true)
@@ -38,8 +41,8 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
         }
     }
 
-    public static SimpleRead Create(String portName) {
-	SimpleRead reader = null;
+    public static SimpleRead_working Create(String portName) {
+	SimpleRead_working reader = null;
 
 	try {
 		Enumeration portList = CommPortIdentifier.getPortIdentifiers();
@@ -49,7 +52,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 				System.out.println("Port: " + portId.getName());
                 		if (portId.getName().equals(portName)) {
                     			SerialPort serialPort = (SerialPort) portId.open("SimpleReadApp", 2000);
-                    			reader = new SimpleRead(serialPort);
+                    			reader = new SimpleRead_working(serialPort);
 				}
                 	}
             	}
@@ -64,7 +67,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
         return reader;	
      }
 
-    public SimpleRead(SerialPort serialPort) {
+    public SimpleRead_working(SerialPort serialPort) {
         try {
             this.serialPort = serialPort;
             this.inputStream = this.serialPort.getInputStream();

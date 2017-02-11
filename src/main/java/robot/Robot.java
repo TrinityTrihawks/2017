@@ -1,4 +1,4 @@
-package robot;
+package main.java.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 

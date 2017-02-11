@@ -1,4 +1,4 @@
-package  main.java.steamworks;
+package  main.java.org.usfirst.frc.team4215.robot.steamworks;
 
 import java.io.File;
 import java.io.FileWriter;
