@@ -66,6 +66,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
         return reader;	
      }
 
+    //Simple Constructor
     public SimpleRead(SerialPort serialPort) {
         try {
             this.serialPort = serialPort;
@@ -112,8 +113,10 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
         }
     }
 
+    
     public void serialEvent(SerialPortEvent event) {
 	switch(event.getEventType()) {
+	//Redundant cases for different data types
         case SerialPortEvent.BI:
         case SerialPortEvent.OE:
         case SerialPortEvent.FE:
@@ -122,55 +125,59 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
         case SerialPortEvent.CTS:
         case SerialPortEvent.DSR:
         case SerialPortEvent.RI:
+        //If buffer is empty stop method
         case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
             break;
+        //Reads data available in buffer
         case SerialPortEvent.DATA_AVAILABLE:
 	    int index = 0;
 	    int read = 0;
 	    int capacity = 6;
-            alignment = 0; 
-            byte[] bytes = new byte[6];
+        alignment = 0; 
+        byte[] bytes = new byte[6];
 
-            try {
-		while (index<capacity && ((read = inputStream.read(bytes, index, capacity-index)) != -1)) {
-		   //System.out.printf("read: %d, capacity: %d\n", read, capacity); 
-			index += read;
-		}
-		//System.out.printf("READ COMPLETE: %d", index);
-
-                int dist = -1;
-		for (int i = 0; i < index; i++) 
-		{
-			if (bytes[i] == 82) {
-				break;
+        try {
+			while (index<capacity && ((read = inputStream.read(bytes, index, capacity-index)) != -1)) {
+			   //System.out.printf("read: %d, capacity: %d\n", read, capacity); 
+				index += read;
 			}
-			alignment++; 
-		}
-
-		if (alignment != 0)
-		{
+			//System.out.printf("READ COMPLETE: %d", index);
+	
+	        int dist = -1;
+	        //Searches for '82' which starts each datastream
 			for (int i = 0; i < index; i++) 
 			{
-			     System.out.printf("%d ", bytes[i]);
+				if (bytes[i] == 82) {
+					break;
+				}
+				alignment++; 
 			}
-			System.out.println("");
-			System.out.printf("alignment: %d", alignment);
-		}
+			
+			//Tells us if the datastream is unaligned
+			if (alignment != 0)
+			{
+				for (int i = 0; i < index; i++) 
+				{
+				    System.out.printf("%d ", bytes[i]);
+				}
+				System.out.println("");
+				System.out.printf("alignment: %d", alignment);
+			}
+	
+			if (alignment < 2)
+			{
+				dist = (1000 * (bytes[1 + alignment] - 48)) + 
+				       (100 * (bytes[2 + alignment] - 48)) + 
+				       (10 * (bytes[3 + alignment] - 48)) + 
+	                               (bytes[4 + alignment] - 48);
+			}
+	
+			//System.out.println("dist: " + dist);
+			this.distance = dist;
 
-		if (alignment < 2)
-		{
-			dist = (1000 * (bytes[1 + alignment] - 48)) + 
-			       (100 * (bytes[2 + alignment] - 48)) + 
-			       (10 * (bytes[3 + alignment] - 48)) + 
-                               (bytes[4 + alignment] - 48);
-		}
-
-		//System.out.println("dist: " + dist);
-		this.distance = dist;
-
-            } catch (IOException e) {
+        } catch (IOException e) {
 	    	System.out.println(e);
-            } catch (Exception e) {
+        } catch (Exception e) {
 	    	System.out.println(e);
 	    }
             break;
