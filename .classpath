@@ -4,6 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/Wpilib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/PathFinder"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/CTRE"/>
 	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/commons-lang3-3.2.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/libusb4java-1.2.0-linux-arm.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jack Rausch/wpilib/user/java/lib/libusb4java-1.2.0-linux-x86.jar"/>

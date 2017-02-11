@@ -5,6 +5,14 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 
+
+/**
+ * This class defines each autonomous path and configures it.
+ * IMPORTANT: Make sure that when autonomous is initialized both configuration and trajectory are set to null, or else the config and trajectory will not be initialized!
+ * 
+ * @author Jack Rausch
+ *
+ */
 public class Pathmaker {
 	
 	private double dt;
@@ -12,9 +20,19 @@ public class Pathmaker {
 	private double MAX_ACCELERATION;
 	private double MAX_JERK;
 	private Waypoint[] auto;
-	private Trajectory.Config config;
+	private Trajectory.Config configuration = null;
 	private Trajectory trajectory = null;
 	
+	/**
+	 * This method creates the configuration based on certain parameters. 
+	 * If you wish to get the configuration use the getConfig method instead.
+	 * @author Jack Rausch
+	 * @param dt
+	 * @param MAX_VELOCITY
+	 * @param MAX_ACCELERATION
+	 * @param MAX_JERK
+	 * @return config(Don't use)
+	 */
 	public Trajectory.Config config(double dt, double MAX_VELOCITY, double MAX_ACCELERATION, double MAX_JERK){
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC,
         		Trajectory.Config.SAMPLES_HIGH, dt, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
@@ -34,17 +52,43 @@ public class Pathmaker {
 			//Put points here
 	};
 	
-	
-	public Trajectory generateTrajectory(Waypoint[] auto, Trajectory.Config config){
+	/**
+	 * This method gets the trajectory if it has already been generated or generates it if necessary.
+	 * @author Jack Rausch
+	 * @param auto
+	 * @param config
+	 * @return trajectory
+	 */
+	public Trajectory getTrajectory(Waypoint[] auto, Trajectory.Config config){
 		if (trajectory == null){
-			Trajectory traj = Pathfinder.generate(auto, config);
-			trajectory = traj;
+			trajectory = Pathfinder.generate(auto, config);
 			return trajectory;
 		} else {
 			return trajectory;
 		}
 	}
+	
+	/**
+	 * This method gets the configuration if it has already been generated or generates it if necessary. Use this method to get the configuration.
+	 * @author Jack Rausch
+	 * @param dt
+	 * @param MAX_VELOCITY
+	 * @param MAX_ACCELERATION
+	 * @param MAX_JERK
+	 * @return configuration
+	 */
+	public Trajectory.Config getConfig(double dt, double MAX_VELOCITY, double MAX_ACCELERATION, double MAX_JERK){
+		if (configuration == null){
+			//Admittedly a very inefficient way to do this, but I'll fix it later(never).
+			configuration = config(dt, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+			return configuration;
+		} else {
+			return configuration;
+		}
+				
+	}
 
+	//Creates modifier
 	TankModifier modifier = new TankModifier(trajectory).modify(0.5);
 	
 
@@ -52,13 +96,9 @@ public class Pathmaker {
 	
 	
 	
-	
-	public Trajectory getTrajectory() {
-		return trajectory;
-	}
 
 	
-
+	//Simple getters and setters
 	public Waypoint[] getAuto1() {
 		return auto1;
 	}
