@@ -25,7 +25,7 @@ public class Robot extends IterativeRobot {
 	Joystick leftDriveJoystick = new Joystick(0);
 	Joystick rightDriveJoystick = new Joystick(1);
 	SendableChooser<String> chooser = new SendableChooser<>();
-	Encoders encoders;
+	Drivetrain drivetrain;
 	
 	
 	
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		//creating grouping for left/right wheels
-	    encoders = Encoders.Create();
+	    drivetrain = Drivetrain.Create();
 	
 	}
 
