@@ -22,6 +22,14 @@ import com.ctre.CANTalon;
 				flWheel, frWheel, blWheel, brWheel
 		};
 		
+		CANTalon[] leftSide = new CANTalon[]{
+				flWheel, blWheel
+		};
+		
+		CANTalon[] rightSide = new CANTalon[]{
+				frWheel, brWheel
+		};
+		
 		
 		
 
