@@ -22,6 +22,18 @@ public class Pathfollower {
 		
 	}
 	
+	/**
+	 * This method gets the left encoder follower.
+	 * @param leftTraj
+	 * @param ENCODER_POSITION
+	 * @param TICK_PER_ROTATION
+	 * @param WHEEL_DIAMETER
+	 * @param Kp
+	 * @param Ki
+	 * @param Kd
+	 * @param MAX_VELOCITY
+	 * @return left
+	 */
 	public EncoderFollower getLeftEncoderFollower(Trajectory leftTraj, int ENCODER_POSITION, int TICK_PER_ROTATION, double WHEEL_DIAMETER,
 			double Kp, double Ki, double Kd, double MAX_VELOCITY){
 		if (left == null){
@@ -34,6 +46,18 @@ public class Pathfollower {
 		
 	}
 	
+	/**
+	 * This method gets the right encoder follower.
+	 * @param rightTraj
+	 * @param ENCODER_POSITION
+	 * @param TICK_PER_ROTATION
+	 * @param WHEEL_DIAMETER
+	 * @param Kp
+	 * @param Ki
+	 * @param Kd
+	 * @param MAX_VELOCITY
+	 * @return right
+	 */
 	public EncoderFollower getRightEncoderFollower(Trajectory rightTraj, int ENCODER_POSITION, int TICK_PER_ROTATION, double WHEEL_DIAMETER,
 			double Kp, double Ki, double Kd, double MAX_VELOCITY){
 		if (right == null){
