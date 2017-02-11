@@ -2,7 +2,7 @@ package main.java.org.usfirst.frc.team4215.robot;
 
 import com.ctre.CANTalon;
 	
-	public class Wwheels {
+	public class Encoders {
 		
 		double wheelRadius = 6; // inches
 		double wheelCirc = 2*Math.PI*wheelRadius;
@@ -16,16 +16,16 @@ import com.ctre.CANTalon;
 		CANTalon blWheel;
 		CANTalon brWheel;
 		
-		private static Wwheels instance;
+		private static Encoders instance;
 		
-		public static Wwheels Create() {
+		public static Encoders Create() {
 			if (instance == null) {
-				instance = new Wwheels();
+				instance = new Encoders();
 			}
 			return instance;
 		}
 		
-		private Wwheels() {
+		private Encoders() {
 			//21-24 declare talons
 			flWheel = new CANTalon(3);
 			frWheel = new CANTalon(0);

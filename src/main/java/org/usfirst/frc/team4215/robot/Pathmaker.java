@@ -20,8 +20,20 @@ public class Pathmaker {
 	private double MAX_ACCELERATION;
 	private double MAX_JERK;
 	private Waypoint[] auto;
-	private Trajectory.Config configuration = null;
-	private Trajectory trajectory = null;
+	private Trajectory.Config configuration;
+	private Trajectory trajectory;
+	private TankModifier modifier;
+	
+	
+	/**
+	 * This method must be used at the beginning of Autonomous for the Pathmaker code to work.
+	 * @author Jack Rausch
+	 */
+	public void pathmInit(){
+		Trajectory.Config configuration = null;
+		Trajectory trajectory = null;
+		TankModifier modifier = null;
+	}
 	
 	/**
 	 * This method creates the configuration based on certain parameters. 
@@ -88,17 +100,81 @@ public class Pathmaker {
 				
 	}
 
-	//Creates modifier
-	TankModifier modifier = new TankModifier(trajectory).modify(0.5);
+	/**
+	 * This method creates a modified trajectory based on wheel base width, or merely gets it if you have already created said trajectory.
+	 * @author Jack Rausch
+	 * @param wheelbasewidth
+	 * @param trajectory
+	 * @return modifier
+	 */
+	public TankModifier getModifier(double wheelbasewidth, Trajectory trajectory){
+		if (modifier == null) {
+			TankModifier mod = new TankModifier(trajectory).modify(wheelbasewidth);
+			modifier = mod.modify(wheelbasewidth);
+			return modifier;
+		} else 
+			return modifier;
+		
+	}
 	
-
+	/**
+	 * This method gets the left trajectory
+	 * @author Jack Rausch
+	 * @param modifier
+	 * @return leftTraj
+	 */
+	public Trajectory getLeftTrajectory(TankModifier modifier){
+		Trajectory leftTraj = modifier.getLeftTrajectory();
+		return leftTraj;
+	}
+	
+	/**
+	 * This method gets the right trajectory
+	 * @param modifier
+	 * @return rightTraj
+	 */
+	public Trajectory getRightTrajectory(TankModifier modifier){
+		Trajectory rightTraj = modifier.getRightTrajectory();
+		return rightTraj;
+	}
 	
 	
 	
 	
-
 	
 	//Simple getters and setters
+	public double getDt() {
+		return dt;
+	}
+
+	public void setDt(double dt) {
+		this.dt = dt;
+	}
+
+	public double getMAX_VELOCITY() {
+		return MAX_VELOCITY;
+	}
+
+	public void setMAX_VELOCITY(double mAX_VELOCITY) {
+		MAX_VELOCITY = mAX_VELOCITY;
+	}
+
+	public double getMAX_ACCELERATION() {
+		return MAX_ACCELERATION;
+	}
+
+	public void setMAX_ACCELERATION(double mAX_ACCELERATION) {
+		MAX_ACCELERATION = mAX_ACCELERATION;
+	}
+
+	public double getMAX_JERK() {
+		return MAX_JERK;
+	}
+
+	public void setMAX_JERK(double mAX_JERK) {
+		MAX_JERK = mAX_JERK;
+	}
+
 	public Waypoint[] getAuto1() {
 		return auto1;
 	}
