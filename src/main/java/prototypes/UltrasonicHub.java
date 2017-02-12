@@ -6,6 +6,11 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
 
+/**
+ * This class encapsulates all the Ultrasonic devices defined by SimpleRead and allows us to iterate over them.
+ * @author Jack Rausch
+ *
+ */
 public class UltrasonicHub {
 	public int dist;
 	private String serialport;

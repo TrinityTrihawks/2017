@@ -1,15 +1,19 @@
 package main.java.prototypes;
 
 import java.io.*;
-import java.nio.*;
 import java.util.*;
-import gnu.io.CommPortIdentifier;
-import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
 
+/**
+ * This class defines the Ultrasonic devices and reads their buffers converting the Ascii returns into a distance in mm.
+ * @author Jack Rausch
+ * @author Mr. Erickson
+ * @author Some guy on the Internet
+ *
+ */
 public class SimpleRead implements Runnable, SerialPortEventListener {
     private int BytesSize = 6;
     private InputStream inputStream;
@@ -19,6 +23,8 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
     
     private int distance = 0;
 
+    //UltrasonicHub handles these functions now
+    /*
     public static void main(String[] args) {
 
     	String portIdentifierName = "/dev/ttyUSB0";
@@ -65,6 +71,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 
         return reader;	
      }
+    */
 
     //Simple Constructor
     public SimpleRead(SerialPort serialPort) {
@@ -186,10 +193,10 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
     }
     
     public int getDistance(){
-        	return this.distance;
+        return this.distance;
         	}
         	
-        public void setDistance(int dist){
-        	this.distance = dist;
+    public void setDistance(int dist){
+        this.distance = dist;
         	}
 }
