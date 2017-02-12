@@ -1,10 +1,7 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
-<<<<<<< HEAD
-import com.ctre.CANTalon;
 
-=======
->>>>>>> 0929399cce10900ffe0ad053bc35b5e55f319024
+import com.ctre.CANTalon;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
