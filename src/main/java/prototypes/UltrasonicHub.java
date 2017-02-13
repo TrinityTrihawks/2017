@@ -23,18 +23,8 @@ public class UltrasonicHub {
 	
 	private SimpleRead reader;
 	
-	public static void main(String[] args){
-		
-		UltrasonicHub hub =  new UltrasonicHub();
-		ArrayList<String> devices = hub.addReader("/dev/ttyUSB0");
-		System.out.println(devices);
-		int dist = hub.getDistancefromPort("/dev/ttyUSB0");
-		System.out.println(dist);
-		ArrayList<Integer> portReadings = hub.getDistancefromallPorts();
-		System.out.println(portReadings);
-		
-		
-	}
+	
+	
 	
 	public UltrasonicHub(){
 		//this.dist = dist;
