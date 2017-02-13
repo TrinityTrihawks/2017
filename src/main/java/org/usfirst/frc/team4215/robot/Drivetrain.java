@@ -82,7 +82,19 @@ import com.ctre.CANTalon;
 		public void Reset() {
 			Go(0,0,0,0);
 		}
+		
+		public void drive(double left, double right, double strafe, boolean IsStrafing){
+			if (!IsStrafing){
+				Go(left,left,right,right);
+			}
+
+			
+			
+			if (IsStrafing){
+			Go(strafe,-strafe,-strafe,strafe);
+			}
+			
+
+		}
 	}
-		
-		
 	
