@@ -44,9 +44,9 @@ public class VisionTest {
 	public void visionStart(){
 		visionThread.start();
 	}
-	public void visionStop(){
+	public void visionStop() throws InterruptedException{
 		visionThread.join();
-		visionThread.wait(30);s
+		visionThread.wait(30);
 	}
 	
 }

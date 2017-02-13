@@ -18,7 +18,7 @@ public class Robot<VisonTest> extends IterativeRobot {
 		visionTest1.visionStart();
 	}
 	
-	public void disableInit(){
+	public void disableInit() throws InterruptedException{
 			
 			visionTest1.visionStop();
 	}
