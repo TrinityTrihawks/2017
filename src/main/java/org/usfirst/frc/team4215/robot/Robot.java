@@ -1,7 +1,6 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.vision.VisionThread;
 import main.java.org.usfirst.frc.team4215.robot.steamworks.VisionTest;
 
 public class Robot<VisonTest> extends IterativeRobot {
@@ -20,7 +19,7 @@ public class Robot<VisonTest> extends IterativeRobot {
 	}
 	
 	public void disableInit(){
-		
+			
 			visionTest1.visionStop();
 	}
 }

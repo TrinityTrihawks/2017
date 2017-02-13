@@ -3,11 +3,7 @@ import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.cscore.AxisCamera;
-//import com.ctre.CANTalon;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 import main.java.org.usfirst.frc.team4215.robot.steamworks.Pipeline;
 
@@ -48,9 +44,9 @@ public class VisionTest {
 	public void visionStart(){
 		visionThread.start();
 	}
-	@SuppressWarnings("deprecation")
 	public void visionStop(){
-		visionThread.stop();
+		visionThread.join();
+		visionThread.wait(30);s
 	}
 	
 }
