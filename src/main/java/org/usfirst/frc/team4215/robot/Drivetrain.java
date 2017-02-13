@@ -1,7 +1,5 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
-import java.util.ArrayList;
-
 import com.ctre.CANTalon;
 	
 	public class Drivetrain {
