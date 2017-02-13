@@ -18,21 +18,6 @@ import com.ctre.CANTalon;
 		CANTalon blWheel;
 		CANTalon brWheel;
 		
-		CANTalon[] talonList = new CANTalon[]{
-				flWheel, frWheel, blWheel, brWheel
-		};
-		
-		CANTalon[] leftSide = new CANTalon[]{
-				flWheel, blWheel
-		};
-		
-		CANTalon[] rightSide = new CANTalon[]{
-				frWheel, brWheel
-		};
-		
-		
-		
-
 		private static Drivetrain instance;
 		
 		/**
@@ -61,10 +46,13 @@ import com.ctre.CANTalon;
 		 */
 		public void setTalonControlMode(CANTalon.TalonControlMode newMode){
 			controlMode = newMode;
-			flWheel.changeControlMode(newMode);
-			frWheel.changeControlMode(newMode);
-			blWheel.changeControlMode(newMode);
-			brWheel.changeControlMode(newMode);
+
+			flWheel.changeControlMode(controlMode);
+			frWheel.changeControlMode(controlMode);
+			blWheel.changeControlMode(controlMode);
+			brWheel.changeControlMode(controlMode);
+			
+
 		}
 		
 		/**
@@ -94,80 +82,27 @@ import com.ctre.CANTalon;
 				rBack = rBack*secondsToMinutes/wheelCirc;
 			}
 			
-			
-			frWheel.set(rFront);
-			brWheel.set(rBack);
 			flWheel.set(lFront);
 			blWheel.set(lBack);
-			
+			frWheel.set(rFront);
+			brWheel.set(rBack);
 		}
-		
-		/*
-		/**
-		 * Gets the number of rotations from each wheel.
-		 * @author Jack Rausch
-		 * @param flWheel
-		 * @param frWheel
-		 * @param blWheel
-		 * @param brWheel
-		 * @return int[]
-		 *//*
-		public int[] getTicks(CANTalon flWheel, CANTalon frWheel, CANTalon blWheel, CANTalon brWheel){
-			int[] Ticks = new int[]{
-				flWheel.getEncPosition(),
-				frWheel.getEncPosition(),
-				blWheel.getEncPosition(),
-				brWheel.getEncPosition()
-			};
-			return Ticks;
-			
-		}
-		*/
-		
+
 		public void Reset() {
 			Go(0,0,0,0);
 		}
 		
-		
-		//Just a billion getters and setters
-		public CANTalon getFlWheel() {
-			return flWheel;
-		}
-		
-		public CANTalon[] getTalonList() {
-			return talonList;
-		}
 
-		public void setTalonList(CANTalon[] talonList) {
-			this.talonList = talonList;
-		}
+		public void drive(double left, double right, double strafe, boolean IsStrafing){
+			if (!IsStrafing){
+				Go(left,left,right,right);
+			}
 
-		public void setFlWheel(CANTalon flWheel) {
-			this.flWheel = flWheel;
-		}
-
-		public CANTalon getFrWheel() {
-			return frWheel;
-		}
-
-		public void setFrWheel(CANTalon frWheel) {
-			this.frWheel = frWheel;
-		}
-
-		public CANTalon getBlWheel() {
-			return blWheel;
-		}
-
-		public void setBlWheel(CANTalon blWheel) {
-			this.blWheel = blWheel;
-		}
-
-		public CANTalon getBrWheel() {
-			return brWheel;
-		}
-
-		public void setBrWheel(CANTalon brWheel) {
-			this.brWheel = brWheel;
-		}
+			
+			
+			if (IsStrafing){
+			Go(strafe,-strafe,-strafe,strafe);
+			}
+	
 	}
 	
