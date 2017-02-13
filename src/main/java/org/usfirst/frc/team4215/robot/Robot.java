@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.CANTalon;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -18,13 +19,9 @@ import com.ctre.CANTalon.TalonControlMode;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
-	String autoSelected;
-	//declare joysticks
+
 	Joystick leftDriveJoystick = new Joystick(0);
 	Joystick rightDriveJoystick = new Joystick(1);
-	SendableChooser<String> chooser = new SendableChooser<>();
 	Drivetrain drivetrain;
 	
 	
@@ -35,10 +32,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
-		//creating grouping for left/right wheels
 	    drivetrain = Drivetrain.Create();
 	
 	}
@@ -53,21 +46,12 @@ public class Robot extends IterativeRobot {
 	 * You can add additional auto modes by adding additional comparisons to the
 	 * switch structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
-	 */
+s	 */
 	@Override
 	public void autonomousInit() {
-		autoSelected = chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		
-		//setting methods to functions in Wwheels
-/*		
- leftWheel.SetLeftWheels(5);
-	
-		rightWheel.SetRightWheels(7);
-		SideWheel.SSideWheels(8);
-		*/
-		System.out.println("Auto selected: " + autoSelected);
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
+		drivetrain.Go(24, 24, 24, 24);
+		drivetrain.setTalonControlMode(TalonControlMode.Voltage);
 	}
 
 	/**
@@ -75,15 +59,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customAuto:
-			// Put custom auto code here
-			break;
-		case defaultAuto:
-		default:
-			// Put default auto code here
-			break;
-		}
 	}
 
 	/**
@@ -93,9 +68,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 	}
-
-
-	
 	
 	/**
 	 * This function is called periodically during test mode
