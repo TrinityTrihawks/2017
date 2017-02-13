@@ -7,12 +7,25 @@ plugins {
 
 frc {
     team = "4215"
-    robotClass = "main.java.org.usfirst.frc.team4215.Robot"
+
+    robotClass = "main.java.org.usfirst.frc.team4215.robot.Robot"
+
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
     compile wpilib()
     compile talonSrx()
+
+    compile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
+    compile group: 'javax.usb', name: 'usb-api', version: '1.0.2'
+    compile group: 'org.usb4java', name: 'usb4java', version: '1.2.0'
+
+    compile fileTree(dir: 'libs', include: '**/*.jar')
+    nativeLib  fileTree(dir: 'libs', include: '**/*.so')
 }
 
 def robotManifest = {

@@ -1,28 +1,30 @@
 package main.java.org.usfirst.frc.team4215.robot.steamworks;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
-//import com.ctre.CANTalon;
-import edu.wpi.cscore.UsbCamera;
+
+import edu.wpi.cscore.AxisCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.vision.VisionPipeline;
-import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-public class VisionTest extends IterativeRobot {
+import main.java.org.usfirst.frc.team4215.robot.steamworks.Pipeline;
+
+public class VisionTest {
 
 	private static final int IMG_WIDTH = 320;
 	private static final int IMG_HEIGHT = 240;
+	// Sets Camera Image Resolution
 	
-	private VisionThread visionThread;
-	private double centerX = 0.0;
-	//private RobotDrive drive;
+	private VisionThread visionThread;			//Creates Vision Thread for future use
+	private double centerX = 0.0;			//Creates the variable centerX. 
 	
 	private final Object imgLock = new Object();
+	public Object visionStop;
 	
-	@Override
-	public void robotInit() {
-	    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+	AxisCamera camera;
+	
+	public void visionInit() {
+		CameraServer server = CameraServer.getInstance();
+		camera = server.addAxisCamera("10.42.15.15");
+	    server.startAutomaticCapture();	//Begins getting video from the camera
 	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 	    
 	    visionThread = new VisionThread(camera, new Pipeline(), pipeline -> {
@@ -30,22 +32,23 @@ public class VisionTest extends IterativeRobot {
 	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 	            synchronized (imgLock) {
 	                centerX = r.x + (r.width / 2);
+	                System.out.println(centerX); 	//if the code is actually working,
+	                System.out.println("Current Center X variable");          //a number should be displayed
 	            }
 	        }
 	    });
-	    visionThread.start();
-	        
-	    //drive = new RobotDrive(1, 2);
-	}
-	@Override
-	public void autonomousPeriodic() {
-		double centerX;
-		synchronized (imgLock) {
-			centerX = this.centerX;
+	    
+	        	    	
 		}
-		double turn = centerX - (IMG_WIDTH / 2);
-		//drive.arcadeDrive(-0.6, turn * 0.005);
+	
+	public void visionStart(){
+		visionThread.start();
 	}
-
-
+	public void visionStop() throws InterruptedException{
+		visionThread.join();
+		visionThread.wait(30);
+	}
+	
 }
+	
+
