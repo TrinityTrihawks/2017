@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.modifiers.TankModifier;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -40,6 +42,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", chooser);
 		//creating grouping for left/right wheels
 	    drivetrain = Drivetrain.Create();
+	    Trajectory.Config configuration = null;
+		Trajectory trajectory = null;
+		TankModifier modifier = null;
 	
 	}
 
@@ -68,6 +73,20 @@ public class Robot extends IterativeRobot {
 		SideWheel.SSideWheels(8);
 		*/
 		System.out.println("Auto selected: " + autoSelected);
+		/*
+		Pathmaker pathmaker = new Pathmaker();
+		config = pathmaker.config(dt, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+		trajectory = pathmaker.getTrajectory(auto, config);
+		modifier = pathmaker.getModifier(wheelbasewidth, trajectory);
+		leftTrajectory = pathmaker.getLeftTrajectory(modifier);
+		rightTrajectory = pathmaker.getRightTrajectory(modifier);
+		leftTrajectoryConverted = pathmaker.convertLeftTrajectory(leftTraj);
+		rightTrajectoryConverted = pathmaker.convertRightTrajectory(rightTraj);
+		*//*
+		Pathfollower pathfollower = new Pathfollower();
+		leftPath = pathfollower.fillPoints(pointList, left);
+		rightPath = pathfollower.fillPoints(pointList, right);
+		*/
 	}
 
 	/**
