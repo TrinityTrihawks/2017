@@ -79,7 +79,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
             this.serialPort = serialPort;
             this.inputStream = this.serialPort.getInputStream();
             this.serialPort.addEventListener(this);
-	    this.serialPort.notifyOnDataAvailable(false);
+	    this.serialPort.notifyOnDataAvailable(true);
             this.serialPort.setSerialPortParams(57600,
                 SerialPort.DATABITS_8,
                 SerialPort.STOPBITS_1,
@@ -99,7 +99,6 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 	public void Listen()
 	{
 		this.serialPort.notifyOnDataAvailable(true);
-		//this.readThread.start();
 		System.out.println("Listening?");
 	}
 

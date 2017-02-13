@@ -2,6 +2,8 @@ package main.java.prototypes;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
@@ -13,56 +15,78 @@ import gnu.io.SerialPort;
  */
 public class UltrasonicHub {
 	public int dist;
-	private String serialport;
-	static ArrayList<String> portlist;
-	static ArrayList<SimpleRead> readerlist = null;
-	private static ArrayList<Integer> portReadings;
+	//private String serialport;
+	private ArrayList<String> portlist;
+	private ArrayList<SimpleRead> readerlist = null;
+	private HashMap<String,SimpleRead> serialMap = new HashMap<String,SimpleRead>();
+	//private static ArrayList<Integer> portReadings;
 	
 	private SimpleRead reader;
 	
 	public static void main(String[] args){
-		ArrayList<String> devices = addPort("/dev/ttyUSB0");
+		
+		UltrasonicHub hub =  new UltrasonicHub();
+		ArrayList<String> devices = hub.addReader("/dev/ttyUSB0");
 		System.out.println(devices);
-		getReaders(devices);
-		System.out.println(readerlist);
-		SimpleRead reader = readerlist.get(0);
-		System.out.println(reader);
-		int dist = getDistancefromPort(reader);
+		int dist = hub.getDistancefromPort("/dev/ttyUSB0");
 		System.out.println(dist);
-		ArrayList<Integer> portReadings = getDistancefromallPorts(readerlist);
+		ArrayList<Integer> portReadings = hub.getDistancefromallPorts();
 		System.out.println(portReadings);
 		
 		
 	}
-	/*
-	public UltrasonicHub(){
-		this.dist = dist;
-		this.portlist = portlist;
-		this.reader = reader;
-		this.readerlist = readerlist;
-		this.serialport = serialport;
-	}
-	*/
 	
-	public static ArrayList<String> addPort(String serialport){
-		ArrayList<String> portlist = new ArrayList<String>();
-		portlist.add(serialport);
+	public UltrasonicHub(){
+		//this.dist = dist;
+		this.portlist = new ArrayList<String>();;
+		//this.reader = reader;
+		this.readerlist = new ArrayList<SimpleRead>();
+		//this.serialport = serialport;
+		this.serialMap = new HashMap<String,SimpleRead>();
+	}
+	
+	
+	public ArrayList<String> addReader(String serialport){
+		try {
+			Enumeration portList = CommPortIdentifier.getPortIdentifiers();
+			while (portList.hasMoreElements()) {
+	            		CommPortIdentifier portId = (CommPortIdentifier) portList.nextElement();
+				if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+					System.out.println("Port: " + portId.getName());
+	                		if (portId.getName().equals(serialport)) {
+	                    			SerialPort serialPort = (SerialPort) portId.open("SimpleReadApp"+portlist.size(),
+	                    					2000);
+	                    			reader = new SimpleRead(serialPort);
+	                    			readerlist.add(reader); 
+	                    			portlist.add(serialport);
+					}
+	                	}
+	            	}
+	        } catch (PortInUseException e) {
+	            System.out.println(e);
+	            return null;
+	        } catch (Exception e) {
+	            System.out.println(e);
+	            return null;
+	        }
 		return portlist;
 		
 	}
 	
-	public static int getDistancefromPort(SimpleRead reader){
-		int dist = reader.getDistance();
-		return dist;
+	public int getDistancefromPort(String serialport){
+		for (int i = 0; i < portlist.size(); i++){
+			if (serialport == portlist.get(i)){
+				return readerlist.get(i).getDistance();
+			}
+		}
+		return -1;
+			
 	}
 	
-	public static ArrayList<Integer> getDistancefromallPorts(ArrayList<SimpleRead> readerlist){
+	public ArrayList<Integer> getDistancefromallPorts(){
 		ArrayList<Integer> portReadings = new ArrayList<Integer>();
-		portReadings = null;
 		for (int i = 0; i < readerlist.size(); i++){
-			SimpleRead reader = readerlist.get(i);
-			int dist = getDistancefromPort(reader);
-			portReadings.add(dist);
+			portReadings.add(readerlist.get(i).getDistance());
 		}
 		return portReadings;
 		
@@ -88,37 +112,6 @@ public class UltrasonicHub {
 		
 	}
 	*/
-	public static ArrayList<SimpleRead> getReaders(ArrayList<String> portlist) {
-		SimpleRead reader = null;
-		if (readerlist == null){
-			for (int i = 0; i < portlist.size(); i++){
-				try {
-					Enumeration portList = CommPortIdentifier.getPortIdentifiers();
-					while (portList.hasMoreElements()) {
-			            		CommPortIdentifier portId = (CommPortIdentifier) portList.nextElement();
-						if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-							System.out.println("Port: " + portId.getName());
-			                		if (portId.getName().equals(portlist.get(i))) {
-			                    			SerialPort serialPort = (SerialPort) portId.open("SimpleReadApp", 2000);
-			                    			reader = new SimpleRead(serialPort);
-			                    			readerlist.add(reader);
-							}
-			                	}
-			            	}
-			        } catch (PortInUseException e) {
-			            System.out.println(e);
-			            return null;
-			        } catch (Exception e) {
-			            System.out.println(e);
-			            return null;
-			        }
-		
-			     }
-			return readerlist;
-		} else {
-			return readerlist;
-		}
-	}
 
 }
 
