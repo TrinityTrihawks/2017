@@ -1,5 +1,7 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
+import java.util.ArrayList;
+
 import com.ctre.CANTalon;
 	
 	public class Drivetrain {
@@ -18,6 +20,10 @@ import com.ctre.CANTalon;
 		
 		private static Drivetrain instance;
 		
+		/**
+		 * Creates an instance of Drivetrain
+		 * @return
+		 */
 		public static Drivetrain Create() {
 			if (instance == null) {
 				instance = new Drivetrain();
@@ -25,6 +31,7 @@ import com.ctre.CANTalon;
 			return instance;
 		}
 		
+
 		private Drivetrain() {
 			//21-24 declare talons
 			flWheel = new CANTalon(3);
@@ -34,21 +41,23 @@ import com.ctre.CANTalon;
 			}
 		
 		/**
-		 *	Changes control modes of component  talons
-		 * @author Waweru and Carl 
+		 *	Changes control modes of component talons
+		 * @author Waweru and Carl(RIP) 
 		 */
 		public void setTalonControlMode(CANTalon.TalonControlMode newMode){
 			controlMode = newMode;
+
 			flWheel.changeControlMode(controlMode);
 			frWheel.changeControlMode(controlMode);
 			blWheel.changeControlMode(controlMode);
 			brWheel.changeControlMode(controlMode);
 			
+
 		}
 		
 		/**
-		 * 
-		 * @return
+		 * Gets control mode.
+		 * @return TalonControlMode
 		 */
 		public CANTalon.TalonControlMode getTalonCOntrolMode(){
 			return flWheel.getControlMode();
@@ -57,7 +66,7 @@ import com.ctre.CANTalon;
 		
 		/**
 		 * floor/ceiling for power and setting wheels
-		 * @author Carl and Will 
+		 * @author Carl(RIP) and Will 
 		 */
 		public void Go(double lFront, double lBack,double rFront, double rBack){
 			if(controlMode == CANTalon.TalonControlMode.Position){
@@ -78,11 +87,12 @@ import com.ctre.CANTalon;
 			frWheel.set(rFront);
 			brWheel.set(rBack);
 		}
-		
+
 		public void Reset() {
 			Go(0,0,0,0);
 		}
 		
+
 		public void drive(double left, double right, double strafe, boolean IsStrafing){
 			if (!IsStrafing){
 				Go(left,left,right,right);
@@ -93,8 +103,6 @@ import com.ctre.CANTalon;
 			if (IsStrafing){
 			Go(strafe,-strafe,-strafe,strafe);
 			}
-			
-
-		}
+	
 	}
 	
