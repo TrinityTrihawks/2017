@@ -39,6 +39,11 @@ import com.ctre.CANTalon;
 		 */
 		public void setTalonControlMode(CANTalon.TalonControlMode newMode){
 			controlMode = newMode;
+			flWheel.changeControlMode(controlMode);
+			frWheel.changeControlMode(controlMode);
+			blWheel.changeControlMode(controlMode);
+			brWheel.changeControlMode(controlMode);
+			
 		}
 		
 		/**
@@ -68,16 +73,16 @@ import com.ctre.CANTalon;
 				rBack = rBack*secondsToMinutes/wheelCirc;
 			}
 			
-			
-			frWheel.set(rFront);
-			brWheel.set(rBack);
 			flWheel.set(lFront);
 			blWheel.set(lBack);
-			
+			frWheel.set(rFront);
+			brWheel.set(rBack);
 		}
 		
 		public void Reset() {
 			Go(0,0,0,0);
 		}
 	}
+		
+		
 	
