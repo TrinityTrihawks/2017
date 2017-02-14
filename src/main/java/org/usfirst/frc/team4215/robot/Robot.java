@@ -9,6 +9,7 @@ import main.java.prototypes.UltrasonicHub;
 public class Robot<VisonTest> extends IterativeRobot {
 
 	private VisionTest visionTest1;
+	private UltrasonicHub hub;
 	
 	public void robotInit(){
 	
@@ -17,7 +18,7 @@ public class Robot<VisonTest> extends IterativeRobot {
 		
 		UltrasonicHub hub =  new UltrasonicHub();
 		ArrayList<String> devices = hub.addReader("/dev/ttyUSB0");
-			
+		System.out.println(devices);
 		
 	}
 	
@@ -31,7 +32,7 @@ public class Robot<VisonTest> extends IterativeRobot {
 	}
 	
 	public void teleopPeriodic(){
-		System.out.println(devices);
+		
 		int dist = hub.getDistancefromPort("/dev/ttyUSB0");
 		System.out.println(dist);
 		ArrayList<Integer> portReadings = hub.getDistancefromallPorts();
