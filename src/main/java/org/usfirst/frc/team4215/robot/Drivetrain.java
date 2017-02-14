@@ -1,7 +1,5 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
-import java.util.ArrayList;
-
 import com.ctre.CANTalon;
 	
 	public class Drivetrain {
@@ -17,6 +15,19 @@ import com.ctre.CANTalon;
 		CANTalon frWheel;
 		CANTalon blWheel;
 		CANTalon brWheel;
+		
+		//Declare Lists of wheels to be used for pathmaker trajectories
+		CANTalon[] wheelList = new CANTalon[]{
+				flWheel, frWheel, blWheel, brWheel
+		};
+		
+		CANTalon[] leftWheels = new CANTalon[]{
+				flWheel, blWheel
+		};
+		
+		CANTalon[] rightWheels = new CANTalon[]{
+				frWheel, brWheel
+		};
 		
 		private static Drivetrain instance;
 		

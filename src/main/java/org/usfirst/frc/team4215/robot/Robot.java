@@ -84,6 +84,8 @@ public class Robot extends IterativeRobot {
 		rightTrajectoryConverted = pathmaker.convertRightTrajectory(rightTraj);
 		*//*
 		Pathfollower pathfollower = new Pathfollower();
+		left = drivetrain.leftWheels;
+		right = drivetrain.rightWheels;
 		leftPath = pathfollower.fillPoints(pointList, left);
 		rightPath = pathfollower.fillPoints(pointList, right);
 		*/
