@@ -53,6 +53,7 @@ public class Pathmaker {
 
 	}
 	
+	//x and y correspond to meters
 	Waypoint[] auto1 = new Waypoint[]{
 			//new Waypoint(x, y, Pathfinder.d2r(theta))
 	};
