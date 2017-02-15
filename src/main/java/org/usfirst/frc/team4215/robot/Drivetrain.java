@@ -1,10 +1,11 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 	
 	public class Drivetrain {
 		
-		double wheelRadius = 6; // inches
+		double wheelRadius = 3; // inches
 		double wheelCirc = 2*Math.PI*wheelRadius;
 		double secondsToMinutes = (double) 1/60; // seconds/minutes
 		
@@ -45,11 +46,28 @@ import com.ctre.CANTalon;
 
 		private Drivetrain() {
 			//21-24 declare talons
-			flWheel = new CANTalon(3);
-			frWheel = new CANTalon(0);
-			blWheel = new CANTalon(1);
-			brWheel = new CANTalon(2);			
-			}
+			flWheel = new CANTalon(4);
+			frWheel = new CANTalon(1);
+			blWheel = new CANTalon(3);
+			brWheel = new CANTalon(2);
+			
+			flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			
+			flWheel.setAllowableClosedLoopErr(0);
+			frWheel.setAllowableClosedLoopErr(0);
+			blWheel.setAllowableClosedLoopErr(0);
+			brWheel.setAllowableClosedLoopErr(0);
+			
+			
+			flWheel.setProfile(0);
+			frWheel.setProfile(0);
+			brWheel.setProfile(0);
+			blWheel.setProfile(0);
+			
+		}
 		
 		public void setPID(double Kp, double Ki, double Kd){
 			flWheel.setPID(Kp, Ki, Kd);
@@ -58,6 +76,16 @@ import com.ctre.CANTalon;
 			brWheel.setPID(Kp, Ki, Kd);
 		}
 		
+		public void resetEncoder(){
+			int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
+			flWheel.setEncPosition(absolutePosition);
+			absolutePosition = frWheel.getPulseWidthPosition() & 0xFFF;
+			frWheel.setEncPosition(absolutePosition);
+			absolutePosition = blWheel.getPulseWidthPosition() & 0xFFF;
+			blWheel.setEncPosition(absolutePosition);
+			absolutePosition = brWheel.getPulseWidthPosition() & 0xFFF;
+			brWheel.setEncPosition(absolutePosition);
+		}
 		
 		/**
 		 *	Changes control modes of component talons
@@ -71,7 +99,6 @@ import com.ctre.CANTalon;
 			blWheel.changeControlMode(controlMode);
 			brWheel.changeControlMode(controlMode);
 			
-
 		}
 		
 		/**
@@ -81,6 +108,30 @@ import com.ctre.CANTalon;
 		public CANTalon.TalonControlMode getTalonCOntrolMode(){
 			return flWheel.getControlMode();
 			
+		}
+		
+		public void enableControl(){
+			flWheel.enableControl();
+			frWheel.enableControl();
+			brWheel.enableControl();
+			blWheel.enableControl();
+		}
+		
+		public void disableControl(){
+			flWheel.disableControl();
+			frWheel.disableControl();
+			brWheel.disableControl();
+			blWheel.disableControl();
+		}
+		
+		public double[] getDistance(){
+			double[] dist = new double[4];
+			dist[0] = frWheel.getClosedLoopError();
+			dist[1] = brWheel.getEncPosition();
+			dist[2] = blWheel.getEncPosition();
+			dist[3] = brWheel.getEncPosition();
+			
+			return dist;
 		}
 		
 		/**
@@ -101,8 +152,8 @@ import com.ctre.CANTalon;
 				rBack = rBack*secondsToMinutes/wheelCirc;
 			}
 			
-			flWheel.set(lFront);
-			blWheel.set(lBack);
+			flWheel.set(-lFront);
+			blWheel.set(-lBack);
 			frWheel.set(rFront);
 			brWheel.set(rBack);
 		}
@@ -124,5 +175,5 @@ import com.ctre.CANTalon;
 			}
 	
 	}
-	}
+}
 	

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
+import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -35,29 +36,36 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 	    drivetrain = Drivetrain.Create();
-	    Trajectory.Config configuration = null;
-		Trajectory trajectory = null;
-		TankModifier modifier = null;
+	    
 	
 	}
 
 	@Override
 	public void autonomousInit() {
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.setPID(.1, 0, 0);
+		drivetrain.resetEncoder();
+		drivetrain.setPID(.05, 0, 0);
+		drivetrain.enableControl();
+		
 	}
-
+	
+	
+	double[] dist = new double[4];
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
 	public void autonomousPeriodic() {
 		drivetrain.Go(24, 24, 24, 24);
+		dist = drivetrain.getDistance();
+		System.out.printf("Dist: %f \n",dist[0]);
 	}
 	
 	@Override
 	public void teleopInit(){
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
+		drivetrain.disableControl();
+		
 	}
 	
 	/**
