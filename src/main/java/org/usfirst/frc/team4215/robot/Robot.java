@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.modifiers.TankModifier;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -33,6 +35,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 	    drivetrain = Drivetrain.Create();
+	    Trajectory.Config configuration = null;
+		Trajectory trajectory = null;
+		TankModifier modifier = null;
 	
 	}
 
@@ -49,9 +54,11 @@ public class Robot extends IterativeRobot {
 s	 */
 	@Override
 	public void autonomousInit() {
+
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.Go(24, 24, 24, 24);
 		drivetrain.setTalonControlMode(TalonControlMode.Voltage);
+
 	}
 
 	/**

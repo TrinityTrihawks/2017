@@ -4,6 +4,7 @@ import com.ctre.CANTalon;
 
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Trajectory.Config;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 
@@ -28,16 +29,6 @@ public class Pathmaker {
 	
 	
 	/**
-	 * This method must be used at the beginning of Autonomous for the Pathmaker code to work.
-	 * @author Jack Rausch
-	 */
-	public void pathmInit(){
-		Trajectory.Config configuration = null;
-		Trajectory trajectory = null;
-		TankModifier modifier = null;
-	}
-	
-	/**
 	 * This method creates the configuration based on certain parameters. 
 	 * If you wish to get the configuration use the getConfig method instead.
 	 * @author Jack Rausch
@@ -54,6 +45,17 @@ public class Pathmaker {
 
 	}
 	
+	public Pathmaker() {
+		this.dt = dt;
+		MAX_VELOCITY = MAX_VELOCITY;
+		MAX_ACCELERATION = MAX_ACCELERATION;
+		MAX_JERK = MAX_JERK;
+		this.auto = auto;
+		this.configuration = configuration;
+		this.trajectory = trajectory;
+		this.modifier = modifier;
+	}
+
 	Waypoint[] auto1 = new Waypoint[]{
 			//new Waypoint(x, y, Pathfinder.d2r(theta))
 	};
@@ -82,6 +84,7 @@ public class Pathmaker {
 		}
 	}
 	
+	/*
 	/**
 	 * This method gets the configuration if it has already been generated or generates it if necessary. Use this method to get the configuration.
 	 * @author Jack Rausch
@@ -90,7 +93,7 @@ public class Pathmaker {
 	 * @param MAX_ACCELERATION
 	 * @param MAX_JERK
 	 * @return configuration
-	 */
+	 *//*
 	public Trajectory.Config getConfig(double dt, double MAX_VELOCITY, double MAX_ACCELERATION, double MAX_JERK){
 		if (configuration == null){
 			//Admittedly a very inefficient way to do this, but I'll fix it later(never).
@@ -101,6 +104,7 @@ public class Pathmaker {
 		}
 				
 	}
+	*/
 
 	/**
 	 * This method creates a modified trajectory based on wheel base width, or merely gets it if you have already created said trajectory.
@@ -192,38 +196,6 @@ public class Pathmaker {
 	
 	
 	
-	//Simple getters and setters
-	public double getDt() {
-		return dt;
-	}
-
-	public void setDt(double dt) {
-		this.dt = dt;
-	}
-
-	public double getMAX_VELOCITY() {
-		return MAX_VELOCITY;
-	}
-
-	public void setMAX_VELOCITY(double mAX_VELOCITY) {
-		MAX_VELOCITY = mAX_VELOCITY;
-	}
-
-	public double getMAX_ACCELERATION() {
-		return MAX_ACCELERATION;
-	}
-
-	public void setMAX_ACCELERATION(double mAX_ACCELERATION) {
-		MAX_ACCELERATION = mAX_ACCELERATION;
-	}
-
-	public double getMAX_JERK() {
-		return MAX_JERK;
-	}
-
-	public void setMAX_JERK(double mAX_JERK) {
-		MAX_JERK = mAX_JERK;
-	}
 
 	public Waypoint[] getAuto1() {
 		return auto1;
