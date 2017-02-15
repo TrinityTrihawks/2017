@@ -51,6 +51,14 @@ import com.ctre.CANTalon;
 			brWheel = new CANTalon(2);			
 			}
 		
+		public void setPID(double Kp, double Ki, double Kd){
+			flWheel.setPID(Kp, Ki, Kd);
+			frWheel.setPID(Kp, Ki, Kd);
+			blWheel.setPID(Kp, Ki, Kd);
+			brWheel.setPID(Kp, Ki, Kd);
+		}
+		
+		
 		/**
 		 *	Changes control modes of component talons
 		 * @author Waweru and Carl(RIP) 
