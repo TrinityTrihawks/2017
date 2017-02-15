@@ -1,7 +1,5 @@
 plugins {
     id "java"
-    id "eclipse"
-    id "idea"
     id "jaci.openrio.gradle.GradleRIO" version "2017.1.1"
 }
 
@@ -15,7 +13,6 @@ dependencies {
     compile talonSrx()
     
     compile fileTree(dir: 'libs', include: '**/*.jar')
-    nativeLib  fileTree(dir: 'libs', include: '**/*.so')
 }
 
 def robotManifest = {
@@ -29,5 +26,5 @@ jar {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2017.1.1'
+    gradleVersion = '3.2.1'
 }
