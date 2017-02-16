@@ -51,10 +51,10 @@ import com.ctre.CANTalon.FeedbackDevice;
 			blWheel = new CANTalon(3);
 			brWheel = new CANTalon(2);
 			
-			flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-			frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-			blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-			brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+			frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+			blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+			brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 			
 			flWheel.setAllowableClosedLoopErr(0);
 			frWheel.setAllowableClosedLoopErr(0);
