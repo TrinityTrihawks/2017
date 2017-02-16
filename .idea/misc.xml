@@ -38,5 +38,11 @@
       <property name="caretWidth" class="java.lang.Integer" />
     </properties>
   </component>
+<<<<<<< Updated upstream
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_3" default="false" />
+=======
+  <component name="ProjectRootManager" version="2" default="true">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+>>>>>>> Stashed changes
 </project>
