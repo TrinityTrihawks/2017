@@ -124,14 +124,25 @@ import com.ctre.CANTalon.FeedbackDevice;
 			blWheel.disableControl();
 		}
 		
+		double[] dist = new double[4];
 		public double[] getDistance(){
-			double[] dist = new double[4];
-			dist[0] = frWheel.getClosedLoopError();
-			dist[1] = brWheel.getEncPosition();
-			dist[2] = blWheel.getEncPosition();
-			dist[3] = brWheel.getEncPosition();
+			
+			dist[0] = frWheel.getPosition();
+			dist[1] = brWheel.getPosition();
+			dist[2] = blWheel.getPosition();
+			dist[3] = brWheel.getPosition();
 			
 			return dist;
+		}
+		
+		double[] err = new double[4];
+		public double[] getPosition(){
+			err[0] = frWheel.getClosedLoopError();
+			err[1] = brWheel.getClosedLoopError();
+			err[2] = blWheel.getClosedLoopError();
+			err[3] = brWheel.getClosedLoopError();
+			
+			return err;
 		}
 		
 		/**
