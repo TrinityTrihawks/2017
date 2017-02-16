@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <list default="true" id="efa3e17e-05a6-4d8d-a5f9-9fe6862bdf0d" name="Default" comment="" />
+=======
+    <list default="true" id="a72ba274-1ecf-4830-bd7c-197db29313b4" name="Default" comment="" />
+    <ignored path="$PROJECT_DIR$/bin/" />
+>>>>>>> Stashed changes
 =======
     <list default="true" id="a72ba274-1ecf-4830-bd7c-197db29313b4" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -25,7 +30,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   <component name="FileEditorManager">
@@ -55,6 +63,9 @@
     </leaf>
   </component>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -89,7 +100,13 @@
     <panes>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <pane id="PackagesPane" />
+=======
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+>>>>>>> Stashed changes
 =======
       <pane id="Scratches" />
       <pane id="PackagesPane" />
@@ -114,6 +131,7 @@
           </PATH>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -127,6 +145,8 @@
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
           <PATH>
@@ -174,6 +194,9 @@
     </panes>
   </component>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -187,7 +210,10 @@
     </configuration>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android App">
@@ -246,6 +272,9 @@
       <method />
     </configuration>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -274,7 +303,10 @@
     </configuration>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
@@ -294,6 +326,9 @@
       <method />
     </configuration>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -320,7 +355,10 @@
     </configuration>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -370,6 +408,9 @@
       <method />
     </configuration>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -417,6 +458,7 @@
     <task active="true" id="Default" summary="Default task">
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <changelist id="efa3e17e-05a6-4d8d-a5f9-9fe6862bdf0d" name="Default" comment="" />
       <created>1487250809499</created>
       <option name="number" value="Default" />
@@ -425,12 +467,17 @@
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
       <changelist id="a72ba274-1ecf-4830-bd7c-197db29313b4" name="Default" comment="" />
       <created>1487135864633</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1487135864633</updated>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -441,7 +488,11 @@
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <editor active="false" />
+=======
+    <editor active="true" />
+>>>>>>> Stashed changes
 =======
     <editor active="true" />
 >>>>>>> Stashed changes
@@ -465,7 +516,12 @@
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1796875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> Stashed changes
 =======
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1796875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -486,7 +542,10 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -505,6 +564,7 @@
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
   <component name="masterDetails">
@@ -571,6 +631,8 @@
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/bin/main/java/org/usfirst/frc/team4215/robot/Drivetrain.class">
       <provider selected="true" editor-type-id="text-editor">
@@ -604,6 +666,9 @@
   <component name="masterDetails">
     <states>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -620,6 +685,7 @@
       </state>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
           <last-edited>WPILib</last-edited>
@@ -632,6 +698,8 @@
           </splitter-proportions>
         </settings>
       </state>
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
