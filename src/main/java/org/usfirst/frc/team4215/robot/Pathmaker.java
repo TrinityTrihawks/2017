@@ -45,29 +45,13 @@ public class Pathmaker {
 
 	}
 	
-	public Pathmaker() {
+	public Pathmaker(double dt, Waypoint[] auto, Trajectory.Config configuration, TankModifier modifier) {
 		this.dt = dt;
-		MAX_VELOCITY = MAX_VELOCITY;
-		MAX_ACCELERATION = MAX_ACCELERATION;
-		MAX_JERK = MAX_JERK;
 		this.auto = auto;
 		this.configuration = configuration;
-		this.trajectory = trajectory;
 		this.modifier = modifier;
 	}
 
-	Waypoint[] auto1 = new Waypoint[]{
-			//new Waypoint(x, y, Pathfinder.d2r(theta))
-	};
-	
-	Waypoint[] auto2 = new Waypoint[]{
-			//new Waypoint(x, y, Pathfinder.d2r(theta))
-	};
-	
-	Waypoint[] auto3 = new Waypoint[]{
-			//new Waypoint(x, y, Pathfinder.d2r(theta))
-	};
-	
 	/**
 	 * This method gets the trajectory if it has already been generated or generates it if necessary.
 	 * @author Jack Rausch
@@ -84,28 +68,6 @@ public class Pathmaker {
 		}
 	}
 	
-	/*
-	/**
-	 * This method gets the configuration if it has already been generated or generates it if necessary. Use this method to get the configuration.
-	 * @author Jack Rausch
-	 * @param dt
-	 * @param MAX_VELOCITY
-	 * @param MAX_ACCELERATION
-	 * @param MAX_JERK
-	 * @return configuration
-	 *//*
-	public Trajectory.Config getConfig(double dt, double MAX_VELOCITY, double MAX_ACCELERATION, double MAX_JERK){
-		if (configuration == null){
-			//Admittedly a very inefficient way to do this, but I'll fix it later(never).
-			configuration = config(dt, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
-			return configuration;
-		} else {
-			return configuration;
-		}
-				
-	}
-	*/
-
 	/**
 	 * This method creates a modified trajectory based on wheel base width, or merely gets it if you have already created said trajectory.
 	 * @author Jack Rausch
@@ -190,35 +152,6 @@ public class Pathmaker {
 		    
 		}
 		return pointListL;
-	}
-	
-	
-	
-	
-	
-
-	public Waypoint[] getAuto1() {
-		return auto1;
-	}
-
-	public void setAuto1(Waypoint[] auto1) {
-		this.auto1 = auto1;
-	}
-
-	public Waypoint[] getAuto2() {
-		return auto2;
-	}
-
-	public void setAuto2(Waypoint[] auto2) {
-		this.auto2 = auto2;
-	}
-
-	public Waypoint[] getAuto3() {
-		return auto3;
-	}
-
-	public void setAuto3(Waypoint[] auto3) {
-		this.auto3 = auto3;
 	}
 
 }
