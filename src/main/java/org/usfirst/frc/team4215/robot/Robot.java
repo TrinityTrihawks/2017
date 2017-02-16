@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.resetEncoder();
 		drivetrain.setPID(.05, 0, 0);
 		drivetrain.enableControl();
-		
+		drivetrain.Go(24, 24, 24, 24);
 	}
 	
 	
@@ -56,7 +56,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		drivetrain.Go(24, 24, 24, 24);
 		dist = drivetrain.getDistance();
 		System.out.printf("Dist: %f \n",dist[0]);
 	}
