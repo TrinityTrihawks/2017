@@ -1,7 +1,8 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package src.main.java.org.usfirst.frc.team4215.robot;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.TalonControlMode;
 	
 	public class Drivetrain {
 		
@@ -29,6 +30,21 @@ import com.ctre.CANTalon.FeedbackDevice;
 		CANTalon[] rightWheels = new CANTalon[]{
 				frWheel, brWheel
 		};
+		
+		/**
+		 * Sets each Talon to Motion Profile mode and makes it follow the profile.
+		 * @author Jack Rausch
+		 * @param talonList
+		 * @param output
+		 */
+		public void follow(CANTalon[] talonList, double output){
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				_talon.changeControlMode(TalonControlMode.MotionProfile);
+				_talon.set(output);
+				
+			}
+		}
 		
 		private static Drivetrain instance;
 		

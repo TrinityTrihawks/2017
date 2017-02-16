@@ -8,20 +8,6 @@ public class Pathfollower {
 	private CANTalon.MotionProfileStatus _status = new CANTalon.MotionProfileStatus();
 	private CANTalon.SetValueMotionProfile output = CANTalon.SetValueMotionProfile.Disable;
 	
-	/**
-	 * Sets each Talon to Motion Profile mode and makes it follow the profile.
-	 * @author Jack Rausch
-	 * @param talonList
-	 * @param output
-	 */
-	public void follow(CANTalon[] talonList, double output){
-		for (int i = 0; i < talonList.length; i++){
-			CANTalon _talon = talonList[i];
-			_talon.changeControlMode(TalonControlMode.MotionProfile);
-			_talon.set(output);
-			
-		}
-	}
 	
 	public Pathfollower(){
 		this.output = CANTalon.SetValueMotionProfile.Disable;
