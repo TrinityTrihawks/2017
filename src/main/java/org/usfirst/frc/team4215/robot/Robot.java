@@ -51,7 +51,7 @@ public class Robot<VisonTest> extends IterativeRobot {
 	
 		visionTest1 = new VisionTest();
 			visionTest1.visionInit();
-			
+			System.out.println("Hello World");
 	}
 	
 	public void teleopInit(){		
