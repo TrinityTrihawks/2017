@@ -11,13 +11,13 @@ public class Arm {
 	private DoubleSolenoid ds;
 	
 	public Arm() {
-		arm = new Victor(1);
+		arm = new Victor(2);
 		
 		enc = new Encoder(1, 2, false);
 		//change the ports to whichever are the correct ones
 		//reversed may need to be 'true', depending on how encoder is set up
 		
-		ds = new DoubleSolenoid(1, 2);
+		ds = new DoubleSolenoid(6, 5);
 		//These are sample port numbers. Change them to the correct ones.
 		//might need to include moduleNumber in parameters
 	}

@@ -21,5 +21,15 @@
 	<classpathentry kind="lib" path="/home/charles/.gradle/caches/modules-2/files-2.1/org.usb4java/libusb4java/1.2.0/ca639c580e2d635dd945fe44efce6854ce113274/libusb4java-1.2.0-osx-x86_64.jar"/>
 	<classpathentry kind="lib" path="/home/charles/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.2.1/66f13681add50ca9e4546ffabafaaac7645db3cf/commons-lang3-3.2.1.jar" sourcepath="/home/charles/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.2.1/77e5da73ecc389bda26f9953fd91e9b53b571a6f/commons-lang3-3.2.1-sources.jar"/>
 	<classpathentry kind="lib" path="/home/charles/workspace/2017/libs/Pathfinder-Java.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/cscore.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/cscore-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/CTRLib.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/NetworkTables.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/NetworkTables-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/opencv.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/opencv-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/Pathfinder-Java.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/WPILib.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ransom/wpilib/java/current/lib/WPILib-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
