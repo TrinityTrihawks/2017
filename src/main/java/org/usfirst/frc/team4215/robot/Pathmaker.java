@@ -18,7 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
  */
 public class Pathmaker {
 	
-	private double dt = .01;
+	private final double dt = .01;
 	private double MAX_VELOCITY;
 	private double MAX_ACCELERATION;
 	private double MAX_JERK;
@@ -38,15 +38,14 @@ public class Pathmaker {
 	 * @param MAX_JERK
 	 * @return config(Don't use)
 	 */
-	public Trajectory.Config config(double dt, double MAX_VELOCITY, double MAX_ACCELERATION, double MAX_JERK){
+	public Trajectory.Config config(double MAX_VELOCITY, double MAX_ACCELERATION, double MAX_JERK){
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC,
-        		Trajectory.Config.SAMPLES_HIGH, dt, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+        		Trajectory.Config.SAMPLES_LOW, dt, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
         return config;
 
 	}
 	
-	public Pathmaker(double dt, Waypoint[] auto, Trajectory.Config configuration, TankModifier modifier) {
-		this.dt = dt;
+	public Pathmaker( Waypoint[] auto, Trajectory.Config configuration, TankModifier modifier) {
 		this.auto = auto;
 		this.configuration = configuration;
 		this.modifier = modifier;
