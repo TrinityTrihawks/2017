@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
 
 public class Arm {
-	
+	double coef = .5;
 	private Victor arm;
 	private Encoder enc;
 	private DoubleSolenoid ds;
@@ -27,8 +27,9 @@ public class Arm {
 	public void setArm(double power) {
 		if (power > 1) power = 1;
 		else if (power < -1) power = -1;
-		
+		power *= coef;
 		arm.set(power);
+		
 	}
 	
 	
