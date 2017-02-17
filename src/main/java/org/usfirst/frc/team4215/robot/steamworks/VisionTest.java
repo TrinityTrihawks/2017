@@ -29,7 +29,7 @@ public class VisionTest {
 	public void visionInit() {
 		CameraServer server = CameraServer.getInstance();
 		camera = server.addAxisCamera("10.42.15.15");
-	   // server.startAutomaticCapture();	//Begins getting video from the camera
+	    server.startAutomaticCapture();	//Begins getting video from the camera
 	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 	    
 	    visionThread = new VisionThread(camera, new Pipeline(), pipeline -> {
@@ -52,6 +52,7 @@ public class VisionTest {
 				// Give the output stream a new image to display
 				outputStream.putFrame(mat);
 			}
+			
 	      if (!pipeline.filterContoursOutput().isEmpty()) {
 	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 	            synchronized (imgLock) {
