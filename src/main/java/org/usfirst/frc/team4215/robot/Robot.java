@@ -1,5 +1,6 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import main.java.org.usfirst.frc.team4215.robot.steamworks.VisionTest;
@@ -15,13 +16,12 @@ public class Robot<VisonTest> extends IterativeRobot {
 	drivestick = new Joystick(1);
 	
 	
-	
 	}
 	
 	public void teleopInit(){		
 		
 	}
-	public void robotPeriodic(){
+	public void teleopPeriodic(){
 		if(drivestick.getRawButton(1)){
 			arm.armCompress();
 			
