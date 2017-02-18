@@ -62,11 +62,12 @@ public class Robot extends IterativeRobot {
 			AxisCamera camera = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 			// Set the resolution
 			camera.setResolution(640, 480);
-
+			
+			
 			AxisCamera cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 			// Set the resolution
 			cameraBack.setResolution(640, 480);
-
+		
 			// Get a CvSink. This will capture Mats from the camera
 			CvSink cvSink = CameraServer.getInstance().getVideo();
 			// Setup a CvSource. This will send images back to the Dashboard
@@ -109,7 +110,7 @@ public class Robot extends IterativeRobot {
 	
 
 	public void teleopPeriodic(){
-		double coeff = .5;
+		double coeff = .66;
 		double left = -coeff*drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
 		double right = -coeff*drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
 		double strafe = -coeff*drivestick.getRawAxis(STRAFE_DRIVE_ID);
