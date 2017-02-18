@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+      <module fileurl="file://$PROJECT_DIR$/.idea/2017.iml" filepath="$PROJECT_DIR$/.idea/2017.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/2017.iml" filepath="$PROJECT_DIR$/2017.iml" />
+>>>>>>> Stashed changes
+=======
+      <module fileurl="file://$PROJECT_DIR$/2017.iml" filepath="$PROJECT_DIR$/2017.iml" />
+>>>>>>> Stashed changes
+=======
+      <module fileurl="file://$PROJECT_DIR$/2017.iml" filepath="$PROJECT_DIR$/2017.iml" />
+>>>>>>> Stashed changes
+    </modules>
+  </component>
+</project>
