@@ -14,8 +14,8 @@ import main.java.org.usfirst.frc.team4215.robot.steamworks.Pipeline;
 
 public class VisionTest {
 
-	private static final int IMG_WIDTH = 640;
-	private static final int IMG_HEIGHT = 480;
+	private static final int IMG_WIDTH = 320;
+	private static final int IMG_HEIGHT = 240;
 	// Sets Camera Image Resolution
 	
 	private VisionThread visionThread;			//Creates Vision Thread for future use
@@ -28,14 +28,14 @@ public class VisionTest {
 	
 	public void visionInit() {
 		CameraServer server = CameraServer.getInstance();
-		camera = server.addAxisCamera("10.42.15.15");
+		camera = server.addAxisCamera("10.42.15.37");
 	    server.startAutomaticCapture();	//Begins getting video from the camera
 	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
 	    
 	    visionThread = new VisionThread(camera, new Pipeline(), pipeline -> {
 	    	
 			CvSink cvSink = CameraServer.getInstance().getVideo();
-			CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
+			CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle",IMG_WIDTH,IMG_HEIGHT);
 			Mat mat = new Mat();
 			while (!Thread.interrupted()) {
 				// Tell the CvSink to grab a frame from the camera and put it
@@ -47,8 +47,8 @@ public class VisionTest {
 					continue;
 				}
 				// Put a rectangle on the image
-				Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400),
-						new Scalar(255, 255, 255), 5);
+				//Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400),
+					//	new Scalar(255, 255, 255), 5);
 				// Give the output stream a new image to display
 				outputStream.putFrame(mat);
 			}
