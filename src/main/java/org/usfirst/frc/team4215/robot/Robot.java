@@ -25,15 +25,14 @@ import com.ctre.CANTalon;
  */
 public class Robot extends IterativeRobot {
 	Arm arm;
-	Joystick drivestick;
 	Joystick leftStick = new Joystick(0);
-	Joystick rightStick = new Joystick(1);
+	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
 	
 	
 	public void robotInit(){
 	arm =  new Arm();
-	drivestick = new Joystick(1);
+	leftStick = new Joystick(1);
 	 drivetrain = Drivetrain.Create();
 	}
 	
@@ -42,23 +41,25 @@ public class Robot extends IterativeRobot {
 		drivetrain.disableControl();
 	}
 	public void teleopPeriodic(){
-		if(drivestick.getRawButton(1)){
+		double left = drivestick.getRawAxis(1);
+		double right = drivestick.getRawAxis(3);
+		double strafe = drivestick.getRawAxis(2);
+		boolean isStrafing = drivestick.getRawButton(1);
+		
+		drivetrain.drive(left, right, strafe,isStrafing);
+		
+		if(leftStick.getRawButton(1)){
 			arm.armCompress();
-			double left = leftStick.getRawAxis(1);
-			double right = leftStick.getRawAxis(3);
-			double strafe = leftStick.getRawAxis(2);
-			boolean isStrafing = leftStick.getRawButton(1);
-			
-			drivetrain.drive(left, right, strafe,isStrafing);
 		}
-		if(drivestick.getRawButton(2)){
+		
+		if(leftStick.getRawButton(2)){
 			arm.armDecompress();
 		}
-		if(!drivestick.getRawButton(1)&&!drivestick.getRawButton(2)){
+		if(!leftStick.getRawButton(1)&&!leftStick.getRawButton(2)){
 			arm.armOff();
 		}
 		
-		arm.setArm(drivestick.getRawAxis(1));
+		arm.setArm(leftStick.getRawAxis(1));
 	
 	}
 	
