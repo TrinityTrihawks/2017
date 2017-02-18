@@ -126,7 +126,7 @@ import com.ctre.CANTalon.TalonControlMode;
 			dist[0] = frWheel.getPosition();
 			dist[1] = brWheel.getPosition();
 			dist[2] = blWheel.getPosition();
-			dist[3] = brWheel.getPosition();
+			dist[3] = frWheel.getPosition();
 			
 			return dist;
 		}

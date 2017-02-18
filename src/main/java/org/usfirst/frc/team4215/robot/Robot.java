@@ -9,6 +9,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -22,11 +23,11 @@ import com.ctre.CANTalon;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	Timer time;
 	Joystick leftStick = new Joystick(0);
 	Joystick rightStick = new Joystick(1);
 	Drivetrain drivetrain;
-	
+	SimpleCsvLogger logger;
 	
 	
 	/**
@@ -36,6 +37,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 	    drivetrain = Drivetrain.Create();
+	    logger = new SimpleCsvLogger();
+	    logger.init(new String[] {"FR","BR","BL","BR","Time"},new String[] {"In","In","In","In","S"});
 	}
 
 	@Override
@@ -44,18 +47,34 @@ public class Robot extends IterativeRobot {
 		drivetrain.resetEncoder();
 		drivetrain.setPID(.01, 0, 0);
 		drivetrain.enableControl();
+		time.start();
+		
 	}
 	
 	
 	double[] dist = new double[4];
+	double[] log = new double[5];
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
 	public void autonomousPeriodic() {
 		drivetrain.Go(5, 5, 5, 5);
+		
+		// Gets distance
 		dist = drivetrain.getDistance();
-		System.out.printf("Dist: %f, %f, %f, %f",dist[0],dist[1],dist[2],dist[3]);
+		
+		//Creates an array 
+		for(int i = 0; i < 5; i++){
+			log[i] = dist[i];
+		}
+		log[4] = time.get();
+		
+		//  Logs data
+		logger.writeData(log);
+		
+		// Prints the positions
+		System.out.printf("Dist: %f, %f, %f, %f /n",dist[0],dist[1],dist[2],dist[3]);
 	}
 	
 	@Override
