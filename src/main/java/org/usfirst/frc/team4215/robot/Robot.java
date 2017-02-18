@@ -16,6 +16,10 @@ import edu.wpi.first.wpilibj.Joystick.AxisType;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import main.java.org.usfirst.frc.team4215.robot.WinchTest;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -28,12 +32,14 @@ public class Robot extends IterativeRobot {
 	Joystick leftStick = new Joystick(0);
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
-	
+	Joystick winchJoystick = new Joystick(0);
+	WinchTest winch;
 	
 	public void robotInit(){
 	arm =  new Arm();
 	leftStick = new Joystick(1);
 	 drivetrain = Drivetrain.Create();
+	 winch = new WinchTest();
 	}
 	
 	public void teleopInit(){		
@@ -60,14 +66,11 @@ public class Robot extends IterativeRobot {
 		}
 		
 		arm.setArm(leftStick.getRawAxis(1));
-	
+		double l = winchJoystick.getRawAxis(2);
+		
+
+		winch.set(l);
 	}
-	
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
-	
 	
 
 	@Override
