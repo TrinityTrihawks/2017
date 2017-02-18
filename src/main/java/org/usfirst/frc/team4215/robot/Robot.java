@@ -33,6 +33,13 @@ public class Robot extends IterativeRobot {
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
 	WinchTest winch;
+	int DRIVE_LEFT_JOYSTICK_ID = 3;
+	int DRIVE_RIGHT_JOYSTICK_ID = 1;
+	int STRAFE_ID = 7;
+	int WINCH_ID = 1;
+	int ARM_ID = 4;
+	int STRAFE_DRIVE_ID = 0;
+	
 	
 	public void robotInit(){
 	arm =  new Arm();
@@ -48,10 +55,12 @@ public class Robot extends IterativeRobot {
 	
 
 	public void teleopPeriodic(){
-		double left = -drivestick.getRawAxis(1);
-		double right = -drivestick.getRawAxis(3);
-		double strafe = drivestick.getRawAxis(2);
-		boolean isStrafing = drivestick.getRawButton(1);
+		double coeff = .5;
+		double left = -coeff*drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
+		double right = -coeff*drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
+		double strafe = -coeff*drivestick.getRawAxis(STRAFE_DRIVE_ID);
+		
+		boolean isStrafing = drivestick.getRawButton(STRAFE_ID);
 		
 		drivetrain.drive(left, right, strafe,isStrafing);
 		
