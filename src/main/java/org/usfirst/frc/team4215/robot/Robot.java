@@ -76,11 +76,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.resetEncoder();
-		drivetrain.setPID(.05, 0, 0);
-		//drivetrain.enableControl();
-		drivetrain.Go(-24, -24, 24, 24);
+		
 	}
 	
 	
@@ -88,8 +84,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-		dist = drivetrain.getDistance();
-		System.out.printf("Dist: %f \n",dist[0]);
+		
 	}
 	
 }
