@@ -36,6 +36,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		
+		time = new Timer();
 	    drivetrain = Drivetrain.Create();
 	    logger = new SimpleCsvLogger();
 	    logger.init(new String[] {"FR","BR","BL","BR","Time"},new String[] {"In","In","In","In","S"});
@@ -45,7 +47,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.resetEncoder();
-		drivetrain.setPID(.01, 0, 0);
+		drivetrain.setPID(1, 0, 0);
 		drivetrain.enableControl();
 		time.start();
 		
@@ -65,7 +67,7 @@ public class Robot extends IterativeRobot {
 		dist = drivetrain.getDistance();
 		
 		//Creates an array 
-		for(int i = 0; i < 5; i++){
+		for(int i = 0; i < 4; i++){
 			log[i] = dist[i];
 		}
 		log[4] = time.get();
@@ -74,7 +76,7 @@ public class Robot extends IterativeRobot {
 		logger.writeData(log);
 		
 		// Prints the positions
-		System.out.printf("Dist: %f, %f, %f, %f /n",dist[0],dist[1],dist[2],dist[3]);
+		System.out.printf("Dist: %f, %f, %f, %f \n",dist[0],dist[1],dist[2],dist[3]);
 	}
 	
 	@Override

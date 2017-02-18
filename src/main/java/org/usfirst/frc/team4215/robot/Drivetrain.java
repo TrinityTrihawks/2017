@@ -51,6 +51,10 @@ import com.ctre.CANTalon.TalonControlMode;
 			blWheel.setAllowableClosedLoopErr(0);
 			brWheel.setAllowableClosedLoopErr(0);
 			
+			frWheel.reverseSensor(true);
+			brWheel.reverseSensor(true);
+			flWheel.reverseSensor(true);
+			blWheel.reverseSensor(true);
 			
 			flWheel.setProfile(0);
 			frWheel.setProfile(0);
