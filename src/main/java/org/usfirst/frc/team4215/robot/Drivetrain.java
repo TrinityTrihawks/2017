@@ -19,33 +19,7 @@ import com.ctre.CANTalon.TalonControlMode;
 		CANTalon brWheel;
 		
 		//Declare Lists of wheels to be used for pathmaker trajectories
-		CANTalon[] wheelList = new CANTalon[]{
-				flWheel, frWheel, blWheel, brWheel
-		};
-		
-		CANTalon[] leftWheels = new CANTalon[]{
-				flWheel, blWheel
-		};
-		
-		CANTalon[] rightWheels = new CANTalon[]{
-				frWheel, brWheel
-		};
-		
-		/**
-		 * Sets each Talon to Motion Profile mode and makes it follow the profile.
-		 * @author Jack Rausch
-		 * @param talonList
-		 * @param output
-		 */
-		public void follow(CANTalon[] talonList, double output){
-			for (int i = 0; i < talonList.length; i++){
-				CANTalon _talon = talonList[i];
-				_talon.changeControlMode(TalonControlMode.MotionProfile);
-				_talon.set(output);
-				
-			}
-		}
-		
+
 		private static Drivetrain instance;
 		
 		/**
@@ -67,10 +41,10 @@ import com.ctre.CANTalon.TalonControlMode;
 			blWheel = new CANTalon(3);
 			brWheel = new CANTalon(2);
 			
-			flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-			frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-			blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-			brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+			flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			
 			flWheel.setAllowableClosedLoopErr(0);
 			frWheel.setAllowableClosedLoopErr(0);
@@ -93,6 +67,7 @@ import com.ctre.CANTalon.TalonControlMode;
 		}
 		
 		public void resetEncoder(){
+			/*
 			int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
 			flWheel.setEncPosition(absolutePosition);
 			absolutePosition = frWheel.getPulseWidthPosition() & 0xFFF;
@@ -101,6 +76,11 @@ import com.ctre.CANTalon.TalonControlMode;
 			blWheel.setEncPosition(absolutePosition);
 			absolutePosition = brWheel.getPulseWidthPosition() & 0xFFF;
 			brWheel.setEncPosition(absolutePosition);
+			*/
+			flWheel.setEncPosition(0);
+			frWheel.setEncPosition(0);
+			blWheel.setEncPosition(0);
+			brWheel.setEncPosition(0);
 		}
 		
 		/**
