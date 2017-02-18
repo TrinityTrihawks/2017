@@ -145,13 +145,14 @@ import com.ctre.CANTalon.FeedbackDevice;
 				rFront = rFront/wheelCirc;
 				rBack = rBack/wheelCirc;
 			}
-			if(controlMode == CANTalon.TalonControlMode.Speed){
+			else if(controlMode == CANTalon.TalonControlMode.Speed){
 				lFront = lFront*secondsToMinutes/wheelCirc;
 				lBack = lBack*secondsToMinutes/wheelCirc;
 				rFront = rFront*secondsToMinutes/wheelCirc;
 				rBack = rBack*secondsToMinutes/wheelCirc;
 			}
 			
+			System.out.println("LF: " + lFront + "||LB:" + lBack + "||FR:" + rFront + "||RB:" + rBack);
 			flWheel.set(-lFront);
 			blWheel.set(-lBack);
 			frWheel.set(rFront);
@@ -167,11 +168,9 @@ import com.ctre.CANTalon.FeedbackDevice;
 			if (!IsStrafing){
 				Go(left,left,right,right);
 			}
-
-			
 			
 			if (IsStrafing){
-			Go(strafe,-strafe,-strafe,strafe);
+				Go(strafe,-strafe,-strafe,strafe);
 			}
 	
 	}

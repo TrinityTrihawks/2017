@@ -32,20 +32,21 @@ public class Robot extends IterativeRobot {
 	Joystick leftStick = new Joystick(0);
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
-	Joystick winchJoystick = new Joystick(0);
 	WinchTest winch;
 	
 	public void robotInit(){
 	arm =  new Arm();
-	leftStick = new Joystick(1);
+	leftStick = new Joystick(0);
 	 drivetrain = Drivetrain.Create();
 	 winch = new WinchTest();
 	}
 	
 	public void teleopInit(){		
+		//drivetrain.disableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
-		drivetrain.disableControl();
 	}
+	
+
 	public void teleopPeriodic(){
 		double left = drivestick.getRawAxis(1);
 		double right = drivestick.getRawAxis(3);
@@ -66,7 +67,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		arm.setArm(leftStick.getRawAxis(1));
-		double l = winchJoystick.getRawAxis(2);
+		double l = leftStick.getRawAxis(4);
 		
 
 		winch.set(l);
@@ -78,8 +79,8 @@ public class Robot extends IterativeRobot {
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.resetEncoder();
 		drivetrain.setPID(.05, 0, 0);
-		drivetrain.enableControl();
-		drivetrain.Go(24, 24, 24, 24);
+		//drivetrain.enableControl();
+		drivetrain.Go(-24, -24, 24, 24);
 	}
 	
 	

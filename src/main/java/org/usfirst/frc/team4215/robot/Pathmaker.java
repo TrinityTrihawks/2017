@@ -185,31 +185,4 @@ public class Pathmaker {
 		return pointListL;
 	}
 	
-
-	
-	//Simple getters and setters
-	public Waypoint[] getAuto1() {
-		return auto1;
-	}
-
-	public void setAuto1(Waypoint[] auto1) {
-		this.auto1 = auto1;
-	}
-
-	public Waypoint[] getAuto2() {
-		return auto2;
-	}
-
-	public void setAuto2(Waypoint[] auto2) {
-		this.auto2 = auto2;
-	}
-
-	public Waypoint[] getAuto3() {
-		return auto3;
-	}
-
-	public void setAuto3(Waypoint[] auto3) {
-		this.auto3 = auto3;
-	}
-
 }
