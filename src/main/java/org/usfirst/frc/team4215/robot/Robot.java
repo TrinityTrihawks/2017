@@ -1,4 +1,4 @@
-package src.main.java.org.usfirst.frc.team4215.robot;
+package main.java.org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -36,8 +36,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 	    drivetrain = Drivetrain.Create();
-	    
-	
 	}
 
 	@Override
@@ -57,7 +55,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		dist = drivetrain.getDistance();
-		System.out.printf("Dist: %f \n",dist[0]);
+		System.out.printf("Dist: %f, %f, %f, %f",dist[0],dist[1],dist[2],dist[3]);
 	}
 	
 	@Override
