@@ -1,10 +1,11 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
 	
 	public class Drivetrain {
 		
-		double wheelRadius = 6; // inches
+		double wheelRadius = 3; // inches
 		double wheelCirc = 2*Math.PI*wheelRadius;
 		double secondsToMinutes = (double) 1/60; // seconds/minutes
 		
@@ -16,21 +17,19 @@ import com.ctre.CANTalon;
 		CANTalon blWheel;
 		CANTalon brWheel;
 		
-		CANTalon[] talonList = new CANTalon[]{
+		//Declare Lists of wheels to be used for pathmaker trajectories
+		CANTalon[] wheelList = new CANTalon[]{
 				flWheel, frWheel, blWheel, brWheel
 		};
 		
-		CANTalon[] leftSide = new CANTalon[]{
+		CANTalon[] leftWheels = new CANTalon[]{
 				flWheel, blWheel
 		};
 		
-		CANTalon[] rightSide = new CANTalon[]{
+		CANTalon[] rightWheels = new CANTalon[]{
 				frWheel, brWheel
 		};
 		
-		
-		
-
 		private static Drivetrain instance;
 		
 		/**
@@ -47,11 +46,46 @@ import com.ctre.CANTalon;
 
 		private Drivetrain() {
 			//21-24 declare talons
-			flWheel = new CANTalon(3);
-			frWheel = new CANTalon(0);
-			blWheel = new CANTalon(1);
-			brWheel = new CANTalon(2);			
-			}
+			flWheel = new CANTalon(4);
+			frWheel = new CANTalon(1);
+			blWheel = new CANTalon(3);
+			brWheel = new CANTalon(2);
+			
+			flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+			frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+			blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+			brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+			
+			flWheel.setAllowableClosedLoopErr(0);
+			frWheel.setAllowableClosedLoopErr(0);
+			blWheel.setAllowableClosedLoopErr(0);
+			brWheel.setAllowableClosedLoopErr(0);
+			
+			
+			flWheel.setProfile(0);
+			frWheel.setProfile(0);
+			brWheel.setProfile(0);
+			blWheel.setProfile(0);
+			
+		}
+		
+		public void setPID(double Kp, double Ki, double Kd){
+			flWheel.setPID(Kp, Ki, Kd);
+			frWheel.setPID(Kp, Ki, Kd);
+			blWheel.setPID(Kp, Ki, Kd);
+			brWheel.setPID(Kp, Ki, Kd);
+		}
+		
+		public void resetEncoder(){
+			int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
+			flWheel.setEncPosition(absolutePosition);
+			absolutePosition = frWheel.getPulseWidthPosition() & 0xFFF;
+			frWheel.setEncPosition(absolutePosition);
+			absolutePosition = blWheel.getPulseWidthPosition() & 0xFFF;
+			blWheel.setEncPosition(absolutePosition);
+			absolutePosition = brWheel.getPulseWidthPosition() & 0xFFF;
+			brWheel.setEncPosition(absolutePosition);
+		}
 		
 		/**
 		 *	Changes control modes of component talons
@@ -59,10 +93,12 @@ import com.ctre.CANTalon;
 		 */
 		public void setTalonControlMode(CANTalon.TalonControlMode newMode){
 			controlMode = newMode;
-			flWheel.changeControlMode(newMode);
-			frWheel.changeControlMode(newMode);
-			blWheel.changeControlMode(newMode);
-			brWheel.changeControlMode(newMode);
+
+			flWheel.changeControlMode(controlMode);
+			frWheel.changeControlMode(controlMode);
+			blWheel.changeControlMode(controlMode);
+			brWheel.changeControlMode(controlMode);
+			
 		}
 		
 		/**
@@ -72,6 +108,30 @@ import com.ctre.CANTalon;
 		public CANTalon.TalonControlMode getTalonCOntrolMode(){
 			return flWheel.getControlMode();
 			
+		}
+		
+		public void enableControl(){
+			flWheel.enableControl();
+			frWheel.enableControl();
+			brWheel.enableControl();
+			blWheel.enableControl();
+		}
+		
+		public void disableControl(){
+			flWheel.disableControl();
+			frWheel.disableControl();
+			brWheel.disableControl();
+			blWheel.disableControl();
+		}
+		
+		public double[] getDistance(){
+			double[] dist = new double[4];
+			dist[0] = frWheel.getClosedLoopError();
+			dist[1] = brWheel.getEncPosition();
+			dist[2] = blWheel.getEncPosition();
+			dist[3] = brWheel.getEncPosition();
+			
+			return dist;
 		}
 		
 		/**
@@ -92,80 +152,28 @@ import com.ctre.CANTalon;
 				rBack = rBack*secondsToMinutes/wheelCirc;
 			}
 			
-			
+			flWheel.set(-lFront);
+			blWheel.set(-lBack);
 			frWheel.set(rFront);
 			brWheel.set(rBack);
-			flWheel.set(lFront);
-			blWheel.set(lBack);
-			
 		}
-		
-		/*
-		/**
-		 * Gets the number of rotations from each wheel.
-		 * @author Jack Rausch
-		 * @param flWheel
-		 * @param frWheel
-		 * @param blWheel
-		 * @param brWheel
-		 * @return int[]
-		 *//*
-		public int[] getTicks(CANTalon flWheel, CANTalon frWheel, CANTalon blWheel, CANTalon brWheel){
-			int[] Ticks = new int[]{
-				flWheel.getEncPosition(),
-				frWheel.getEncPosition(),
-				blWheel.getEncPosition(),
-				brWheel.getEncPosition()
-			};
-			return Ticks;
-			
-		}
-		*/
-		
+
 		public void Reset() {
 			Go(0,0,0,0);
 		}
 		
-		
-		//Just a billion getters and setters
-		public CANTalon getFlWheel() {
-			return flWheel;
-		}
-		
-		public CANTalon[] getTalonList() {
-			return talonList;
-		}
 
-		public void setTalonList(CANTalon[] talonList) {
-			this.talonList = talonList;
-		}
+		public void drive(double left, double right, double strafe, boolean IsStrafing){
+			if (!IsStrafing){
+				Go(left,left,right,right);
+			}
 
-		public void setFlWheel(CANTalon flWheel) {
-			this.flWheel = flWheel;
-		}
-
-		public CANTalon getFrWheel() {
-			return frWheel;
-		}
-
-		public void setFrWheel(CANTalon frWheel) {
-			this.frWheel = frWheel;
-		}
-
-		public CANTalon getBlWheel() {
-			return blWheel;
-		}
-
-		public void setBlWheel(CANTalon blWheel) {
-			this.blWheel = blWheel;
-		}
-
-		public CANTalon getBrWheel() {
-			return brWheel;
-		}
-
-		public void setBrWheel(CANTalon brWheel) {
-			this.brWheel = brWheel;
-		}
+			
+			
+			if (IsStrafing){
+			Go(strafe,-strafe,-strafe,strafe);
+			}
+	
 	}
+}
 	

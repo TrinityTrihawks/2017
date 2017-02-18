@@ -4,6 +4,7 @@ package main.java.org.usfirst.frc.team4215.robot;
 import com.ctre.CANTalon;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Trajectory.Config;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 
@@ -53,18 +54,13 @@ public class Pathmaker {
 
 	}
 	
-	Waypoint[] auto1 = new Waypoint[]{
-			//new Waypoint(x, y, Pathfinder.d2r(theta))
-	};
-	
-	Waypoint[] auto2 = new Waypoint[]{
-			//new Waypoint(x, y, Pathfinder.d2r(theta))
-	};
-	
-	Waypoint[] auto3 = new Waypoint[]{
-			//new Waypoint(x, y, Pathfinder.d2r(theta))
-	};
-	
+	public Pathmaker(double dt, Waypoint[] auto, Trajectory.Config configuration, TankModifier modifier) {
+		this.dt = dt;
+		this.auto = auto;
+		this.configuration = configuration;
+		this.modifier = modifier;
+	}
+
 	/**
 	 * This method gets the trajectory if it has already been generated or generates it if necessary.
 	 * @author Jack Rausch
