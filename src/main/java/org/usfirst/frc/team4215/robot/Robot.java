@@ -48,8 +48,8 @@ public class Robot extends IterativeRobot {
 	
 
 	public void teleopPeriodic(){
-		double left = drivestick.getRawAxis(1);
-		double right = drivestick.getRawAxis(3);
+		double left = -drivestick.getRawAxis(1);
+		double right = -drivestick.getRawAxis(3);
 		double strafe = drivestick.getRawAxis(2);
 		boolean isStrafing = drivestick.getRawButton(1);
 		
