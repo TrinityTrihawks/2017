@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
+import main.java.org.usfirst.frc.team4215.robot.Arm;
+import main.java.org.usfirst.frc.team4215.robot.CameraInit;
 import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -44,57 +46,27 @@ public class Robot extends IterativeRobot {
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
 	WinchTest winch;
+	Thread visionThread;
+	CameraInit cam;
+	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = 3;
 	int DRIVE_RIGHT_JOYSTICK_ID = 1;
-	int STRAFE_ID = 7;
+	int STRAFE_ID = 8
+			;
 	int WINCH_ID = 1;
 	int ARM_ID = 4;
 	int STRAFE_DRIVE_ID = 0;
-	Thread visionThread;
+	int DRIVE_LEFT_TOP_TRIGGER = 5;
+	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
+	
 	
 	public void robotInit(){
 	arm =  new Arm();
 	leftStick = new Joystick(0);
 	 drivetrain = Drivetrain.Create();
 	 winch = new WinchTest();
-	 visionThread = new Thread(() -> {
-			// Get the Axis camera from CameraServer
-			AxisCamera camera = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
-			// Set the resolution
-			camera.setResolution(640, 480);
-			
-			
-			AxisCamera cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-			// Set the resolution
-			cameraBack.setResolution(640, 480);
-		
-			// Get a CvSink. This will capture Mats from the camera
-			CvSink cvSink = CameraServer.getInstance().getVideo();
-			// Setup a CvSource. This will send images back to the Dashboard
-			CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
-
-			// Mats are very memory expensive. Lets reuse this Mat.
-			Mat mat = new Mat();
-
-			// This cannot be 'true'. The program will never exit if it is. This
-			// lets the robot stop this thread when restarting robot code or
-			// deploying.
-			while (!Thread.interrupted()) {
-				// Tell the CvSink to grab a frame from the camera and put it
-				// in the source mat.  If there is an error notify the output.
-				if (cvSink.grabFrame(mat) == 0) {
-					// Send the output the error.
-					outputStream.notifyError(cvSink.getError());
-					// skip the rest of the current iteration
-					continue;
-				}
-				// Put a rectangle on the image
-				Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400),
-						new Scalar(255, 255, 255), 5);
-				// Give the output stream a new image to display
-				outputStream.putFrame(mat);
-			}
-		});
+	 cam = new CameraInit();
+	 visionThread = new Thread(cam);
 		visionThread.setDaemon(true);
 		visionThread.start();
 		
@@ -110,14 +82,20 @@ public class Robot extends IterativeRobot {
 	
 
 	public void teleopPeriodic(){
-		double coeff = .66;
-		double left = -coeff*drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
-		double right = -coeff*drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
-		double strafe = -coeff*drivestick.getRawAxis(STRAFE_DRIVE_ID);
-		
+		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
+		double right = -drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
+		double strafe = drivestick.getRawAxis(STRAFE_DRIVE_ID);
 		boolean isStrafing = drivestick.getRawButton(STRAFE_ID);
 		
-		drivetrain.drive(left, right, strafe,isStrafing);
+		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.NORMAL;
+		if(drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) && !drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
+			 mode = Drivetrain.MotorGranular.FAST;
+		}
+		else if(!drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) && drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
+			mode = Drivetrain.MotorGranular.SLOW;
+		}
+		
+		drivetrain.drive(left, right, strafe,isStrafing,mode);
 		
 		if(leftStick.getRawButton(1)){
 			arm.armCompress();

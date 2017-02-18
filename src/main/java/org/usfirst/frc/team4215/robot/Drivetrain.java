@@ -4,6 +4,14 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 	
 	public class Drivetrain {
+		public enum MotorGranular{
+			FAST,
+			NORMAL,
+			SLOW
+		}
+		double coeffNormal = .666;
+		double coeffFast = 1;
+		double coeffSlow = .3;
 		
 		double wheelRadius = 3; // inches
 		double wheelCirc = 2*Math.PI*wheelRadius;
@@ -164,7 +172,24 @@ import com.ctre.CANTalon.FeedbackDevice;
 		
 
 
-		public void drive(double left, double right, double strafe, boolean IsStrafing){
+		public void drive(double left, double right, double strafe, boolean IsStrafing
+							, MotorGranular m){
+			switch(m){
+				case FAST:
+					left *= coeffFast;
+					right *= coeffFast;
+					break;
+				case NORMAL:
+					left *= coeffNormal;
+					right *= coeffNormal;
+					break;
+				case SLOW:
+					left *= coeffSlow;
+					right *= coeffSlow;
+					break;
+			}
+			
+			
 			if (!IsStrafing){
 				Go(left,left,right,right);
 			}
