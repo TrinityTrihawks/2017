@@ -95,6 +95,8 @@ public class Robot extends IterativeRobot {
 		boolean isStrafing = leftStick.getRawButton(1);
 		
 		drivetrain.drive(left, right, strafe,isStrafing);
+		dist = drivetrain.getDistance();
+		System.out.printf("Dist: %f \n",dist[0]);
 	}
 	
 	/**
