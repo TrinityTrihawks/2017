@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
 import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
+import main.java.org.usfirst.frc.team4215.robot.SimpleCsvLogger;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
@@ -61,7 +62,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		drivetrain.Go(5, 5, 5, 5);
+		drivetrain.Go(24, 24, 24, 24);
 		
 		// Gets distance
 		dist = drivetrain.getDistance();
