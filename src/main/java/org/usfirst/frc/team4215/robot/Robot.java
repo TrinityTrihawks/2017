@@ -51,8 +51,7 @@ public class Robot extends IterativeRobot {
 	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = 3;
 	int DRIVE_RIGHT_JOYSTICK_ID = 1;
-	int STRAFE_ID = 8
-			;
+	int STRAFE_ID = 8;
 	int WINCH_ID = 1;
 	int ARM_ID = 4;
 	int STRAFE_DRIVE_ID = 0;
