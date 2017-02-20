@@ -2,6 +2,7 @@ package main.java.org.usfirst.frc.team4215.robot;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.MotionProfileStatus;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -20,6 +21,13 @@ import jaci.pathfinder.Trajectory;
 		CANTalon frWheel;
 		CANTalon blWheel;
 		CANTalon brWheel;
+		
+		CANTalon[] talonList = new CANTalon[]{
+				flWheel,
+				frWheel,
+				blWheel,
+				brWheel
+		};
 		
 		AnalogGyro gyro;
 		
@@ -94,19 +102,52 @@ import jaci.pathfinder.Trajectory;
 			brWheel.setEncPosition(0);
 		}
 		
+		private int cstate;
+		private int loopTimeout;
+		private MotionProfileStatus status;
+		private String side;
+		
+		public void resetMotionProfile(){
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				_talon.clearMotionProfileTrajectories();
+				_talon.set(CANTalon.SetValueMotionProfile.Disable.value);
+			}
+		}
+		
+		public void fillPoints(double[][] pointList, String side){
+			for (int i = 0; i < pointList.length; i++){
+				CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
+				point.position = pointList[0][i];
+				point.position = pointList[1][i];
+				point.timeDurMs = 10;
+				point.profileSlotSelect = 0;
+				point.velocityOnly = false;
+				
+				if (side == "left"){
+					flWheel.pushMotionProfileTrajectory(point);
+					blWheel.pushMotionProfileTrajectory(point);
+				} else if (side == "right"){
+					frWheel.pushMotionProfileTrajectory(point);
+					brWheel.pushMotionProfileTrajectory(point);
+				} else{
+					System.err.println("Invalid String Name");
+				}
+				
+			}
+		}
 		/**
 		 *	Changes control modes of component talons
 		 * @author Waweru and Carl(RIP) 
 		 */
 		public void setTalonControlMode(CANTalon.TalonControlMode newMode){
 			controlMode = newMode;
-
-			flWheel.changeControlMode(controlMode);
-			frWheel.changeControlMode(controlMode);
-			blWheel.changeControlMode(controlMode);
-			brWheel.changeControlMode(controlMode);
-			
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				_talon.changeControlMode(controlMode);
+			}
 		}
+		
 		
 		/**
 		 * Gets control mode.
@@ -118,37 +159,35 @@ import jaci.pathfinder.Trajectory;
 		}
 		
 		public void enableControl(){
-			flWheel.enableControl();
-			frWheel.enableControl();
-			brWheel.enableControl();
-			blWheel.enableControl();
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				_talon.enableControl();
+			}
 		}
 		
 		public void disableControl(){
-			flWheel.disableControl();
-			frWheel.disableControl();
-			brWheel.disableControl();
-			blWheel.disableControl();
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				_talon.disableControl();
+			}
 		}
 		
 		double[] dist = new double[4];
 		public double[] getDistance(){
-			
-			dist[0] = frWheel.getPosition();
-			dist[1] = brWheel.getPosition();
-			dist[2] = blWheel.getPosition();
-			dist[3] = frWheel.getPosition();
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				dist[i] = _talon.getPosition();
+			}
 			
 			return dist;
 		}
 		
 		double[] speed = new double[4];
 		public double[] getVelocities(){
-			
-			speed[0] = frWheel.getSpeed();
-			speed[1] = brWheel.getSpeed();
-			speed[2] = blWheel.getSpeed();
-			speed[3] = frWheel.getSpeed();
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				speed[i] = _talon.getPosition();
+			}
 			
 			return speed;
 		}
@@ -162,11 +201,11 @@ import jaci.pathfinder.Trajectory;
 		}
 		
 		double[] err = new double[4];
-			public double[] getPosition(){
-			err[0] = frWheel.getClosedLoopError();
-			err[1] = brWheel.getClosedLoopError();
-			err[2] = blWheel.getClosedLoopError();
-			err[3] = brWheel.getClosedLoopError();
+		public double[] getPosition(){
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				err[i] = _talon.getPosition();
+			}
 			
 			return err;
 		}
@@ -200,14 +239,11 @@ import jaci.pathfinder.Trajectory;
 		}
 		
 		public void follow(){
-			flWheel.changeControlMode(TalonControlMode.MotionProfile);
-			blWheel.changeControlMode(TalonControlMode.MotionProfile);
-			frWheel.changeControlMode(TalonControlMode.MotionProfile);
-			brWheel.changeControlMode(TalonControlMode.MotionProfile);
-			flWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
-			frWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
-			blWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
-			blWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				_talon.changeControlMode(TalonControlMode.MotionProfile);
+				_talon.set(CANTalon.SetValueMotionProfile.Enable.value);
+			}
 		}
 		
 		
