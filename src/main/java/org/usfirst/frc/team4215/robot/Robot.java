@@ -12,30 +12,26 @@ public class Robot<VisonTest> extends IterativeRobot {
 	private UltrasonicHub hub;
 	
 	public void robotInit(){
-	
-		visionTest1 = new VisionTest();
-			visionTest1.visionInit();
+			
+		hub =  new UltrasonicHub();
+		ArrayList<String> devices;
 		
-		UltrasonicHub hub =  new UltrasonicHub();
-		ArrayList<String> devices = hub.addReader("/dev/ttyUSB0");
-		System.out.println(devices);
-		
+		hub.addReader("/dev/ttyUSB0");
+		hub.addReader("/dev/ttyUSB1");
 	}
 	
-	public void teleopInit(){		
-		visionTest1.visionStart();
+	public void teleopInit(){
 	}
 	
 	public void disableInit() throws InterruptedException{
-			
-			visionTest1.visionStop();
 	}
 	
 	public void teleopPeriodic(){
-		
-		int dist = hub.getDistancefromPort("/dev/ttyUSB0");
-		System.out.println(dist);
-		ArrayList<Integer> portReadings = hub.getDistancefromallPorts();
-		System.out.println(portReadings);
+		ArrayList<Integer> distances = hub.getDistancefromallPorts();
+		for (int i=0; i<distances.size(); i++)
+		{
+			System.out.print("d: " + distances.get(i) + "\t");			
+		}
+		System.out.println("\n");
 	}
 }

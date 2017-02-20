@@ -40,18 +40,17 @@ public class UltrasonicHub {
 		try {
 			Enumeration portList = CommPortIdentifier.getPortIdentifiers();
 			while (portList.hasMoreElements()) {
-	            		CommPortIdentifier portId = (CommPortIdentifier) portList.nextElement();
+        		CommPortIdentifier portId = (CommPortIdentifier) portList.nextElement();
 				if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 					System.out.println("Port: " + portId.getName());
-	                		if (portId.getName().equals(serialport)) {
-	                    			SerialPort serialPort = (SerialPort) portId.open("SimpleReadApp"+portlist.size(),
-	                    					2000);
-	                    			reader = new SimpleRead(serialPort);
-	                    			readerlist.add(reader); 
-	                    			portlist.add(serialport);
-					}
-	                	}
-	            	}
+                		if (portId.getName().equals(serialport)) {
+                    			SerialPort serialPort = (SerialPort) portId.open("SimpleReadApp"+portlist.size(), 2000);
+                    			reader = new SimpleRead(serialPort);
+                    			readerlist.add(reader); 
+                    			portlist.add(serialport);
+                		}
+                	}
+            	}
 	        } catch (PortInUseException e) {
 	            System.out.println(e);
 	            return null;

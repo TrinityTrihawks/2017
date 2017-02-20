@@ -166,8 +166,8 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 				{
 				    System.out.printf("%d ", bytes[i]);
 				}
-				System.out.println("");
-				System.out.printf("alignment: %d", alignment);
+				//System.out.println("");
+				//System.out.printf("alignment: %d", alignment);
 			}
 	
 			if (alignment < 2)
