@@ -117,6 +117,7 @@ import jaci.pathfinder.Trajectory;
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
 				_talon.clearMotionProfileTrajectories();
+				_talon.set(TalonControlMode.Disabled.value);
 			}
 			for (int j = 0; j < 128 && totalCount < pointList.length; j++){
 				CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
