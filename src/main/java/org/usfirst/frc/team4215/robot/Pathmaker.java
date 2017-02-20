@@ -68,51 +68,35 @@ public class Pathmaker {
 	
 	/**
 	 * This method creates a modified trajectory based on wheel base width, or merely gets it if you have already created said trajectory.
+	 * This method gets both the right and left trajectory
 	 * @author Jack Rausch
 	 * @param wheelbasewidth
 	 * @param trajectory
-	 * @return TankModifier
+	 * @return Trajectory[]
 	 */
-	public TankModifier getModifier(double wheelbasewidth, Trajectory trajectory){
-		if (modifier == null) {
-			TankModifier mod = new TankModifier(trajectory).modify(wheelbasewidth);
-			modifier = mod.modify(wheelbasewidth);
-			return modifier;
-		} else 
-			return modifier;
+	public Trajectory[] getBothTrajectories(double wheelbasewidth, Trajectory trajectory){
+
+		TankModifier mod = new TankModifier(trajectory).modify(wheelbasewidth);
+		modifier = mod.modify(wheelbasewidth);
 		
-	}
-	
-	/**
-	 * This method gets the left trajectory
-	 * @author Jack Rausch
-	 * @param modifier
-	 * @return Trajectory
-	 */
-	public Trajectory getLeftTrajectory(TankModifier modifier){
 		Trajectory leftTraj = modifier.getLeftTrajectory();
-		return leftTraj;
-	}
-	
-	/**
-	 * This method gets the right trajectory
-	 * @param modifier
-	 * @return Trajectory
-	 */
-	public Trajectory getRightTrajectory(TankModifier modifier){
 		Trajectory rightTraj = modifier.getRightTrajectory();
-		return rightTraj;
+		
+		Trajectory[] bothTrajs = {leftTraj, rightTraj};
+		return bothTrajs;
 	}
 	
+	
+
 	/**
 	 * This method takes the Trajectory defined by Jaci's code and converts it into points that the TalonSRX code can use.
 	 * @author Jack Rausch
-	 * @param rightTraj
+	 * @param traj
 	 * @return double[][]
 	 */
-	public double[][] convertRightTrajectory(Trajectory rightTraj){
-		double[][] pointListR =  new double[][]{};
-		for (int i = 0; i < rightTraj.length(); i++) {
+	public double[][] convertTrajectory(Trajectory traj){
+		double[][] pointList =  new double[][]{};
+		for (int i = 0; i < traj.length(); i++) {
 			//Retrieves a segment from the trajectory
 		    Trajectory.Segment seg = trajectory.get(i);
 		    //Creates point object
@@ -122,34 +106,12 @@ public class Pathmaker {
 		    point.velocity = seg.velocity;
 		    point.timeDurMs = 10;
 		    
-		    pointListR[0][i] = point.velocity;
-		    pointListR[1][i] = point.position;
+		    pointList[0][i] = point.velocity;
+		    pointList[1][i] = point.position;
 		    
 		}
-		return pointListR;
+		return pointList;
 	}
-	
-	/**
-	 * This method takes the Trajectory defined by Jaci's code and converts it into points that the TalonSRX code can use.
-	 * @author Jack Rausch
-	 * @param leftTraj
-	 * @return double[][]
-	 */
-	public double[][] convertLeftTrajectory(Trajectory leftTraj){
-		double[][] pointListL =  new double[][]{};
-		for (int i = 0; i < leftTraj.length(); i++) {
-		    Trajectory.Segment seg = trajectory.get(i);
-		    CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
-		    
-		    point.position = seg.position;
-		    point.velocity = seg.velocity;
-		    point.timeDurMs = 10;
-		    
-		    pointListL[0][i] = point.velocity;
-		    pointListL[1][i] = point.position;
-		    
-		}
-		return pointListL;
-	}
+
 
 }
