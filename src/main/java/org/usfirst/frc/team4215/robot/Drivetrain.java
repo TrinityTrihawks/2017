@@ -3,6 +3,8 @@ package main.java.org.usfirst.frc.team4215.robot;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+
+import jaci.pathfinder.Trajectory;
 	
 	public class Drivetrain {
 		
@@ -171,6 +173,20 @@ import com.ctre.CANTalon.TalonControlMode;
 
 		public void Reset() {
 			Go(0,0,0,0);
+		}
+		
+		public void leftFollow(double output){
+			flWheel.changeControlMode(TalonControlMode.MotionProfile);
+			blWheel.changeControlMode(TalonControlMode.MotionProfile);
+			flWheel.set(output);
+			blWheel.set(output);
+		}
+		
+		public void rightFollow(double output){
+			frWheel.changeControlMode(TalonControlMode.MotionProfile);
+			brWheel.changeControlMode(TalonControlMode.MotionProfile);
+			frWheel.set(output);
+			brWheel.set(output);
 		}
 		
 

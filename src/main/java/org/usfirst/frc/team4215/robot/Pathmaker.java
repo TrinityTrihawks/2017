@@ -45,9 +45,8 @@ public class Pathmaker {
 
 	}
 	
-	public Pathmaker( Waypoint[] auto, Trajectory.Config configuration, TankModifier modifier) {
+	public Pathmaker() {
 		this.auto = auto;
-		this.configuration = configuration;
 		this.modifier = modifier;
 	}
 
