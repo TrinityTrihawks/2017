@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 		time = new Timer();
 	    drivetrain = Drivetrain.Create();
 	    logger = new SimpleCsvLogger();
-	    logger.init(new String[] {"FR","BR","BL","BR","Time"},new String[] {"In","In","In","In","S"});
+	    logger.init(new String[] {"FR","BR","FL","BR","Angle","Time"},new String[] {"In","In","In","In","Degrees","S"});
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 	
 	
 	double[] dist = new double[4];
-	double[] log = new double[5];
+	double[] log = new double[6];
 	/**
 	 * This function is called periodically during autonomous
 	 */
@@ -71,7 +71,8 @@ public class Robot extends IterativeRobot {
 		for(int i = 0; i < 4; i++){
 			log[i] = dist[i];
 		}
-		log[4] = time.get();
+		log[4] = drivetrain.getAngle();
+		log[5] = time.get();
 		
 		//  Logs data
 		logger.writeData(log);
