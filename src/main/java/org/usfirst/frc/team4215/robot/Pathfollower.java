@@ -5,12 +5,7 @@ import com.ctre.CANTalon.TalonControlMode;
 
 public class Pathfollower {
 	
-	private CANTalon.MotionProfileStatus _status = new CANTalon.MotionProfileStatus();
-	private CANTalon.SetValueMotionProfile output = CANTalon.SetValueMotionProfile.Disable;
-	
-	
 	public Pathfollower(){
-		this.output = CANTalon.SetValueMotionProfile.Disable;
 	}
 	
 	/**

@@ -175,19 +175,18 @@ import jaci.pathfinder.Trajectory;
 			Go(0,0,0,0);
 		}
 		
-		public void leftFollow(double output){
+		public void follow(){
 			flWheel.changeControlMode(TalonControlMode.MotionProfile);
 			blWheel.changeControlMode(TalonControlMode.MotionProfile);
-			flWheel.set(output);
-			blWheel.set(output);
-		}
-		
-		public void rightFollow(double output){
 			frWheel.changeControlMode(TalonControlMode.MotionProfile);
 			brWheel.changeControlMode(TalonControlMode.MotionProfile);
-			frWheel.set(output);
-			brWheel.set(output);
+			flWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
+			frWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
+			blWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
+			blWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
 		}
+		
+		
 		
 
 		public void drive(double left, double right, double strafe, boolean IsStrafing){
