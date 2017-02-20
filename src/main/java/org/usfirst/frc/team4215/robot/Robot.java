@@ -12,10 +12,7 @@ public class Robot<VisonTest> extends IterativeRobot {
 	private UltrasonicHub hub;
 	
 	public void robotInit(){
-	
-		visionTest1 = new VisionTest();
-			visionTest1.visionInit();
-		
+
 		UltrasonicHub hub =  new UltrasonicHub();
 		ArrayList<String> devices = hub.addReader("/dev/ttyUSB0");
 		System.out.println(devices);
@@ -23,12 +20,9 @@ public class Robot<VisonTest> extends IterativeRobot {
 	}
 	
 	public void teleopInit(){		
-		visionTest1.visionStart();
 	}
 	
-	public void disableInit() throws InterruptedException{
-			
-			visionTest1.visionStop();
+	public void disableInit() {
 	}
 	
 	public void teleopPeriodic(){
