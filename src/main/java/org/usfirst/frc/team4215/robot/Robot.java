@@ -110,15 +110,8 @@ public class Robot extends IterativeRobot {
 		arm.setArm(leftStick.getRawAxis(1));
 		double l = leftStick.getRawAxis(4);
 		
-
 		winch.set(l);
-	
-	
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
-
+	}
 	/**public void autonomousInit() {
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.resetEncoder();
@@ -128,14 +121,5 @@ public class Robot extends IterativeRobot {
 		drivetrain.setPID(.1, 0, 0);
 	}
 	double[] dist = new double[4];
-	/**
-	 * This function is called periodically during autonomous
-	 **/
-	
-	
-	
-	/**
-	 * This function is called periodically during operator control
-	 */
-	
-}}
+	**/
+}
