@@ -61,14 +61,12 @@ public class Robot extends IterativeRobot {
 		double[][] leftPointList = pathmaker.convertTrajectory(trajList[0]);
 		double[][] rightPointList = pathmaker.convertTrajectory(trajList[1]);
 		time.start();
-		/*
 		if (status.isUnderrun != false){
 			drivetrain.follow();
 		} else {
 			drivetrain.fillPoints(rightPointList, "right");
 			drivetrain.fillPoints(leftPointList, "left");
 		}
-		*/
 		
 	}
 	

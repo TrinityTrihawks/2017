@@ -45,6 +45,22 @@ public class Pathmaker {
 
 	}
 	
+	Waypoint[] Middle_2 = new Waypoint[]{
+		new Waypoint(76, 0, Pathfinder.d2r(0)),	
+	};
+	
+	Waypoint[] test = new Waypoint[]{
+			new Waypoint(24, 0, Pathfinder.d2r(0)),	
+		};
+	
+	Waypoint[] auto2 = new Waypoint[]{
+			
+	};
+
+	Waypoint[] auto3 = new Waypoint[]{
+		
+	};
+	
 	public Pathmaker() {
 	}
 
