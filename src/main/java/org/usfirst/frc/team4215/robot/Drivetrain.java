@@ -4,6 +4,7 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import jaci.pathfinder.Trajectory;
 	
 	public class Drivetrain {
@@ -19,6 +20,8 @@ import jaci.pathfinder.Trajectory;
 		CANTalon frWheel;
 		CANTalon blWheel;
 		CANTalon brWheel;
+		
+		AnalogGyro gyro;
 		
 		//Declare Lists of wheels to be used for pathmaker trajectories
 
@@ -42,6 +45,8 @@ import jaci.pathfinder.Trajectory;
 			frWheel = new CANTalon(1);
 			blWheel = new CANTalon(3);
 			brWheel = new CANTalon(2);
+			
+			 gyro = new AnalogGyro(1);
 			
 			flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -137,8 +142,27 @@ import jaci.pathfinder.Trajectory;
 			return dist;
 		}
 		
+		double[] speed = new double[4];
+		public double[] getVelocities(){
+			
+			speed[0] = frWheel.getSpeed();
+			speed[1] = brWheel.getSpeed();
+			speed[2] = blWheel.getSpeed();
+			speed[3] = frWheel.getSpeed();
+			
+			return speed;
+		}
+		
+		public double getAngle(){
+			return gyro.getAngle();
+		}
+		
+		public double getAngleSpeed(){
+			return gyro.getRate();
+		}
+		
 		double[] err = new double[4];
-		public double[] getPosition(){
+			public double[] getPosition(){
 			err[0] = frWheel.getClosedLoopError();
 			err[1] = brWheel.getClosedLoopError();
 			err[2] = blWheel.getClosedLoopError();
