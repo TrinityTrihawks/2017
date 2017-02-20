@@ -102,9 +102,6 @@ import jaci.pathfinder.Trajectory;
 			brWheel.setEncPosition(0);
 		}
 		
-		private int cstate;
-		private int loopTimeout;
-		private MotionProfileStatus status;
 		private String side;
 		
 		public void resetMotionProfile(){
@@ -116,10 +113,15 @@ import jaci.pathfinder.Trajectory;
 		}
 		
 		public void fillPoints(double[][] pointList, String side){
-			for (int i = 0; i < pointList.length; i++){
+			int totalCount = 0;
+			for (int i = 0; i < talonList.length; i++){
+				CANTalon _talon = talonList[i];
+				_talon.clearMotionProfileTrajectories();
+			}
+			for (int j = 0; j < 128 && totalCount < pointList.length; j++){
 				CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
-				point.position = pointList[0][i];
-				point.position = pointList[1][i];
+				point.position = pointList[0][j];
+				point.position = pointList[1][j];
 				point.timeDurMs = 10;
 				point.profileSlotSelect = 0;
 				point.velocityOnly = false;
@@ -134,7 +136,10 @@ import jaci.pathfinder.Trajectory;
 					System.err.println("Invalid String Name");
 				}
 				
+				totalCount++;
+				
 			}
+			
 		}
 		/**
 		 *	Changes control modes of component talons

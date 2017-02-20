@@ -46,8 +46,6 @@ public class Pathmaker {
 	}
 	
 	public Pathmaker() {
-		this.auto = auto;
-		this.modifier = modifier;
 	}
 
 	/**
