@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 		time = new Timer();
 	    drivetrain = Drivetrain.Create();
 	    logger = new SimpleCsvLogger();
-	    logger.init(new String[] {"FR","BR","BL","BR","Angle","Time"},new String[] {"In","In","In","In","Degrees","S"});
+	    logger.init(new String[] {"FR","BR","FL","BR","Angle","Time"},new String[] {"In","In","In","In","Degrees","S"});
 	}
 
 	@Override
