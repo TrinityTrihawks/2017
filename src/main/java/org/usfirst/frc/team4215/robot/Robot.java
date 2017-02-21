@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import main.java.org.usfirst.frc.team4215.robot.steamworks.VisionTest;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
 import main.java.org.usfirst.frc.team4215.robot.Arm;
@@ -18,6 +19,7 @@ import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
@@ -28,6 +30,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import main.java.org.usfirst.frc.team4215.robot.WinchTest;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
@@ -57,21 +60,45 @@ public class Robot extends IterativeRobot {
 	int STRAFE_DRIVE_ID = 0;
 	int DRIVE_LEFT_TOP_TRIGGER = 5;
 	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
+	int IMG_WIDTH = 640;
+	int IMG_HEIGHT = 480;
 	
+	AxisCamera cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
+	//AxisCamera cameraFront = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
+	private double centerX = 0.0;			//Creates the variable centerX. 
+	
+	private final Object imgLock = new Object();
 	
 	public void robotInit(){
-	arm =  new Arm();
-	leftStick = new Joystick(0);
-	 drivetrain = Drivetrain.Create();
-	 winch = new WinchTest();
-	 cam = new CameraInit();
-	 visionThread = new Thread(cam);
-		visionThread.setDaemon(true);
-		visionThread.start();
+		arm =  new Arm();
+		leftStick = new Joystick(0);
+		 drivetrain = Drivetrain.Create();
+		 winch = new WinchTest();
 		
-		//visionTest1 = new VisionTest();
-			//visionTest1.visionInit();
+			cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
+			cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
+			visionThread = new VisionThread(cameraBack, new Pipeline(), pipeline -> {
+	
+				 if (!pipeline.filterContoursOutput().isEmpty()) {
+			            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+			            synchronized (imgLock) {
+			                centerX = r.x + (r.width / 2); 
+			                System.out.println(centerX); 	//if the code is actually working,
+			                System.out.println("Current Center X variable");          //a number should be displayed
+			            }
+			        }
+			      else {
+			    	  System.out.println("No Contours");
+			      }
+			    });
+			visionThread.setDaemon(true);
+			visionThread.start();
+			
 			System.out.println("Hello World");
+			
+			double turnTest = centerX - (IMG_WIDTH/2);
+			System.out.println("Turn Test");
+			System.out.println(turnTest);
 	}
 	
 	public void teleopInit(){		
@@ -90,6 +117,7 @@ public class Robot extends IterativeRobot {
 		if(drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) && !drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
 			 mode = Drivetrain.MotorGranular.FAST;
 		}
+		
 		else if(!drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) && drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
 			mode = Drivetrain.MotorGranular.SLOW;
 		}
@@ -112,6 +140,23 @@ public class Robot extends IterativeRobot {
 		
 		winch.set(l);
 	}
+/**	public void autonomousPeriodic(){
+		double centerX;
+		synchronized (imgLock) {
+			centerX = this.centerX;
+		}
+		double turn = centerX - (IMG_WIDTH / 2);
+		
+		
+		double left = 0;
+		double right = 0;
+		double strafe = turn;
+		boolean IsStrafing = true;
+		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.SLOW;
+		
+		//drivetrain.drive(left, right, strafe, IsStrafing, mode);
+	}
+	**/
 	/**public void autonomousInit() {
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.resetEncoder();

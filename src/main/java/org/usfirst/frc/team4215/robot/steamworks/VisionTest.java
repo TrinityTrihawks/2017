@@ -1,4 +1,5 @@
 package main.java.org.usfirst.frc.team4215.robot.steamworks;
+
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -9,8 +10,9 @@ import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-import main.java.org.usfirst.frc.team4215.robot.steamworks.Pipeline;
+import main.java.org.usfirst.frc.team4215.robot.Pipeline;
 
 public class VisionTest {
 
@@ -31,27 +33,13 @@ public class VisionTest {
 		camera = server.addAxisCamera("10.42.15.37");
 	    server.startAutomaticCapture();	//Begins getting video from the camera
 	    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-	    
+	    NetworkTable.initialize();
 	    visionThread = new VisionThread(camera, new Pipeline(), pipeline -> {
 	    	
 			CvSink cvSink = CameraServer.getInstance().getVideo();
-			CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle",IMG_WIDTH,IMG_HEIGHT);
-			Mat mat = new Mat();
-			while (!Thread.interrupted()) {
-				// Tell the CvSink to grab a frame from the camera and put it
-				// in the source mat.  If there is an error notify the output.
-				if (cvSink.grabFrame(mat) == 0) {
-					// Send the output the error.
-					outputStream.notifyError(cvSink.getError());
-					// skip the rest of the current iteration
-					continue;
-				}
-				// Put a rectangle on the image
-				//Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400),
-					//	new Scalar(255, 255, 255), 5);
-				// Give the output stream a new image to display
-				outputStream.putFrame(mat);
-			}
+			Mat source0 = new Mat();
+			Mat output = new Mat();
+			
 			
 	      if (!pipeline.filterContoursOutput().isEmpty()) {
 	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
