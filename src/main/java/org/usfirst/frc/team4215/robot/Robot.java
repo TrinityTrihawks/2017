@@ -102,10 +102,10 @@ public class Robot extends IterativeRobot {
 			//double turnTest = centerX - (IMG_WIDTH/2);
 			//System.out.println("Turn Test");
 			//System.out.println(turnTest);
-			hub =  new UltrasonicHub();
-			ArrayList<String> devices;
+			//hub =  new UltrasonicHub();
+			//ArrayList<String> devices;
 			
-			hub.addReader("/dev/ttyUSB1");
+			//hub.addReader("/dev/ttyUSB1");
 
 	}
 	
@@ -116,14 +116,14 @@ public class Robot extends IterativeRobot {
 	
 
 	public void teleopPeriodic(){
-		
+		/*
 		ArrayList<Integer> distances = hub.getDistancefromallPorts();
 		for (int i=0; i<distances.size(); i++)
 		{
 			System.out.print("d: " + distances.get(i) + "\t");			
 		}
 		System.out.println("\n");
-		
+		*/
 		
 		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
 		double right = -drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
