@@ -1,20 +1,22 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package src.main.java.org.usfirst.frc.team4215.robot;
+
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
+import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import main.java.org.usfirst.frc.team4215.robot.steamworks.VisionTest;
+import src.main.java.org.usfirst.frc.team4215.robot.steamworks.VisionTest;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
-import main.java.org.usfirst.frc.team4215.robot.Arm;
-import main.java.org.usfirst.frc.team4215.robot.CameraInit;
-import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
+import src.main.java.org.usfirst.frc.team4215.robot.Arm;
+import src.main.java.org.usfirst.frc.team4215.robot.CameraInit;
+import src.main.java.org.usfirst.frc.team4215.robot.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -25,12 +27,12 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import main.java.org.usfirst.frc.team4215.robot.WinchTest;
+import src.main.java.org.usfirst.frc.team4215.robot.WinchTest;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-
+import src.main.java.prototypes.UltrasonicHub;
 import com.ctre.CANTalon;
 
 /**
@@ -48,6 +50,7 @@ public class Robot extends IterativeRobot {
 	WinchTest winch;
 	Thread visionThread;
 	CameraInit cam;
+	UltrasonicHub hub;
 	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = 3;
 	int DRIVE_RIGHT_JOYSTICK_ID = 1;
@@ -72,6 +75,11 @@ public class Robot extends IterativeRobot {
 		//visionTest1 = new VisionTest();
 			//visionTest1.visionInit();
 			System.out.println("Hello World");
+			hub =  new UltrasonicHub();
+			ArrayList<String> devices;
+			
+			hub.addReader("/dev/ttyUSB0");
+			hub.addReader("/dev/ttyUSB1");
 	}
 	
 	public void teleopInit(){		
@@ -81,6 +89,13 @@ public class Robot extends IterativeRobot {
 	
 
 	public void teleopPeriodic(){
+		ArrayList<Integer> distances = hub.getDistancefromallPorts();
+		for (int i=0; i<distances.size(); i++)
+		{
+			System.out.print("d: " + distances.get(i) + "\t");			
+		}
+		System.out.println("\n");
+
 		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
 		double right = -drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
 		double strafe = drivestick.getRawAxis(STRAFE_DRIVE_ID);
