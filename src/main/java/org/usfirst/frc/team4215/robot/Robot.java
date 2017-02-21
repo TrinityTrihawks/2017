@@ -36,6 +36,8 @@ public class Robot extends IterativeRobot {
 	Pathmaker pathmaker;
 	double[][] leftPointList;
 	double[][] rightPointList;
+	CTREMotionProfiler right;
+    CTREMotionProfiler left;
 	PowerDistributionPanel pdp;
 	
 	
@@ -57,17 +59,20 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		drivetrain.resetMotionProfile();
+		drivetrain.enslaveBackWheels();
+		drivetrain.configureFrontTalons();
 		drivetrain.setTalonControlMode(TalonControlMode.MotionProfile);
 		drivetrain.resetEncoder();
+		/*
 		Trajectory.Config config = pathmaker.config(80, 100, 1500);
 		System.out.println(config.sample_count);
 		Trajectory trajectory = pathmaker.getTrajectory(pathmaker.test, config);
-		System.out.println(trajectory.length());
+		System.out.println("" +trajectory.length() + trajectory.get(3).x);
 		Trajectory[] trajList = pathmaker.getBothTrajectories(6, trajectory);
 		System.out.println(trajList.length);
 		leftPointList = pathmaker.convertTrajectory(trajList[0], true);
 		rightPointList = pathmaker.convertTrajectory(trajList[1], false);
-		
+		*/
 		
 	}
 	
@@ -79,13 +84,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		MotionProfileStatus[] stat = drivetrain.getStatus();
-		
-		System.out.println("" + stat[0].isUnderrun + " " + stat[1]..isUnderrun + " " + stat[2]..isUnderrun + " " + stat[3]..isUnderrun);		
-		if (stat[0].isUnderrun == true){ 
-			drivetrain.fillPoints(rightPointList, "right");
-			drivetrain.fillPoints(leftPointList, "left");
-		}
+		drivetrain.control();
 		drivetrain.follow();
 	}
 	

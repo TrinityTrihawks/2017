@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 		CANTalon frWheel;
 		CANTalon blWheel;
 		CANTalon brWheel;
+		CTREMotionProfiler right;
+		CTREMotionProfiler left;
 		
 		CANTalon[] talonList;
 		
@@ -48,6 +50,9 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			blWheel = new CANTalon(1);
 			frWheel = new CANTalon(3);
 			flWheel = new CANTalon(2);
+			
+			right = new CTREMotionProfiler(frWheel);
+			left = new CTREMotionProfiler(flWheel);
 			
 			 gyro = new AnalogGyro(1);
 			
@@ -106,11 +111,8 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 		private String side;
 		
 		public void resetMotionProfile(){
-			for (int i = 0; i < talonList.length; i++){
-				CANTalon _talon = talonList[i];
-				_talon.clearMotionProfileTrajectories();
-				_talon.set(CANTalon.SetValueMotionProfile.Disable.value);
-			}
+			right.reset();
+			left.reset();
 		}
 		int totalCount = 0;
 		public void fillPoints(double[][] pointList, String side){
@@ -153,6 +155,29 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 				CANTalon _talon = talonList[i];
 				_talon.changeControlMode(controlMode);
 			}
+		}
+		
+		public void enslaveBackWheels(){
+			brWheel.changeControlMode(CANTalon.TalonControlMode.Follower);
+			brWheel.set(frWheel.getDeviceID());
+			blWheel.changeControlMode(CANTalon.TalonControlMode.Follower);
+			blWheel.set(frWheel.getDeviceID());
+
+		}
+		
+		public void configureFrontTalons(){
+			flWheel.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+			frWheel.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+			flWheel.reverseSensor(true);
+			frWheel.reverseOutput(true);
+			flWheel.setEncPosition(0);
+			frWheel.setEncPosition(0);	
+		}
+		
+		public void control(){
+			right.control();
+			left.control();
+			
 		}
 		
 		
@@ -254,12 +279,15 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 				_talon.changeControlMode(TalonControlMode.MotionProfile);
 			}
 			*/
-			frWheel.reverseOutput(true);
-			brWheel.reverseOutput(true);
-			flWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
-			blWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
-			frWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
-			brWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
+			frWheel.changeControlMode(TalonControlMode.MotionProfile);
+			flWheel.changeControlMode(TalonControlMode.MotionProfile);
+			CANTalon.SetValueMotionProfile setOutputLeft = left.getSetValue();
+			CANTalon.SetValueMotionProfile setOutputRight = right.getSetValue();
+			flWheel.set(setOutputLeft.value);
+			frWheel.set(setOutputRight.value);
+			
+			right.startMotionProfile();
+			left.startMotionProfile();
 		
 		
 		
