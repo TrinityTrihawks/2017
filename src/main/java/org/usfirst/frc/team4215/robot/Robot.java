@@ -62,23 +62,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		drivetrain.Go(24, 24, 24, 24);
-		
-		// Gets distance
-		dist = drivetrain.getDistance();
-		
-		//Creates an array 
-		for(int i = 0; i < 4; i++){
-			log[i] = dist[i];
-		}
-		log[4] = drivetrain.getAngle();
-		log[5] = time.get();
-		
-		//  Logs data
-		logger.writeData(log);
-		
-		// Prints the positions
-		System.out.printf("Dist: %f, %f, %f, %f \n",dist[0],dist[1],dist[2],dist[3]);
 	}
 	
 	@Override
@@ -99,8 +82,16 @@ public class Robot extends IterativeRobot {
 		boolean isStrafing = leftStick.getRawButton(1);
 		
 		drivetrain.drive(left, right, strafe,isStrafing);
-		dist = drivetrain.getDistance();
-		System.out.printf("Dist: %f \n",dist[0]);
+		dist = drivetrain.getVelocities();
+		
+		//Creates an array 
+		for(int i = 0; i < 4; i++){
+			log[i] = dist[i];
+		}
+		log[4] = drivetrain.getAngle();
+		log[5] = time.get();
+		
+		logger.writeData(dist);
 	}
 	
 	/**
