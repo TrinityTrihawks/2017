@@ -51,6 +51,7 @@ public class Pathmaker {
 	
 	Waypoint[] test = new Waypoint[]{
 			new Waypoint(12, 0, Pathfinder.d2r(0)),	
+			new Waypoint(-5,0,0)
 		};
 	
 	Waypoint[] auto2 = new Waypoint[]{
@@ -108,20 +109,32 @@ public class Pathmaker {
 	 * @param traj
 	 * @return double[][]
 	 */
-	public double[][] convertTrajectory(Trajectory traj){
-		double[][] pointList =  new double[][]{};
+	public double[][] convertTrajectory(Trajectory traj, boolean side){
+		double[][] pointList =  new double[2][traj.length()];
+		//pointList[2][traj.length()];
 		for (int i = 0; i < traj.length(); i++) {
 			//Retrieves a segment from the trajectory
 		    Trajectory.Segment seg = trajectory.get(i);
 		    //Creates point object
 		    CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
 		    
-		    point.position = seg.position;
-		    point.velocity = seg.velocity;
-		    point.timeDurMs = 10;
-		    
-		    pointList[0][i] = point.velocity;
-		    pointList[1][i] = point.position;
+		    if (side){
+			    point.position = seg.position;
+			    point.velocity = seg.velocity;
+			    point.timeDurMs = 10;
+			    
+			    pointList[0][i] = point.velocity;
+			    
+			    pointList[1][i] = point.position;
+		    } else {
+		    	point.position = -seg.position;
+			    point.velocity = -seg.velocity;
+			    point.timeDurMs = 10;
+			    
+			    pointList[0][i] = point.velocity;
+			    
+			    pointList[1][i] = point.position;
+		    }
 		    
 		}
 		return pointList;

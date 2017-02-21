@@ -112,9 +112,9 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 				_talon.set(CANTalon.SetValueMotionProfile.Disable.value);
 			}
 		}
-		
+		int totalCount = 0;
 		public void fillPoints(double[][] pointList, String side){
-			int totalCount = 0;
+			
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
 				_talon.clearMotionProfileTrajectories();
@@ -247,16 +247,43 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 		}
 		
 		public void follow(){
+			
+			/*
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
 				_talon.changeControlMode(TalonControlMode.MotionProfile);
-				_talon.set(CANTalon.SetValueMotionProfile.Enable.value);
 			}
+			*/
+			frWheel.reverseOutput(true);
+			brWheel.reverseOutput(true);
+			flWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
+			blWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
+			frWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
+			brWheel.set(CANTalon.SetValueMotionProfile.Enable.value);
+		
+		
+		
 		}
 		
+		public MotionProfileStatus[] getStatus(){
+			MotionProfileStatus status_tmp0 = new MotionProfileStatus();
+			MotionProfileStatus status_tmp1 = new MotionProfileStatus();
+			MotionProfileStatus status_tmp2 = new MotionProfileStatus();
+			MotionProfileStatus status_tmp3 = new MotionProfileStatus();
+			flWheel.getMotionProfileStatus(status_tmp0);
+			frWheel.getMotionProfileStatus(status_tmp1);
+			brWheel.getMotionProfileStatus(status_tmp2);
+			blWheel.getMotionProfileStatus(status_tmp3);
+			MotionProfileStatus[] stat = new MotionProfileStatus[] {
+					status_tmp0,
+					status_tmp1,
+					status_tmp2,
+					status_tmp3
+						
+			};
+			return stat;
+		}
 		
-		
-
 		public void drive(double left, double right, double strafe, boolean IsStrafing){
 			if (!IsStrafing){
 				Go(left,left,right,right);
