@@ -63,6 +63,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.configureFrontTalons();
 		drivetrain.setTalonControlMode(TalonControlMode.MotionProfile);
 		drivetrain.resetEncoder();
+		drivetrain.eatPoints();
 		/*
 		Trajectory.Config config = pathmaker.config(80, 100, 1500);
 		System.out.println(config.sample_count);

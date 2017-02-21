@@ -208,7 +208,11 @@ public class CTREMotionProfiler {
 		System.out.println("Status: " + _status.toString());
 	}
 
-
+	public void startFilling() {
+		/* since this example only has one talon, just update that one */
+		startFilling(MotionProfiles.auto1, MotionProfiles.Pnum);
+	}
+	
 	private void startFilling(double[][] profile, int totalCnt) {
 
 		/* create an empty point */

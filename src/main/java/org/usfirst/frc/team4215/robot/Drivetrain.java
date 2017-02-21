@@ -312,6 +312,11 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			return stat;
 		}
 		
+		public void eatPoints(){
+			right.startFilling();
+			left.startFilling();
+		}
+		
 		public void drive(double left, double right, double strafe, boolean IsStrafing){
 			if (!IsStrafing){
 				Go(left,left,right,right);
