@@ -4,6 +4,14 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 	
 	public class Drivetrain {
+		public enum MotorGranular{
+			FAST,
+			NORMAL,
+			SLOW
+		}
+		double coeffNormal = .666;
+		double coeffFast = 1;
+		double coeffSlow = .3;
 		
 		double wheelRadius = 3; // inches
 		double wheelCirc = 2*Math.PI*wheelRadius;
@@ -98,7 +106,6 @@ import com.ctre.CANTalon.FeedbackDevice;
 			frWheel.changeControlMode(controlMode);
 			blWheel.changeControlMode(controlMode);
 			brWheel.changeControlMode(controlMode);
-			
 		}
 		
 		/**
@@ -145,13 +152,14 @@ import com.ctre.CANTalon.FeedbackDevice;
 				rFront = rFront/wheelCirc;
 				rBack = rBack/wheelCirc;
 			}
-			if(controlMode == CANTalon.TalonControlMode.Speed){
+			else if(controlMode == CANTalon.TalonControlMode.Speed){
 				lFront = lFront*secondsToMinutes/wheelCirc;
 				lBack = lBack*secondsToMinutes/wheelCirc;
 				rFront = rFront*secondsToMinutes/wheelCirc;
 				rBack = rBack*secondsToMinutes/wheelCirc;
 			}
 			
+			System.out.println("LF: " + lFront + "||LB:" + lBack + "||FR:" + rFront + "||RB:" + rBack);
 			flWheel.set(-lFront);
 			blWheel.set(-lBack);
 			frWheel.set(rFront);
@@ -163,12 +171,28 @@ import com.ctre.CANTalon.FeedbackDevice;
 		}
 		
 
-		public void drive(double left, double right, double strafe, boolean IsStrafing){
+
+		public void drive(double left, double right, double strafe, boolean IsStrafing
+							, MotorGranular m){
+			switch(m){
+				case FAST:
+					left *= coeffFast;
+					right *= coeffFast;
+					break;
+				case NORMAL:
+					left *= coeffNormal;
+					right *= coeffNormal;
+					break;
+				case SLOW:
+					left *= coeffSlow;
+					right *= coeffSlow;
+					break;
+			}
+			
+			
 			if (!IsStrafing){
 				Go(left,left,right,right);
 			}
-
-			
 			
 			if (IsStrafing){
 			Go(strafe,-strafe,-strafe,strafe);
@@ -176,4 +200,5 @@ import com.ctre.CANTalon.FeedbackDevice;
 	
 	}
 }
+	
 	

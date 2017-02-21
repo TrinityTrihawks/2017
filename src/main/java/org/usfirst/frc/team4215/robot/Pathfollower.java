@@ -23,6 +23,10 @@ public class Pathfollower {
 		}
 	}
 	
+	public Pathfollower(){
+		this.output = CANTalon.SetValueMotionProfile.Disable;
+	}
+	
 	/**
 	 * Takes the points out of the point array and pushes them to the Motion Profile.
 	 * @author Jack Rausch
