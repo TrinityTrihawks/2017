@@ -23,7 +23,7 @@ public class Robot<VisonTest> extends IterativeRobot {
 	public void teleopInit(){
 	}
 	
-	public void disableInit() throws InterruptedException{
+	public void disableInit() {
 	}
 	
 	public void teleopPeriodic(){
