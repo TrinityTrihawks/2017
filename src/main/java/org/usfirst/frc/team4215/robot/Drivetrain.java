@@ -6,7 +6,7 @@ import com.ctre.CANTalon.MotionProfileStatus;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import jaci.pathfinder.Trajectory;
+//import jaci.pathfinder.Trajectory;
 	
 	public class Drivetrain {
 		
@@ -75,6 +75,13 @@ import jaci.pathfinder.Trajectory;
 			frWheel.setProfile(0);
 			brWheel.setProfile(0);
 			blWheel.setProfile(0);
+			
+			talonList = new CANTalon[]{
+					flWheel = new CANTalon(4),
+					frWheel = new CANTalon(1),
+					blWheel = new CANTalon(3),
+					brWheel = new CANTalon(2)
+			};
 			
 		}
 		
