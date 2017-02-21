@@ -1,4 +1,4 @@
-package main.java.prototypes;
+package src.main.java.prototypes;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -23,18 +23,8 @@ public class UltrasonicHub {
 	
 	private SimpleRead reader;
 	
-	public static void main(String[] args){
-		
-		UltrasonicHub hub =  new UltrasonicHub();
-		ArrayList<String> devices = hub.addReader("/dev/ttyUSB0");
-		System.out.println(devices);
-		int dist = hub.getDistancefromPort("/dev/ttyUSB0");
-		System.out.println(dist);
-		ArrayList<Integer> portReadings = hub.getDistancefromallPorts();
-		System.out.println(portReadings);
-		
-		
-	}
+	
+	
 	
 	public UltrasonicHub(){
 		//this.dist = dist;
@@ -50,18 +40,17 @@ public class UltrasonicHub {
 		try {
 			Enumeration portList = CommPortIdentifier.getPortIdentifiers();
 			while (portList.hasMoreElements()) {
-	            		CommPortIdentifier portId = (CommPortIdentifier) portList.nextElement();
+        		CommPortIdentifier portId = (CommPortIdentifier) portList.nextElement();
 				if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 					System.out.println("Port: " + portId.getName());
-	                		if (portId.getName().equals(serialport)) {
-	                    			SerialPort serialPort = (SerialPort) portId.open("SimpleReadApp"+portlist.size(),
-	                    					2000);
-	                    			reader = new SimpleRead(serialPort);
-	                    			readerlist.add(reader); 
-	                    			portlist.add(serialport);
-					}
-	                	}
-	            	}
+                		if (portId.getName().equals(serialport)) {
+                    			SerialPort serialPort = (SerialPort) portId.open("SimpleReadApp"+portlist.size(), 2000);
+                    			reader = new SimpleRead(serialPort);
+                    			readerlist.add(reader); 
+                    			portlist.add(serialport);
+                		}
+                	}
+            	}
 	        } catch (PortInUseException e) {
 	            System.out.println(e);
 	            return null;

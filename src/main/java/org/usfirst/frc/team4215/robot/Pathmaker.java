@@ -1,4 +1,4 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package src.main.java.org.usfirst.frc.team4215.robot;
 
 
 import com.ctre.CANTalon;
@@ -54,12 +54,26 @@ public class Pathmaker {
 
 	}
 	
+
 	public Pathmaker(double dt, Waypoint[] auto, Trajectory.Config configuration, TankModifier modifier) {
 		this.dt = dt;
 		this.auto = auto;
 		this.configuration = configuration;
 		this.modifier = modifier;
 	}
+
+	//x and y correspond to meters
+	Waypoint[] auto1 = new Waypoint[]{
+			//new Waypoint(x, y, Pathfinder.d2r(theta))
+	};
+	
+	Waypoint[] auto2 = new Waypoint[]{
+			//new Waypoint(x, y, Pathfinder.d2r(theta))
+	};
+	
+	Waypoint[] auto3 = new Waypoint[]{
+			//new Waypoint(x, y, Pathfinder.d2r(theta))
+	};
 
 	/**
 	 * This method gets the trajectory if it has already been generated or generates it if necessary.
