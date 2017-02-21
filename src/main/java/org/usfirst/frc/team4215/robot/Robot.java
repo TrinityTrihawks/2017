@@ -95,6 +95,7 @@ public class Robot extends IterativeRobot {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("I is working");
 		time.start();
 	}
 	

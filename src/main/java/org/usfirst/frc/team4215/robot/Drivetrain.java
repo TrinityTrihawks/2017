@@ -71,7 +71,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			brWheel.setProfile(0);
 			blWheel.setProfile(0);
 			
-			CANTalon[] talonList = new CANTalon[]{
+			talonList = new CANTalon[]{
 					flWheel,
 					frWheel,
 					blWheel,
