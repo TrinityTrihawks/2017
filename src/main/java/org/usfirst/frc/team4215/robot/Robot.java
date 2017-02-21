@@ -17,7 +17,7 @@ public class Robot<VisonTest> extends IterativeRobot {
 		ArrayList<String> devices;
 		
 		hub.addReader("/dev/ttyUSB0");
-		hub.addReader("/dev/ttyUSB1");
+		//hub.addReader("/dev/ttyUSB1");
 	}
 	
 	public void teleopInit(){
