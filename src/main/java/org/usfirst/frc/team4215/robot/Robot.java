@@ -157,12 +157,13 @@ public class Robot extends IterativeRobot {
 		
 		winch.set(l);
 	}
-/**	public void autonomousPeriodic(){
+	public void autonomousPeriodic(){
 		double centerX;
 		synchronized (imgLock) {
 			centerX = this.centerX;
 		}
-		double turn = centerX - (IMG_WIDTH / 2);
+		double offSet = centerX - (IMG_WIDTH / 2);
+		double turn = offSet/640;
 		
 		
 		double left = 0;
@@ -173,7 +174,7 @@ public class Robot extends IterativeRobot {
 		
 		//drivetrain.drive(left, right, strafe, IsStrafing, mode);
 	}
-	**/
+	
 	/**public void autonomousInit() {
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.resetEncoder();
