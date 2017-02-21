@@ -30,10 +30,10 @@ public class Robot extends IterativeRobot {
 	Timer time;
 	Joystick leftStick = new Joystick(0);
 	Joystick rightStick = new Joystick(1);
-	//private MotionProfileStatus status;
+	private MotionProfileStatus status;
 	Drivetrain drivetrain;
 	SimpleCsvLogger logger;
-	//Pathmaker pathmaker;
+	Pathmaker pathmaker;
 
 	PowerDistributionPanel pdp;
 	
@@ -49,7 +49,7 @@ public class Robot extends IterativeRobot {
 	    drivetrain = Drivetrain.Create();
 	    logger = new SimpleCsvLogger();
 	    logger.init(new String[] {"FR","BR","FL","BR","Angle","Time"},new String[] {"In","In","In","In","Degrees","S"});
-	    //pathmaker = new Pathmaker();
+	    pathmaker = new Pathmaker();
 	}
 	
 
@@ -59,20 +59,20 @@ public class Robot extends IterativeRobot {
 		drivetrain.resetEncoder();
 		drivetrain.setPID(1, 0, 0);
 		drivetrain.enableControl();
-		//Trajectory.Config config = pathmaker.config(MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
-		//Trajectory trajectory = pathmaker.getTrajectory(auto, config);
-		//Trajectory[] trajList = pathmaker.getBothTrajectories(6, trajectory);
-		//double[][] leftPointList = pathmaker.convertTrajectory(trajList[0]);
-		//double[][] rightPointList = pathmaker.convertTrajectory(trajList[1]);
+		Trajectory.Config config = pathmaker.config(80, 100, 1500);
+		Trajectory trajectory = pathmaker.getTrajectory(pathmaker.test, config);
+		Trajectory[] trajList = pathmaker.getBothTrajectories(6, trajectory);
+		double[][] leftPointList = pathmaker.convertTrajectory(trajList[0]);
+		double[][] rightPointList = pathmaker.convertTrajectory(trajList[1]);
 		time.start();
-		/*
+		
 		if (status.isUnderrun != false){
 			drivetrain.follow();
 		} else {
-			//drivetrain.fillPoints(rightPointList, "right");
-			//drivetrain.fillPoints(leftPointList, "left");
+			drivetrain.fillPoints(rightPointList, "right");
+			drivetrain.fillPoints(leftPointList, "left");
 		}
-		*/
+		
 	}
 	
 	

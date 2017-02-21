@@ -50,7 +50,7 @@ public class Pathmaker {
 	};
 	
 	Waypoint[] test = new Waypoint[]{
-			new Waypoint(24, 0, Pathfinder.d2r(0)),	
+			new Waypoint(12, 0, Pathfinder.d2r(0)),	
 		};
 	
 	Waypoint[] auto2 = new Waypoint[]{
