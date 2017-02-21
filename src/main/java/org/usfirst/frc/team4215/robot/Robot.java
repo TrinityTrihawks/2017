@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.MotionProfileStatus;
 import com.ctre.CANTalon.TalonControlMode;
@@ -32,6 +34,7 @@ public class Robot extends IterativeRobot {
 	Drivetrain drivetrain;
 	SimpleCsvLogger logger;
 	Pathmaker pathmaker;
+	PowerDistributionPanel pdp;
 	
 	
 	/**
@@ -40,39 +43,23 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		
+		pdp = new PowerDistributionPanel();
 		time = new Timer();
 	    drivetrain = Drivetrain.Create();
 	    logger = new SimpleCsvLogger();
-	    logger.init(new String[] {"FR","BR","FL","BR","Angle","Time"},new String[] {"In","In","In","In","Degrees","S"});
+	    
 	    pathmaker = new Pathmaker();
 	}
 	
 
 	@Override
 	public void autonomousInit() {
-		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.resetEncoder();
-		drivetrain.setPID(1, 0, 0);
-		drivetrain.enableControl();
-		Trajectory.Config config = pathmaker.config(MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
-		Trajectory trajectory = pathmaker.getTrajectory(auto, config);
-		Trajectory[] trajList = pathmaker.getBothTrajectories(6, trajectory);
-		double[][] leftPointList = pathmaker.convertTrajectory(trajList[0]);
-		double[][] rightPointList = pathmaker.convertTrajectory(trajList[1]);
-		time.start();
-		if (status.isUnderrun != false){
-			drivetrain.follow();
-		} else {
-			drivetrain.fillPoints(rightPointList, "right");
-			drivetrain.fillPoints(leftPointList, "left");
-		}
 		
 	}
 	
 	
 	double[] dist = new double[4];
-	double[] log = new double[6];
+	double[] log = new double[7];
 	/**
 	 * This function is called periodically during autonomous
 	 */
@@ -83,8 +70,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit(){
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
-		drivetrain.disableControl();
-		
+		logger.init(new String[] {"FR","BR","FL","BR","L","R","Time"},new String[] {"In","In","In","In","U","U","S"});
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		time.start();
 	}
 	
 	/**
@@ -92,8 +85,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		double left = leftStick.getRawAxis(1);
-		double right = leftStick.getRawAxis(3);
+		double left = -.666*leftStick.getRawAxis(1);
+		double right = -.666*leftStick.getRawAxis(3);
 		double strafe = leftStick.getRawAxis(2);
 		boolean isStrafing = leftStick.getRawButton(1);
 		
@@ -104,17 +97,16 @@ public class Robot extends IterativeRobot {
 		for(int i = 0; i < 4; i++){
 			log[i] = dist[i];
 		}
-		log[4] = drivetrain.getAngle();
-		log[5] = time.get();
+		log[4] = left;
+		log[5] = right;
+		log[6] = time.get();
 		
 		logger.writeData(dist);
 	}
 	
-	/**
-	 * This function is called periodically during test mode
-	 */
 	@Override
-	public void testPeriodic() {
+	public void disabledInit(){
+		logger.close();
 	}
 }
 

@@ -22,12 +22,7 @@ import jaci.pathfinder.Trajectory;
 		CANTalon blWheel;
 		CANTalon brWheel;
 		
-		CANTalon[] talonList = new CANTalon[]{
-				flWheel,
-				frWheel,
-				blWheel,
-				brWheel
-		};
+		CANTalon[] talonList;
 		
 		AnalogGyro gyro;
 		
@@ -46,19 +41,19 @@ import jaci.pathfinder.Trajectory;
 			return instance;
 		}
 		
-
+ 
 		private Drivetrain() {
 			//21-24 declare talons
-			flWheel = new CANTalon(4);
-			frWheel = new CANTalon(1);
-			blWheel = new CANTalon(3);
-			brWheel = new CANTalon(2);
+			brWheel = new CANTalon(4);
+			blWheel = new CANTalon(1);
+			frWheel = new CANTalon(3);
+			flWheel = new CANTalon(2);
 			
 			 gyro = new AnalogGyro(1);
 			
 			flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-			frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			
 			flWheel.setAllowableClosedLoopErr(0);
@@ -76,6 +71,12 @@ import jaci.pathfinder.Trajectory;
 			brWheel.setProfile(0);
 			blWheel.setProfile(0);
 			
+			talonList = new CANTalon[]{
+					flWheel,
+					frWheel,
+					blWheel,
+					brWheel
+			};
 		}
 		
 		public void setPID(double Kp, double Ki, double Kd){
@@ -192,11 +193,12 @@ import jaci.pathfinder.Trajectory;
 		public double[] getVelocities(){
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
-				speed[i] = _talon.getPosition();
+				speed[i] = _talon.getSpeed();
 			}
 			
 			return speed;
 		}
+		
 		
 		public double getAngle(){
 			return gyro.getAngle();
@@ -234,10 +236,10 @@ import jaci.pathfinder.Trajectory;
 				rBack = rBack*secondsToMinutes/wheelCirc;
 			}
 			
-			flWheel.set(-lFront);
-			blWheel.set(-lBack);
-			frWheel.set(rFront);
-			brWheel.set(rBack);
+			flWheel.set(lFront);
+			blWheel.set(lBack);
+			frWheel.set(-rFront);
+			brWheel.set(-rBack);
 		}
 
 		public void Reset() {
