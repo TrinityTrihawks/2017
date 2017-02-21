@@ -1,4 +1,4 @@
-package src.main.java.prototypes;
+package main.java.prototypes;
 
 import java.io.*;
 import java.util.*;
