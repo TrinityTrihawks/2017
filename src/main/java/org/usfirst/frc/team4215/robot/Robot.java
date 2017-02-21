@@ -86,8 +86,8 @@ public class Robot extends IterativeRobot {
 			            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 			            synchronized (imgLock) {
 			                centerX = r.x + (r.width / 2); 
-			                System.out.println(centerX); 	//if the code is actually working,
-			                System.out.println("Current Center X variable");          //a number should be displayed
+			                //System.out.println(centerX); 	//if the code is actually working,
+			                //System.out.println("Current Center X variable");          //a number should be displayed
 			            }
 			        }
 			      else {
@@ -99,16 +99,14 @@ public class Robot extends IterativeRobot {
 			
 			System.out.println("Hello World");
 			
-			double turnTest = centerX - (IMG_WIDTH/2);
-			System.out.println("Turn Test");
-			System.out.println(turnTest);
-			/*
+			//double turnTest = centerX - (IMG_WIDTH/2);
+			//System.out.println("Turn Test");
+			//System.out.println(turnTest);
 			hub =  new UltrasonicHub();
 			ArrayList<String> devices;
 			
-			hub.addReader("/dev/ttyUSB0");
 			hub.addReader("/dev/ttyUSB1");
-			*/
+
 	}
 	
 	public void teleopInit(){		
@@ -118,14 +116,14 @@ public class Robot extends IterativeRobot {
 	
 
 	public void teleopPeriodic(){
-		/*
+		
 		ArrayList<Integer> distances = hub.getDistancefromallPorts();
 		for (int i=0; i<distances.size(); i++)
 		{
 			System.out.print("d: " + distances.get(i) + "\t");			
 		}
 		System.out.println("\n");
-		*/
+		
 		
 		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
 		double right = -drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
