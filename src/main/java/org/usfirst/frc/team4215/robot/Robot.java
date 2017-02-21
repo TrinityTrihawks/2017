@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.MotionProfileStatus;
 import com.ctre.CANTalon.TalonControlMode;
 import com.ctre.CANTalon;
 /**
@@ -27,8 +28,10 @@ public class Robot extends IterativeRobot {
 	Timer time;
 	Joystick leftStick = new Joystick(0);
 	Joystick rightStick = new Joystick(1);
+	private MotionProfileStatus status;
 	Drivetrain drivetrain;
 	SimpleCsvLogger logger;
+	Pathmaker pathmaker;
 	
 	
 	/**
@@ -41,8 +44,10 @@ public class Robot extends IterativeRobot {
 		time = new Timer();
 	    drivetrain = Drivetrain.Create();
 	    logger = new SimpleCsvLogger();
-	    logger.init(new String[] {"FR","BR","BL","BR","Angle","Time"},new String[] {"In","In","In","In","Degrees","S"});
+	    logger.init(new String[] {"FR","BR","FL","BR","Angle","Time"},new String[] {"In","In","In","In","Degrees","S"});
+	    pathmaker = new Pathmaker();
 	}
+	
 
 	@Override
 	public void autonomousInit() {
@@ -50,7 +55,18 @@ public class Robot extends IterativeRobot {
 		drivetrain.resetEncoder();
 		drivetrain.setPID(1, 0, 0);
 		drivetrain.enableControl();
+		Trajectory.Config config = pathmaker.config(MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+		Trajectory trajectory = pathmaker.getTrajectory(auto, config);
+		Trajectory[] trajList = pathmaker.getBothTrajectories(6, trajectory);
+		double[][] leftPointList = pathmaker.convertTrajectory(trajList[0]);
+		double[][] rightPointList = pathmaker.convertTrajectory(trajList[1]);
 		time.start();
+		if (status.isUnderrun != false){
+			drivetrain.follow();
+		} else {
+			drivetrain.fillPoints(rightPointList, "right");
+			drivetrain.fillPoints(leftPointList, "left");
+		}
 		
 	}
 	
