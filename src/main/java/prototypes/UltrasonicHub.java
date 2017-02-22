@@ -81,26 +81,19 @@ public class UltrasonicHub {
 		
 	}
 	
-	/*
-	public ArrayList<SimpleRead> getReaderList(){
-		readerlist = CreateReaders(portlist);
-		return readerlist;
-	}
-	*/
-	/*public static ArrayList<SimpleRead> createReaders(ArrayList<String> portlist){
-		ArrayList<SimpleRead> readerlist = new ArrayList<SimpleRead>();
-		try {
-				for (int i = 0; i < portlist.size(); i++){
-					reader = SimpleRead.Create(portlist.get(i)); 
-					readerlist.add(reader);
-			}
-		} catch (NullPointerException e){
-			System.err.println("No Devices Found");
+	public double getCorrectionAngle(){
+		ArrayList<Integer> portReadings = new ArrayList<Integer>();
+		portReadings = getDistancefromallPorts();
+		int dist1 = portReadings.get(dist);
+		int dist2 = portReadings.get(1);
+		int difference = Math.abs(dist1 - dist2);
+		if (dist1 == dist2 || difference < 10){
+			return 0;
+		} else {
+			double theta = Math.asin(dist2/dist1-1);
+			return theta*(180/Math.PI);
 		}
-		return readerlist;
-		
 	}
-	*/
 
 }
 
