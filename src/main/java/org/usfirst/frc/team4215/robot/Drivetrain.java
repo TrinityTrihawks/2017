@@ -2,8 +2,12 @@ package main.java.org.usfirst.frc.team4215.robot;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
+
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 	
-	public class Drivetrain {
+	public class Drivetrain implements PIDOutput {
 		public enum MotorGranular{
 			FAST,
 			NORMAL,
@@ -178,14 +182,16 @@ import com.ctre.CANTalon.FeedbackDevice;
 				case FAST:
 					left *= coeffFast;
 					right *= coeffFast;
+					strafe *= coeffFast;
 					break;
 				case NORMAL:
 					left *= coeffNormal;
 					right *= coeffNormal;
+					strafe *= coeffNormal;
 					break;
 				case SLOW:
 					left *= coeffSlow;
-					right *= coeffSlow;
+					right *= coeffNormal;
 					break;
 			}
 			
@@ -199,6 +205,13 @@ import com.ctre.CANTalon.FeedbackDevice;
 			}
 	
 	}
+		
+		@Override
+		public void pidWrite(double output) {
+			
+			drive(0,0, -output, true, MotorGranular.NORMAL);
+			
+		}
 }
 	
 	
