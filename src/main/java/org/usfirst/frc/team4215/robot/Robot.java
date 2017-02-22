@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
 	WinchTest winch;
-	Thread visionThread;
+	CameraPID vision;
 	CameraInit cam;
 	UltrasonicHub hub;
 	// ID's
@@ -80,27 +80,7 @@ public class Robot extends IterativeRobot {
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
-		
-			cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-			cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-			visionThread = new VisionThread(cameraBack, new Pipeline(), pipeline -> {
-	
-				 if (!pipeline.filterContoursOutput().isEmpty()) {
-			            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-			            synchronized (imgLock) {
-			                centerX = r.x + (r.width / 2); 
-			                //System.out.println(centerX); 	//if the code is actually working,
-			                //System.out.println("Current Center X variable");          //a number should be displayed
-			            }
-			        }
-			      else {
-			    	  System.out.println("No Contours");
-			      }
-			    });
-			visionThread.setDaemon(true);
-			visionThread.start();
-			
-			System.out.println("Hello World");
+		 vision = new CameraPID();
 			
 			//double turnTest = centerX - (IMG_WIDTH/2);
 			//System.out.println("Turn Test");
@@ -161,11 +141,11 @@ public class Robot extends IterativeRobot {
 		winch.set(l);
 	}
 	public void autonomousPeriodic(){
-		ArrayList<Integer> val = hub.getDistancefromallPorts();
+		/*ArrayList<Integer> val = hub.getDistancefromallPorts();
 		double Left = val.get(0);
 		double Right = val.get(1);
 		double error = Left - Right;
-	    
+	    */
 		
 		double centerX;
 		synchronized (imgLock) {
