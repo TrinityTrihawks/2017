@@ -7,10 +7,10 @@ import edu.wpi.cscore.AxisCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.vision.VisionThread;
+import edu.wpi.first.wpilibj.vision.VisionRunner;;
 
-public class CameraPID implements PIDSource, Runnable {
-	AxisCamera cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
+public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
+
 	private double centerX = 0.0;			//Creates the variable centerX. 
 	int IMG_WIDTH = 640;
 	int IMG_HEIGHT = 480;
@@ -34,29 +34,21 @@ public class CameraPID implements PIDSource, Runnable {
 	}
 
 	@Override
-	public void run() {
-		cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-		cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		
-		visionThread = new VisionThread(cameraBack, new Pipeline(), pipeline -> {
-
-			 if (!pipeline.filterContoursOutput().isEmpty()) {
-		            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-		            synchronized (imgLock) {
-		                centerX = r.x + (r.width / 2);
-		                double offSet = centerX - (IMG_WIDTH / 2);
-		        		turn = offSet/IMG_WIDTH;
-		                //System.out.println(centerX); 	//if the code is actually working,
-		                //System.out.println("Current Center X variable");          //a number should be displayed
-		            }
-		        }
-		      else {
-		    	  System.out.println("No Contours");
-		      }
-		    });
-		visionThread.setDaemon(true);
-		visionThread.start();
-		
+	public void copyPipelineOutputs(Pipeline pipeline) {
+		// TODO Auto-generated method stub
+		 if (!pipeline.filterContoursOutput().isEmpty()) {
+	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+	            synchronized (imgLock) {
+	                centerX = r.x + (r.width / 2);
+	                double offSet = centerX - (IMG_WIDTH / 2);
+	        		turn = offSet/IMG_WIDTH;
+	                //System.out.println(centerX); 	//if the code is actually working,
+	                //System.out.println("Current Center X variable");          //a number should be displayed
+	            }
+	        }
+	      else {
+	    	  System.out.println("No Contours");
+	      }
 	}
 
 }

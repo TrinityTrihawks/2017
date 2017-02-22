@@ -58,7 +58,7 @@ public class Robot extends IterativeRobot {
 	CameraInit cam;
 	UltrasonicHub hub;
 	PIDController con;
-	
+	VisionThread visionThread;
 	
 	double Kp = .001;
 	double Ki = 0;
@@ -90,10 +90,18 @@ public class Robot extends IterativeRobot {
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
+		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
+		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 vision = new CameraPID();
+		visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
+		 visionThread.setDaemon(true);
+		 visionThread.start();
+		
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 
 		 con = new PIDController(Kp,Ki,Kd,vision,drivetrain);
+		 con.setSetpoint(0);
+		 
 			//double turnTest = centerX - (IMG_WIDTH/2);
 			//System.out.println("Turn Test");
 			//System.out.println(turnTest);
@@ -160,6 +168,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void autonomousPeriodic(){
+		System.out.println(con.getAvgError());
 	}
 	
 	public void disabledInit(){

@@ -173,7 +173,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 				rBack = rBack*secondsToMinutes/wheelCirc;
 			}
 			
-			System.out.println("LF: " + lFront + "||LB:" + lBack + "||FR:" + rFront + "||RB:" + rBack);
 			flWheel.set(-lFront);
 			blWheel.set(-lBack);
 			frWheel.set(rFront);
