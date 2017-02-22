@@ -81,6 +81,9 @@ public class Robot extends IterativeRobot {
 			cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 			cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 			visionThread = new VisionThread(cameraBack, new Pipeline(), pipeline -> {
+		hub.addReader("/dev/ttyUSB0");
+		//hub.addReader("/dev/ttyUSB1");
+	}
 	
 				 if (!pipeline.filterContoursOutput().isEmpty()) {
 			            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
