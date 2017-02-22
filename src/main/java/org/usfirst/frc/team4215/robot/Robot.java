@@ -161,15 +161,18 @@ public class Robot extends IterativeRobot {
 		winch.set(l);
 	}
 	public void autonomousPeriodic(){
-		hub.getDistancefromallPorts();
-		
+		ArrayList<Integer> val = hub.getDistancefromallPorts();
+		double Left = val.get(0);
+		double Right = val.get(1);
+		double error = Left - Right;
+	    
 		
 		double centerX;
 		synchronized (imgLock) {
 			centerX = this.centerX;
 		}
 		double offSet = centerX - (IMG_WIDTH / 2);
-		double turn = offSet/640;
+		double turn = offSet/IMG_WIDTH;
 		
 		
 		double left = 0;
