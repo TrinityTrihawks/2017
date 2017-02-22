@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.vision.VisionRunner;;
 public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 
 	private double centerX = 0.0;			//Creates the variable centerX. 
-	int IMG_WIDTH = 640;
-	int IMG_HEIGHT = 480;
+	int IMG_WIDTH = 320;
+	int IMG_HEIGHT = 240;
 	private final Object imgLock = new Object();
 	Thread visionThread;
 	double turn;
@@ -42,8 +42,8 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 	                centerX = r.x + (r.width / 2);
 	                double offSet = centerX - (IMG_WIDTH / 2);
 	        		turn = offSet/IMG_WIDTH;
-	                //System.out.println(centerX); 	//if the code is actually working,
-	                //System.out.println("Current Center X variable");          //a number should be displayed
+	                System.out.println(offSet); 	//if the code is actually working,
+	              //  System.out.println("Current Center X variable");        //a number should be displayed
 	            }
 	        }
 	      else {

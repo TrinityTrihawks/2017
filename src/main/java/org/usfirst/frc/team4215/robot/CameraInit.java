@@ -33,7 +33,7 @@ public class CameraInit implements Runnable {
 		
 		AxisCamera cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		// Set the resolution
-		cameraBack.setResolution(640, 480);
+		cameraBack.setResolution(320, 240);
 				
 		// Get a CvSink. This will capture Mats from the camera
 		CvSink cvSink = CameraServer.getInstance().getVideo();

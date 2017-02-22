@@ -60,8 +60,8 @@ public class Robot extends IterativeRobot {
 	PIDController con;
 	VisionThread visionThread;
 	
-	double Kp = .001;
-	double Ki = 0;
+	double Kp = 1.5;
+	double Ki = .1;
 	double Kd = 0;
 	
 	// ID's
