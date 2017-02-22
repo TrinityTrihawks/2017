@@ -13,6 +13,15 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			NORMAL,
 			SLOW
 		}
+		
+		public enum AutoMode {
+			Turn,
+			Strafe,
+			Distance
+		}
+		
+		AutoMode mode;
+		
 		double coeffNormal = .666;
 		double coeffFast = 1;
 		double coeffSlow = .3;
@@ -79,6 +88,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			brWheel.setProfile(0);
 			blWheel.setProfile(0);
 			
+			mode = AutoMode.Distance;
 		}
 		
 		public void setPID(double Kp, double Ki, double Kd){
@@ -204,13 +214,31 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			Go(strafe,-strafe,-strafe,strafe);
 			}
 	
-	}
+		}
+		
+		public void setAutoMode(AutoMode m){
+			mode = m;
+		}
+		
+		public AutoMode getAutoMode(AutoMode m){
+			return mode;
+		}
 		
 		@Override
 		public void pidWrite(double output) {
 			
-			drive(0,0, -output, true, MotorGranular.NORMAL);
+			switch(mode){
 			
+				case Distance:
+					drive(output,output, 0, false, MotorGranular.NORMAL);
+					break;
+				case Strafe:
+					drive(0,0, -output, true, MotorGranular.NORMAL);
+					break;
+				case Turn:
+					drive(output,-output, 0, false, MotorGranular.NORMAL);
+					break;
+			}
 		}
 }
 	
