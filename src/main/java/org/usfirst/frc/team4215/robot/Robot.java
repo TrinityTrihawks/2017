@@ -23,6 +23,8 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.PIDController;
+
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.ctre.CANTalon;
@@ -54,6 +56,7 @@ public class Robot extends IterativeRobot {
 	CameraPID vision;
 	CameraInit cam;
 	UltrasonicHub hub;
+	PIDController con;
 	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = 3;
 	int DRIVE_RIGHT_JOYSTICK_ID = 1;
@@ -81,7 +84,6 @@ public class Robot extends IterativeRobot {
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
 		 vision = new CameraPID();
-			
 			//double turnTest = centerX - (IMG_WIDTH/2);
 			//System.out.println("Turn Test");
 			//System.out.println(turnTest);

@@ -55,6 +55,7 @@ public class CameraPID implements PIDSource, Runnable {
 		      }
 		    });
 		visionThread.setDaemon(true);
+		visionThread.start();
 		
 	}
 

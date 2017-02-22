@@ -19,7 +19,7 @@ public class UltrasonicPID implements PIDSource {
 
 	@Override
 	public double pidGet() {
-		// TODO Auto-generated method stub
+
 		return 0;
 	}
 
