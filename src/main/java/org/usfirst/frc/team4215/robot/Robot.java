@@ -18,6 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 import main.java.org.usfirst.frc.team4215.robot.Arm;
 import main.java.org.usfirst.frc.team4215.robot.CameraInit;
 import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
+import main.java.org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -57,6 +58,12 @@ public class Robot extends IterativeRobot {
 	CameraInit cam;
 	UltrasonicHub hub;
 	PIDController con;
+	
+	
+	double Kp = .001;
+	double Ki = 0;
+	double Kd = 0;
+	
 	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = 3;
 	int DRIVE_RIGHT_JOYSTICK_ID = 1;
@@ -84,6 +91,9 @@ public class Robot extends IterativeRobot {
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
 		 vision = new CameraPID();
+		 drivetrain.setAutoMode(AutoMode.Strafe);
+		 
+		 con = new PIDController(Kp,Ki,Kd,vision,drivetrain);
 			//double turnTest = centerX - (IMG_WIDTH/2);
 			//System.out.println("Turn Test");
 			//System.out.println(turnTest);
@@ -96,6 +106,7 @@ public class Robot extends IterativeRobot {
 	
 	public void teleopInit(){		
 		//drivetrain.disableControl();
+		con.disable();
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 	}
 	
@@ -142,38 +153,16 @@ public class Robot extends IterativeRobot {
 		
 		winch.set(l);
 	}
-	public void autonomousPeriodic(){
-		/*ArrayList<Integer> val = hub.getDistancefromallPorts();
-		double Left = val.get(0);
-		double Right = val.get(1);
-		double error = Left - Right;
-	    */
-		
-		double centerX;
-		synchronized (imgLock) {
-			centerX = this.centerX;
-		}
-		double offSet = centerX - (IMG_WIDTH / 2);
-		double turn = offSet/IMG_WIDTH;
-		
-		
-		double left = 0;
-		double right = 0;
-		double strafe = turn;
-		boolean IsStrafing = true;
-		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.SLOW;
-		
-		//drivetrain.drive(left, right, strafe, IsStrafing, mode);
+	
+	@Override
+	public void autonomousInit(){
+		con.enable();
 	}
 	
-	/**public void autonomousInit() {
-		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.resetEncoder();
-		drivetrain.setPID(.05, 0, 0);
-		drivetrain.enableControl();
-		drivetrain.Go(24, 24, 24, 24);
-		drivetrain.setPID(.1, 0, 0);
+	public void autonomousPeriodic(){
 	}
-	double[] dist = new double[4];
-	**/
+	
+	public void disabledInit(){
+		con.disable();
+	}
 }
