@@ -23,6 +23,8 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.PIDController;
+
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.ctre.CANTalon;
@@ -51,9 +53,10 @@ public class Robot extends IterativeRobot {
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
 	WinchTest winch;
-	Thread visionThread;
+	CameraPID vision;
 	CameraInit cam;
 	UltrasonicHub hub;
+	PIDController con;
 	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = 3;
 	int DRIVE_RIGHT_JOYSTICK_ID = 1;
@@ -77,28 +80,10 @@ public class Robot extends IterativeRobot {
 		leftStick = new Joystick(0);
 		 drivetrain = Drivetrain.Create();
 		 winch = new WinchTest();
-		
-			cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-			cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-			visionThread = new VisionThread(cameraBack, new Pipeline(), pipeline -> {
-	
-				 if (!pipeline.filterContoursOutput().isEmpty()) {
-			            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-			            synchronized (imgLock) {
-			                centerX = r.x + (r.width / 2); 
-			                //System.out.println(centerX); 	//if the code is actually working,
-			                //System.out.println("Current Center X variable");          //a number should be displayed
-			            }
-			        }
-			      else {
-			    	  System.out.println("No Contours");
-			      }
-			    });
-			visionThread.setDaemon(true);
-			visionThread.start();
-			
-			System.out.println("Hello World");
-			
+		 hub = new UltrasonicHub();
+		 hub.addReader("/dev/ttyUSB0");
+		 hub.addReader("/dev/ttyUSB1");
+		 vision = new CameraPID();
 			//double turnTest = centerX - (IMG_WIDTH/2);
 			//System.out.println("Turn Test");
 			//System.out.println(turnTest);
@@ -158,12 +143,18 @@ public class Robot extends IterativeRobot {
 		winch.set(l);
 	}
 	public void autonomousPeriodic(){
+		/*ArrayList<Integer> val = hub.getDistancefromallPorts();
+		double Left = val.get(0);
+		double Right = val.get(1);
+		double error = Left - Right;
+	    */
+		
 		double centerX;
 		synchronized (imgLock) {
 			centerX = this.centerX;
 		}
 		double offSet = centerX - (IMG_WIDTH / 2);
-		double turn = offSet/640;
+		double turn = offSet/IMG_WIDTH;
 		
 		
 		double left = 0;
