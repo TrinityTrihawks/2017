@@ -23,6 +23,10 @@ public class Pathfollower {
 		}
 	}
 	
+	public Pathfollower(){
+		this.output = CANTalon.SetValueMotionProfile.Disable;
+	}
+	
 	/**
 	 * Takes the points out of the point array and pushes them to the Motion Profile.
 	 * @author Jack Rausch
@@ -37,14 +41,10 @@ public class Pathfollower {
 			point.timeDurMs = 10;
 			point.profileSlotSelect = 0;
 			point.velocityOnly = false;
-			
-			point.zeroPos = false;
-			if (i == 0)
-				point.zeroPos = true;
-			
-			point.isLastPoint = false;
-			if ((i + 1) == pointList.length)
-				point.isLastPoint = true;
+
+            point.zeroPos = i == 0;
+
+            point.isLastPoint = (i + 1) == pointList.length;
 			
 			for (int j = 0; j < side.length; j++){
 				side[j].pushMotionProfileTrajectory(point);
