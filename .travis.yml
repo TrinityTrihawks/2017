@@ -1,0 +1,17 @@
+language: java
+
+addons:
+  apt:
+    sources:
+    - deadsnakes
+    - ubuntu-toolchain-r-test
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq g++-4.9
+
+install:
+  - "./gradlew assemble"
+
+jdk:
+  - oraclejdk8
