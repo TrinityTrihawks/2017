@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
 import main.java.org.usfirst.frc.team4215.robot.Arm;
-import main.java.org.usfirst.frc.team4215.robot.CameraInit;
 import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
 import main.java.org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import edu.wpi.first.wpilibj.Joystick;
@@ -55,7 +54,6 @@ public class Robot extends IterativeRobot {
 	Drivetrain drivetrain;
 	WinchTest winch;
 	CameraPID vision;
-	CameraInit cam;
 	UltrasonicHub hub;
 	PIDController con;
 	VisionThread visionThread;
@@ -93,7 +91,7 @@ public class Robot extends IterativeRobot {
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 vision = new CameraPID();
-		visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
+		 visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
 		 visionThread.setDaemon(true);
 		 visionThread.start();
 		
@@ -101,15 +99,6 @@ public class Robot extends IterativeRobot {
 		 
 		 con = new PIDController(Kp,Ki,Kd,vision,drivetrain);
 		 con.setSetpoint(0);
-		 
-			//double turnTest = centerX - (IMG_WIDTH/2);
-			//System.out.println("Turn Test");
-			//System.out.println(turnTest);
-			//hub =  new UltrasonicHub();
-			//ArrayList<String> devices;
-			
-			//hub.addReader("/dev/ttyUSB1");
-
 	}
 	
 	public void teleopInit(){		
