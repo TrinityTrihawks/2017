@@ -1,5 +1,6 @@
 package main.java.org.usfirst.frc.team4215.robot;
 
+//imports things needed for talons
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.MotionProfileStatus;
@@ -11,25 +12,27 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 	public class Drivetrain {
 		
 		double wheelRadius = 3; // inches
-		double wheelCirc = 2*Math.PI*wheelRadius;
+		double wheelCirc = 2*Math.PI*wheelRadius; //wheel circumference
 		double secondsToMinutes = (double) 1/60; // seconds/minutes
 		
 		CANTalon.TalonControlMode controlMode;
 		
-		//21-24 declare talons
+		//declares wheel talons vars
 		CANTalon flWheel;
 		CANTalon frWheel;
 		CANTalon blWheel;
 		CANTalon brWheel;
+		
 		CTREMotionProfiler right;
 		CTREMotionProfiler left;
 		
+		//Declare Lists of wheels to be used for pathmaker trajectories
 		CANTalon[] talonList;
 		
 		AnalogGyro gyro;
 		
-		//Declare Lists of wheels to be used for pathmaker trajectories
 
+		
 		private static Drivetrain instance;
 		
 		/**
@@ -43,9 +46,10 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			return instance;
 		}
 		
- 
+		
+
 		private Drivetrain() {
-			//21-24 declare talons
+			//instantiates wheel objects with port numbers
 			brWheel = new CANTalon(4);
 			blWheel = new CANTalon(1);
 			frWheel = new CANTalon(3);
@@ -54,7 +58,8 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			right = new CTREMotionProfiler(frWheel);
 			left = new CTREMotionProfiler(flWheel);
 			
-			 gyro = new AnalogGyro(1);
+			//instantiates gyro object with port number
+			gyro = new AnalogGyro(1);
 			
 			flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -76,6 +81,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			brWheel.setProfile(0);
 			blWheel.setProfile(0);
 			
+			//list of all the wheel objects
 			talonList = new CANTalon[]{
 					flWheel,
 					frWheel,
@@ -84,6 +90,12 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			};
 		}
 		
+		/**
+		 * Sets the PIDs for the wheels
+		 * @param double Kp
+		 * @param double Ki
+		 * @param double Kd
+		 */
 		public void setPID(double Kp, double Ki, double Kd){
 			flWheel.setPID(Kp, Ki, Kd);
 			frWheel.setPID(Kp, Ki, Kd);
@@ -91,6 +103,9 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			brWheel.setPID(Kp, Ki, Kd);
 		}
 		
+		/**
+		 * Sets wheel encoders to 0
+		 */
 		public void resetEncoder(){
 			/*
 			int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
@@ -102,19 +117,31 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			absolutePosition = brWheel.getPulseWidthPosition() & 0xFFF;
 			brWheel.setEncPosition(absolutePosition);
 			*/
+			
 			flWheel.setEncPosition(0);
 			frWheel.setEncPosition(0);
 			blWheel.setEncPosition(0);
 			brWheel.setEncPosition(0);
 		}
 		
-		private String side;
+		
+		
+
 		
 		public void resetMotionProfile(){
 			right.reset();
 			left.reset();
 		}
+		
+		
 		int totalCount = 0;
+		private String side;
+		
+		/**
+		 * 
+		 * @param double[][] pointList
+		 * @param String side
+		 */
 		public void fillPoints(double[][] pointList, String side){
 			
 			for (int i = 0; i < talonList.length; i++){
@@ -203,8 +230,13 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 				_talon.disableControl();
 			}
 		}
+
 		
 		double[] dist = new double[4];
+		/**
+		 * Gets distance for each wheel
+		 * @return double[] dist
+		 */
 		public double[] getDistance(){
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
@@ -214,7 +246,12 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			return dist;
 		}
 		
+		
 		double[] speed = new double[4];
+		/**
+		 * Get velocity for wheels
+		 * @return double[] speed
+		 */
 		public double[] getVelocities(){
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
@@ -225,15 +262,27 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 		}
 		
 		
+		/**
+		 * Get angle of gyro
+		 */
 		public double getAngle(){
 			return gyro.getAngle();
 		}
 		
+		
+		/**
+		 * Get rate of gyro
+		 * @return
+		 */
 		public double getAngleSpeed(){
 			return gyro.getRate();
 		}
 		
+		
 		double[] err = new double[4];
+		/**
+		 * Get position of wheels
+		 */
 		public double[] getPosition(){
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
@@ -267,6 +316,9 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			brWheel.set(-rBack);
 		}
 
+		/**
+		 * Wheels stop moving
+		 */
 		public void Reset() {
 			Go(0,0,0,0);
 		}
@@ -281,8 +333,10 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			*/
 			frWheel.changeControlMode(TalonControlMode.MotionProfile);
 			flWheel.changeControlMode(TalonControlMode.MotionProfile);
+			
 			CANTalon.SetValueMotionProfile setOutputLeft = left.getSetValue();
 			CANTalon.SetValueMotionProfile setOutputRight = right.getSetValue();
+			
 			flWheel.set(setOutputLeft.value);
 			frWheel.set(setOutputRight.value);
 			
@@ -298,10 +352,12 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			MotionProfileStatus status_tmp1 = new MotionProfileStatus();
 			MotionProfileStatus status_tmp2 = new MotionProfileStatus();
 			MotionProfileStatus status_tmp3 = new MotionProfileStatus();
+			
 			flWheel.getMotionProfileStatus(status_tmp0);
 			frWheel.getMotionProfileStatus(status_tmp1);
 			brWheel.getMotionProfileStatus(status_tmp2);
 			blWheel.getMotionProfileStatus(status_tmp3);
+			
 			MotionProfileStatus[] stat = new MotionProfileStatus[] {
 					status_tmp0,
 					status_tmp1,
@@ -317,13 +373,20 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			left.startFilling();
 		}
 		
+		
+		/**
+		 * Set left and right wheels, accounting for strafing
+		 * 
+		 * @param double left
+		 * @param double right
+		 * @param double strafe
+		 * @param boolean IsStrafing
+		 */
 		public void drive(double left, double right, double strafe, boolean IsStrafing){
 			if (!IsStrafing){
 				Go(left,left,right,right);
 			}
 
-			
-			
 			if (IsStrafing){
 			Go(strafe,-strafe,-strafe,strafe);
 			}
