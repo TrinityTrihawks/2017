@@ -88,10 +88,15 @@ public class Robot extends IterativeRobot {
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
+		 // Creates the interface to the back camera
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
+		 // Configures Camera
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		 // Creates the Pipeline image processor
 		 vision = new CameraPID();
+		 // Creates visonthread the manager for all of this
 		 visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
+		 // Configures visionthread
 		 visionThread.setDaemon(true);
 		 visionThread.start();
 		
