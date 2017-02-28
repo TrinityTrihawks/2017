@@ -16,21 +16,21 @@ import gnu.io.UnsupportedCommOperationException;
  *
  */
 public class SimpleRead implements Runnable, SerialPortEventListener {
-	//length of the data you hope to get
+
+    //length of the data you hope to get
     private int BytesSize = 6;
     private InputStream inputStream;
     private SerialPort serialPort;
     private Thread readThread;
+
     //Sometimes the bytes come in an unexpected order so this alignment allows us to still read that output
     private int alignment= 0;
-    
     private int distance = 0;
-
     
     //Simple Constructor
     public SimpleRead(SerialPort serialPort) {
         try {
-        	//defines port
+            //defines port
             this.serialPort = serialPort;
             //defines inputStream from buffer
             this.inputStream = this.serialPort.getInputStream();
@@ -55,18 +55,18 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
         }
     }
 
-	public void Listen()
-	{
-		this.serialPort.notifyOnDataAvailable(true);
-		System.out.println("Listening?");
-	}
+    public void Listen()
+    {
+        this.serialPort.notifyOnDataAvailable(true);
+        System.out.println("Listening?");
+    }
 
-	public void Stop()
-	{
-		this.serialPort.notifyOnDataAvailable(false);
-		//this.readThread.interrupt();
-		System.out.println("Stop Listening?");
-	}
+    public void Stop()
+    {
+        this.serialPort.notifyOnDataAvailable(false);
+        //this.readThread.interrupt();
+        System.out.println("Stop Listening?");
+    }
 
     public void run() {
         try {
@@ -96,73 +96,71 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
         //Reads data available in buffer
         case SerialPortEvent.DATA_AVAILABLE:
         // sets index to zero
-	    int index = 0;
-	    //defines read which holds the output from the device
-	    int read = 0;
-	    //length of data
-	    int capacity = 6;
-	    //aforementioned alignment
+        int index = 0;
+        //defines read which holds the output from the device
+        int read = 0;
+        //length of data
+        int capacity = 6;
+        //aforementioned alignment
         alignment = 0; 
         //list of bytes which has bounds of six
         byte[] bytes = new byte[6];
 
         try {
-			while (index<capacity && ((read = inputStream.read(bytes, index, capacity-index)) != -1)) {
-			   //System.out.printf("read: %d, capacity: %d\n", read, capacity); 
-				index += read;
-			}
-			
-	        int dist = -1;
-	        //Searches for '82' which starts each datastream
-			for (int i = 0; i < index; i++) 
-			{
-				//if it finds 82 stop search
-				if (bytes[i] == 82) {
-					break;
-				}
-				//if 82 is not found move to next column of data
-				alignment++; 
-			}
-			
-			//Tells us if the datastream is unaligned
-			if (alignment != 0)
-			{
-				//prints decimal form of the bytes read 
-				for (int i = 0; i < index; i++) 
-				{
-				    System.out.printf("%d ", bytes[i]);
-				}
+            while (index<capacity && ((read = inputStream.read(bytes, index, capacity-index)) != -1)) {
+            //System.out.printf("read: %d, capacity: %d\n", read, capacity); 
+            index += read;
+        }
+        int dist = -1;
+        //Searches for '82' which starts each datastream
+        for (int i = 0; i < index; i++) 
+        {
+            //if it finds 82 stop search
+            if (bytes[i] == 82) {
+                break;
+            }
+            //if 82 is not found move to next column of data
+            alignment++; 
+        }
 
-			}
-	
-			//only prints data if alignments isn't too far off
-			if (alignment < 2)
-			{
-				/*
-				 * In ASCII the decimal 48 represents 0 and 57 represents 9
-				 * In each parenthetical it takes the 1 byte taking into account alignment and puts it into decimal form by subtracting 48
-				 * It then scales up the value to its correct decimal place by multiplying it by a certain power of ten.
-				 * It then adds them all together to get a 4 digit number representing the reading in mm.
-				 * 
-				 * For example, if the byte list is {49, 54, 56, 53} and the data was not misaligned.
-				 * dist = (1000 * (49 - 48)) + (100 * (54 - 48)) + (10 * (56 - 48)) + (53 - 48)
-				 * dist = (1000 * 1) + (100 * 6) + (10 * 8) + 5 = 1685 meaning the sensor is 1685 mm away.
-				 */
-				dist = (1000 * (bytes[1 + alignment] - 48)) + 
-				       (100 * (bytes[2 + alignment] - 48)) + 
-				       (10 * (bytes[3 + alignment] - 48)) + 
-	                   (bytes[4 + alignment] - 48);
-			}
-	
-			//sets distance equal to dist for getters and setters
-			this.distance = dist;
+        //Tells us if the datastream is unaligned
+        if (alignment != 0)
+        {
+            //prints decimal form of the bytes read 
+            for (int i = 0; i < index; i++) 
+            {
+                System.out.printf("%d ", bytes[i]);
+            }
+        }
+
+        //only prints data if alignments isn't too far off
+        if (alignment < 2)
+        {
+                /*
+                 * In ASCII the decimal 48 represents 0 and 57 represents 9
+                 * In each parenthetical it takes the 1 byte taking into account alignment and puts it into decimal form by subtracting 48
+                 * It then scales up the value to its correct decimal place by multiplying it by a certain power of ten.
+                 * It then adds them all together to get a 4 digit number representing the reading in mm.
+                 * 
+                 * For example, if the byte list is {49, 54, 56, 53} and the data was not misaligned.
+                 * dist = (1000 * (49 - 48)) + (100 * (54 - 48)) + (10 * (56 - 48)) + (53 - 48)
+                 * dist = (1000 * 1) + (100 * 6) + (10 * 8) + 5 = 1685 meaning the sensor is 1685 mm away.
+                 */
+            dist = (1000 * (bytes[1 + alignment] - 48)) + 
+                (100 * (bytes[2 + alignment] - 48)) + 
+                (10 * (bytes[3 + alignment] - 48)) + 
+                (bytes[4 + alignment] - 48);
+        }
+
+        //sets distance equal to dist for getters and setters
+        this.distance = dist;
 
         } catch (IOException e) {
-	    	System.out.println(e);
+            System.out.println(e);
         } catch (Exception e) {
-	    	System.out.println(e);
-	    }
-            break;
+            System.out.println(e);
+        }
+        break;
         }
         
     }
@@ -170,9 +168,9 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
     //getters and setters allowing the distance to be retrieved and set in other classes
     public int getDistance(){
         return this.distance;
-        	}
-        	
+    }
+
     public void setDistance(int dist){
         this.distance = dist;
-        	}
+    }
 }
