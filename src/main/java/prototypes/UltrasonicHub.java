@@ -1,4 +1,4 @@
-package main.java.prototypes;
+package prototypes;
 
 import java.util.ArrayList;
 import java.util.Enumeration;

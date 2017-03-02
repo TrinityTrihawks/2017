@@ -1,4 +1,4 @@
-package main.java.prototypes;
+package prototypes;
 
 import java.io.*;
 import java.util.*;
@@ -73,6 +73,9 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
      }
     */
 
+    SimpleRead() {
+    	
+    }
     //Simple Constructor
     public SimpleRead(SerialPort serialPort) {
         try {

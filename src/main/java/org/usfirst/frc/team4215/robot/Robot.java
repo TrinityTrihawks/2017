@@ -1,4 +1,4 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot;
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -9,15 +9,15 @@ import edu.wpi.first.wpilibj.CameraServer;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import main.java.org.usfirst.frc.team4215.robot.steamworks.VisionTest;
+import org.usfirst.frc.team4215.robot.steamworks.VisionTest;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
-import main.java.org.usfirst.frc.team4215.robot.Arm;
-import main.java.org.usfirst.frc.team4215.robot.CameraInit;
-import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
+import org.usfirst.frc.team4215.robot.Arm;
+import org.usfirst.frc.team4215.robot.CameraInit;
+import org.usfirst.frc.team4215.robot.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -29,13 +29,13 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import main.java.org.usfirst.frc.team4215.robot.WinchTest;
+import org.usfirst.frc.team4215.robot.WinchTest;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import main.java.prototypes.UltrasonicHub;
+import prototypes.UltrasonicHub;
 import com.ctre.CANTalon;
 
 /**

@@ -1,5 +1,5 @@
 
-package main.java.org.usfirst.frc.team4215.robot.steamworks;
+package org.usfirst.frc.team4215.robot.steamworks;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -13,7 +13,7 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-import main.java.org.usfirst.frc.team4215.robot.Pipeline;
+import org.usfirst.frc.team4215.robot.Pipeline;
 
 public class VisionTest {
 
