@@ -40,4 +40,24 @@ class SimpleReadSpockTest extends Specification {
 		'R1424\r' | 1424
 		'R0023\r' | 23
 	}
+	
+	def "no data available does not modify default distance"() {
+		given:
+		InputStream inputStream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8))
+		ReflectionTestUtils.setField(simpleRead, "inputStream", inputStream)
+		
+		when:
+		simpleRead.serialEvent(mockEvent);
+		
+		then:
+		1* mockEvent.getEventType() >> event
+		int distance = simpleRead.getDistance();
+		Assert.assertEquals(output, distance);
+
+		where:
+		input  | output  | event
+		'\rR1424'| 0 | SerialPortEvent.OUTPUT_BUFFER_EMPTY
+		'R1424\r'| 0 | SerialPortEvent.DSR
+		'R0023\r'| 0 | SerialPortEvent.PE
+	}
 }
