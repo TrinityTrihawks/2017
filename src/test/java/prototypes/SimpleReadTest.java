@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import gnu.io.SerialPortEvent;
+import prototypes.SimpleRead;
 
 public class SimpleReadTest {
 
