@@ -1,6 +1,7 @@
 plugins {
     id "groovy"
     id "jaci.openrio.gradle.GradleRIO" version "2017.1.1"
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
 }
 
 frc {
@@ -39,7 +40,6 @@ def robotManifest = {
 }
 
 jar {
-//    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     manifest robotManifest
 }
 
