@@ -1,23 +1,37 @@
 package prototypes
 
 
+import java.awt.image.Kernel
 import java.nio.charset.StandardCharsets
+
+import com.xlson.groovycsv.CsvParser
 
 import org.junit.Assert
 import org.springframework.test.util.ReflectionTestUtils
 
 import gnu.io.SerialPortEvent
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class SimpleReadSpockTest extends Specification {
-
+	
 	SimpleRead simpleRead
 	SerialPortEvent mockEvent
+	
+	@Shared
+	Iterator testData
 	
 	def 'setup'() {
 		simpleRead = new SimpleRead()
 		mockEvent = Mock()
+	}
+	
+	def 'setupSpec'() {
+		CsvParser parser = new CsvParser()
+		testData = parser.parse(
+		new InputStreamReader(getClass().classLoader
+			.getResourceAsStream("readervals.csv")))
 	}
 
 	@Unroll("#input should return #output")
@@ -32,13 +46,10 @@ class SimpleReadSpockTest extends Specification {
 		then:
 		1* mockEvent.getEventType() >> SerialPortEvent.DATA_AVAILABLE
 		int distance = simpleRead.getDistance();
-		Assert.assertEquals(output, distance);
+		Assert.assertEquals(castAsInt(output), distance);
 
 		where:
-		input     | output
-		'\rR1424' | 1424
-		'R1424\r' | 1424
-		'R0023\r' | 23
+		[input, output] << testData
 	}
 	
 	def "no data available does not modify default distance"() {
