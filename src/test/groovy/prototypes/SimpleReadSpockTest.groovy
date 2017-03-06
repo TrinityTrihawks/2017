@@ -46,7 +46,7 @@ class SimpleReadSpockTest extends Specification {
 		then:
 		1* mockEvent.getEventType() >> SerialPortEvent.DATA_AVAILABLE
 		int distance = simpleRead.getDistance();
-		Assert.assertEquals(castAsInt(output), distance);
+		Assert.assertEquals(output.toInteger(), distance);
 
 		where:
 		[input, output] << testData
