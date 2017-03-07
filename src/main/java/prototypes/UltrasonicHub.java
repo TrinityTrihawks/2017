@@ -99,6 +99,8 @@ public class UltrasonicHub {
                 return readerlist.get(i).getDistance();
             }
         }
+        
+        return -1;
                 
     }
     
