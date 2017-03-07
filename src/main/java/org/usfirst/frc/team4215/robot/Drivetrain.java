@@ -2,13 +2,26 @@ package org.usfirst.frc.team4215.robot;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
+
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 	
-	public class Drivetrain {
+	public class Drivetrain implements PIDOutput {
 		public enum MotorGranular{
 			FAST,
 			NORMAL,
 			SLOW
 		}
+		
+		public enum AutoMode {
+			Turn,
+			Strafe,
+			Distance
+		}
+		
+		AutoMode mode;
+		
 		double coeffNormal = .666;
 		double coeffFast = 1;
 		double coeffSlow = .3;
@@ -75,6 +88,7 @@ import com.ctre.CANTalon.FeedbackDevice;
 			brWheel.setProfile(0);
 			blWheel.setProfile(0);
 			
+			mode = AutoMode.Distance;
 		}
 		
 		public void setPID(double Kp, double Ki, double Kd){
@@ -178,14 +192,16 @@ import com.ctre.CANTalon.FeedbackDevice;
 				case FAST:
 					left *= coeffFast;
 					right *= coeffFast;
+					strafe *= coeffFast;
 					break;
 				case NORMAL:
 					left *= coeffNormal;
 					right *= coeffNormal;
+					strafe *= coeffNormal;
 					break;
 				case SLOW:
 					left *= coeffSlow;
-					right *= coeffSlow;
+					right *= coeffNormal;
 					break;
 			}
 			
@@ -198,7 +214,32 @@ import com.ctre.CANTalon.FeedbackDevice;
 			Go(strafe,-strafe,-strafe,strafe);
 			}
 	
-	}
+		}
+		
+		public void setAutoMode(AutoMode m){
+			mode = m;
+		}
+		
+		public AutoMode getAutoMode(AutoMode m){
+			return mode;
+		}
+		
+		@Override
+		public void pidWrite(double output) {
+			
+			switch(mode){
+			
+				case Distance:
+					drive(output,output, 0, false, MotorGranular.NORMAL);
+					break;
+				case Strafe:
+					drive(0,0, -output, true, MotorGranular.NORMAL);
+					break;
+				case Turn:
+					drive(output,-output, 0, false, MotorGranular.NORMAL);
+					break;
+			}
+		}
 }
 	
 	
