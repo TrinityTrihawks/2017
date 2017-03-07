@@ -129,16 +129,17 @@ public class UltrasonicHub {
         //creates and sets portReadings as an array of distances taken from the two front devices
         ArrayList<Integer> portReadings = getDistancefromallPorts();
         //sets dist1 and dist2 to the first two distances taken
-        int dist1 = portReadings.get(0);
-        int dist2 = portReadings.get(1);
+        double dist1 = portReadings.get(0);
+        double dist2 = portReadings.get(1);
         //gets difference
-        int difference = dist1 - dist2;
+        double difference = dist1 - dist2;
+        double facelength = 457.2;
         //returns 0 if the distances are equal or parrallel or their is a difference of less than 10 mm
         if (Math.abs(difference) < 10){
             return 0;
-        } else {
-            //sets the correction angle to the arcsine of the quotient of the dist2 and 1 minus 1 (this equation is obtained through applied trigonometry
-            double theta = Math.asin(dist2/dist1-1);
+        } else{
+            //sets the correction angle to tan^-1((dist1 - dist2)/facelength)
+            double theta = Math.atan(difference/facelength);
             //uses 180/pi as a conversion factor to degrees because arcsine outputs radians 
             return theta*(180/Math.PI);
         }
