@@ -163,6 +163,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 			}
 			
 			//Tells us if the datastream is unaligned
+			/*
 			if (alignment != 0)
 			{
 				for (int i = 0; i < index; i++) 
@@ -172,7 +173,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 				//System.out.println("");
 				//System.out.printf("alignment: %d", alignment);
 			}
-	
+			*/
 			if (alignment < 2)
 			{
 				dist = (1000 * (bytes[1 + alignment] - 48)) + 
