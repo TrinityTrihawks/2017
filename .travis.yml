@@ -10,5 +10,8 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq g++-4.9
 
+install:
+  - "./gradlew assemble shadowJar"
+
 jdk:
   - oraclejdk8
