@@ -13,25 +13,31 @@ class UltrasonicHubTest extends Specification{
 	
 	def 'setup'(){
 		hub = new UltrasonicHub()
+		mockList = new ArrayList<>()
+		
 		mockSimpleRead1 = Mock()
 		mockSimpleRead2 = Mock()
-		mockList = new ArrayList<>()
-		mockList << mockSimpleRead1
-		mockList << mockSimpleRead2
+		
+		
+		mockList.add(mockSimpleRead1)
+		mockList.add(mockSimpleRead2)
 	}
 	
 	@Unroll("#angle should return #expectedAngle")
 	def 'Returns proper angles'(){
 		given:
 			ReflectionTestUtils.setField(hub,"readerlist",mockList)
+			
 		when:
 			double angle = hub.getCorrectionAngle()
+			
 		then:
-			(1.._)* mockSimpleRead1.getDistance() >> dist1
-			(1.._)* mockSimpleRead2.getDistance() >> dist2
+			1* mockSimpleRead1.getDistance() >> dist1
+			1* mockSimpleRead2.getDistance() >> dist2
 			Assert.assertEquals(angle,expectedAngle.toDouble(),0)
+			
 		where:
 		expectedAngle  | dist1  | dist2
-		0      | 300    | 309
+		0              | 300    | 309
 	}
 }

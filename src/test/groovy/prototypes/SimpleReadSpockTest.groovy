@@ -28,7 +28,8 @@ class SimpleReadSpockTest extends Specification {
 	}
 	
 	def 'setupSpec'() {
-		CsvParser parser = new CsvParser()
+		// Sets up the data for testing
+		CsvParser parser = new CsvParser() // We use the parser from groovycsv
 		testData = parser.parse(
 		new InputStreamReader(getClass().classLoader
 			.getResourceAsStream("readervals.csv")))
