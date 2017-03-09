@@ -1,85 +1,48 @@
-package main.java.prototypes;
+package prototypes;
 
 import java.io.*;
 import java.util.*;
+
+//from RXTX
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
 
 /**
- * This class defines the Ultrasonic devices and reads their buffers converting the Ascii returns into a distance in mm.
+ * This class defines an Ultrasonic device and reads its buffer converting the Ascii returns into a distance in mm.
  * @author Jack Rausch
  * @author Mr. Erickson
- * @author Some guy on the Internet
  *
  */
 public class SimpleRead implements Runnable, SerialPortEventListener {
+
+    //length of the data you hope to get
     private int BytesSize = 6;
     private InputStream inputStream;
     private SerialPort serialPort;
     private Thread readThread;
+
+    //Sometimes the bytes come in an unexpected order so this alignment allows us to still read that output
     private int alignment= 0;
-    
     private int distance = 0;
 
-    //UltrasonicHub handles these functions now
-    /*
-    public static void main(String[] args) {
-
-    	String portIdentifierName = "/dev/ttyUSB0";
-
-	SimpleRead reader;
-
-	try {
-		reader = SimpleRead.Create(portIdentifierName);
-		reader.Listen();
-		int dist;
-		while (true)
-		{
-			dist = reader.getDistance();
-			System.out.println("dist: " + dist);
-			//sleep(250);
-		}
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+    SimpleRead() {
+    	
     }
-
-    public static SimpleRead Create(String portName) {
-	SimpleRead reader = null;
-
-	try {
-		Enumeration portList = CommPortIdentifier.getPortIdentifiers();
-		while (portList.hasMoreElements()) {
-            		CommPortIdentifier portId = (CommPortIdentifier) portList.nextElement();
-			if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-				System.out.println("Port: " + portId.getName());
-                		if (portId.getName().equals(portName)) {
-                    			SerialPort serialPort = (SerialPort) portId.open("SimpleReadApp", 2000);
-                    			reader = new SimpleRead(serialPort);
-				}
-                	}
-            	}
-        } catch (PortInUseException e) {
-            System.out.println(e);
-            return null;
-        } catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
-
-        return reader;	
-     }
-    */
 
     //Simple Constructor
     public SimpleRead(SerialPort serialPort) {
         try {
+            //defines port
             this.serialPort = serialPort;
+            //defines inputStream from buffer
             this.inputStream = this.serialPort.getInputStream();
+            //listens for data
             this.serialPort.addEventListener(this);
-	    this.serialPort.notifyOnDataAvailable(true);
+            //sets the port to constantly read data
+            this.serialPort.notifyOnDataAvailable(true);
+            //sets the parameters for class
             this.serialPort.setSerialPortParams(57600,
                 SerialPort.DATABITS_8,
                 SerialPort.STOPBITS_1,
@@ -87,7 +50,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
             this.readThread = new Thread(this);
         } catch (IOException e) {
             System.out.println(e);
-	} catch (TooManyListenersException e) {
+        } catch (TooManyListenersException e) {
             System.out.println(e);
         } catch (UnsupportedCommOperationException e) {
             System.out.println(e);
@@ -96,18 +59,18 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
         }
     }
 
-	public void Listen()
-	{
-		this.serialPort.notifyOnDataAvailable(true);
-		System.out.println("Listening?");
-	}
+    public void Listen()
+    {
+        this.serialPort.notifyOnDataAvailable(true);
+        System.out.println("Listening?");
+    }
 
-	public void Stop()
-	{
-		this.serialPort.notifyOnDataAvailable(false);
-		//this.readThread.interrupt();
-		System.out.println("Stop Listening?");
-	}
+    public void Stop()
+    {
+        this.serialPort.notifyOnDataAvailable(false);
+        //this.readThread.interrupt();
+        System.out.println("Stop Listening?");
+    }
 
     public void run() {
         try {
@@ -136,10 +99,15 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
             break;
         //Reads data available in buffer
         case SerialPortEvent.DATA_AVAILABLE:
-	    int index = 0;
-	    int read = 0;
-	    int capacity = 6;
+        // sets index to zero
+        int index = 0;
+        //defines read which holds the output from the device
+        int read = 0;
+        //length of data
+        int capacity = 6;
+        //aforementioned alignment
         alignment = 0; 
+        //list of bytes which has bounds of six
         byte[] bytes = new byte[6];
 
         try {
@@ -160,6 +128,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 			}
 			
 			//Tells us if the datastream is unaligned
+			/*
 			if (alignment != 0)
 			{
 				for (int i = 0; i < index; i++) 
@@ -169,7 +138,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 				//System.out.println("");
 				//System.out.printf("alignment: %d", alignment);
 			}
-	
+			*/
 			if (alignment < 2)
 			{
 				dist = (1000 * (bytes[1 + alignment] - 48)) + 
@@ -182,20 +151,21 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 			this.distance = dist;
 
         } catch (IOException e) {
-	    	System.out.println(e);
+            System.out.println(e);
         } catch (Exception e) {
-	    	System.out.println(e);
-	    }
-            break;
+            System.out.println(e);
+        }
+        break;
         }
         
     }
     
+    //getters and setters allowing the distance to be retrieved and set in other classes
     public int getDistance(){
         return this.distance;
-        	}
-        	
+    }
+
     public void setDistance(int dist){
         this.distance = dist;
-        	}
+    }
 }

@@ -1,4 +1,4 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot;
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -9,33 +9,38 @@ import edu.wpi.first.wpilibj.CameraServer;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import main.java.org.usfirst.frc.team4215.robot.steamworks.VisionTest;
+import org.usfirst.frc.team4215.robot.steamworks.VisionTest;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
-import main.java.org.usfirst.frc.team4215.robot.Arm;
-import main.java.org.usfirst.frc.team4215.robot.CameraInit;
-import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
+
+import org.usfirst.frc.team4215.robot.Arm;
+import org.usfirst.frc.team4215.robot.CameraInit;
+import org.usfirst.frc.team4215.robot.Drivetrain;
+import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.PIDController;
+
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import main.java.org.usfirst.frc.team4215.robot.WinchTest;
+import org.usfirst.frc.team4215.robot.WinchTest;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import main.java.prototypes.UltrasonicHub;
+import prototypes.UltrasonicHub;
 import com.ctre.CANTalon;
 
 /**
@@ -51,9 +56,16 @@ public class Robot extends IterativeRobot {
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
 	WinchTest winch;
-	Thread visionThread;
+	CameraPID vision;
 	CameraInit cam;
 	UltrasonicHub hub;
+	PIDController con;
+	
+	
+	double Kp = .001;
+	double Ki = 0;
+	double Kd = 0;
+	
 	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = 3;
 	int DRIVE_RIGHT_JOYSTICK_ID = 1;
@@ -77,28 +89,13 @@ public class Robot extends IterativeRobot {
 		leftStick = new Joystick(0);
 		 drivetrain = Drivetrain.Create();
 		 winch = new WinchTest();
-		
-			cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-			cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-			visionThread = new VisionThread(cameraBack, new Pipeline(), pipeline -> {
-	
-				 if (!pipeline.filterContoursOutput().isEmpty()) {
-			            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-			            synchronized (imgLock) {
-			                centerX = r.x + (r.width / 2); 
-			                //System.out.println(centerX); 	//if the code is actually working,
-			                //System.out.println("Current Center X variable");          //a number should be displayed
-			            }
-			        }
-			      else {
-			    	  System.out.println("No Contours");
-			      }
-			    });
-			visionThread.setDaemon(true);
-			visionThread.start();
-			
-			System.out.println("Hello World");
-			
+		 hub = new UltrasonicHub();
+		 hub.addReader("/dev/ttyUSB0");
+		 hub.addReader("/dev/ttyUSB1");
+		 vision = new CameraPID();
+		 drivetrain.setAutoMode(AutoMode.Strafe);
+		 
+		 con = new PIDController(Kp,Ki,Kd,vision,drivetrain);
 			//double turnTest = centerX - (IMG_WIDTH/2);
 			//System.out.println("Turn Test");
 			//System.out.println(turnTest);
@@ -111,6 +108,7 @@ public class Robot extends IterativeRobot {
 	
 	public void teleopInit(){		
 		//drivetrain.disableControl();
+		con.disable();
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 	}
 	
@@ -157,31 +155,16 @@ public class Robot extends IterativeRobot {
 		
 		winch.set(l);
 	}
-/**	public void autonomousPeriodic(){
-		double centerX;
-		synchronized (imgLock) {
-			centerX = this.centerX;
-		}
-		double turn = centerX - (IMG_WIDTH / 2);
-		
-		
-		double left = 0;
-		double right = 0;
-		double strafe = turn;
-		boolean IsStrafing = true;
-		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.SLOW;
-		
-		//drivetrain.drive(left, right, strafe, IsStrafing, mode);
+	
+	@Override
+	public void autonomousInit(){
+		con.enable();
 	}
-	**/
-	/**public void autonomousInit() {
-		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.resetEncoder();
-		drivetrain.setPID(.05, 0, 0);
-		drivetrain.enableControl();
-		drivetrain.Go(24, 24, 24, 24);
-		drivetrain.setPID(.1, 0, 0);
+	
+	public void autonomousPeriodic(){
 	}
-	double[] dist = new double[4];
-	**/
+	
+	public void disabledInit(){
+		con.disable();
+	}
 }

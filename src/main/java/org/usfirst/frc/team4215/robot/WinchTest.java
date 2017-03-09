@@ -1,4 +1,4 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot;
 
 //import edu.wpi.first.wpilibj.GenericHID;
 //import edu.wpi.first.wpilibj.Joystick;

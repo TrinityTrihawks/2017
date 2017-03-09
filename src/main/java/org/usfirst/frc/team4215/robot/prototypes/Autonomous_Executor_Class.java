@@ -1,4 +1,5 @@
-package src.main.java.org.usfirst.frc.team4215.robot.prototypes;
+package org.usfirst.frc.team4215.robot.prototypes;
+
 
 /**
  * Contains static methods used to execute tasks
