@@ -1,4 +1,4 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot;
 
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;

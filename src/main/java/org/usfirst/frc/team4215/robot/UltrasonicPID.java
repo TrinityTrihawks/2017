@@ -1,9 +1,9 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import src.main.java.prototypes.UltrasonicHub;
+import prototypes.UltrasonicHub;
 
 public class UltrasonicPID implements PIDSource {
 
@@ -22,15 +22,11 @@ public class UltrasonicPID implements PIDSource {
 	double P;
 	double I;
 	double D;
-	PIDController hubControl = new PIDController(P, I, D, desiredAngle, null);
-	
-	PIDSource desiredAngle = new PIDSource(){
-		public double pidGet() {
-			double correctionAngle = hub.getCorrectionAngle();
-			return correctionAngle;
-		}
 
-		
-		};
+	@Override
+	public double pidGet() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

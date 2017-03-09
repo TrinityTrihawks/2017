@@ -19,6 +19,8 @@ import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.CameraInit;
 import org.usfirst.frc.team4215.robot.Drivetrain;
+import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -54,7 +56,7 @@ public class Robot extends IterativeRobot {
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
 	WinchTest winch;
-	// CameraPID vision;
+	CameraPID vision;
 	CameraInit cam;
 	UltrasonicHub hub;
 	PIDController con;
@@ -90,10 +92,10 @@ public class Robot extends IterativeRobot {
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
-		 //vision = new CameraPID();
+		 vision = new CameraPID();
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 
-		 //con = new PIDController(Kp,Ki,Kd,vision,drivetrain);
+		 con = new PIDController(Kp,Ki,Kd,vision,drivetrain);
 			//double turnTest = centerX - (IMG_WIDTH/2);
 			//System.out.println("Turn Test");
 			//System.out.println(turnTest);

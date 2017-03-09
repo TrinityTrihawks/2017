@@ -1,6 +1,0 @@
-package prototypes
-
-class UltrasonicHubTest {
-
-
-}
