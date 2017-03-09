@@ -34,10 +34,11 @@ class UltrasonicHubTest extends Specification{
 		then:
 			1* mockSimpleRead1.getDistance() >> dist1
 			1* mockSimpleRead2.getDistance() >> dist2
-			Assert.assertEquals(angle,expectedAngle.toDouble(),0)
+			Assert.assertEquals(angle,expectedAngle.toDouble(),0.0001)
 			
 		where:
 		expectedAngle  | dist1  | dist2
 		0              | 300    | 309
+		
 	}
 }
