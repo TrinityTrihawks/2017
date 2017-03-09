@@ -52,5 +52,8 @@ public class PIDTask implements Runnable {
 		control.disable();
 		
 	}
-
+	
+	public double getError(){
+		return control.getAvgError();
+	}
 }
