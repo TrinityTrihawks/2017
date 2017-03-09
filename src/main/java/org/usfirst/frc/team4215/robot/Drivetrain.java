@@ -173,7 +173,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 				rBack = rBack*secondsToMinutes/wheelCirc;
 			}
 			
-			System.out.println("LF: " + lFront + "||LB:" + lBack + "||FR:" + rFront + "||RB:" + rBack);
 			flWheel.set(-lFront);
 			blWheel.set(-lBack);
 			frWheel.set(rFront);
@@ -230,13 +229,13 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			switch(mode){
 			
 				case Distance:
-					drive(output,output, 0, false, MotorGranular.NORMAL);
+					drive(output,output, 0, false, MotorGranular.FAST);
 					break;
 				case Strafe:
-					drive(0,0, -output, true, MotorGranular.NORMAL);
+					drive(0,0, -output, true, MotorGranular.FAST);
 					break;
 				case Turn:
-					drive(output,-output, 0, false, MotorGranular.NORMAL);
+					drive(output,-output, 0, false, MotorGranular.FAST);
 					break;
 			}
 		}

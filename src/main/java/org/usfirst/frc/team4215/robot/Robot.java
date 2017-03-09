@@ -15,12 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.modifiers.TankModifier;
-
-import org.usfirst.frc.team4215.robot.Arm;
-import org.usfirst.frc.team4215.robot.CameraInit;
-import org.usfirst.frc.team4215.robot.Drivetrain;
-import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
-
+import main.java.org.usfirst.frc.team4215.robot.Arm;
+import main.java.org.usfirst.frc.team4215.robot.Drivetrain;
+import main.java.org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -57,13 +54,12 @@ public class Robot extends IterativeRobot {
 	Drivetrain drivetrain;
 	WinchTest winch;
 	CameraPID vision;
-	CameraInit cam;
 	UltrasonicHub hub;
 	PIDController con;
+	VisionThread visionThread;
 	
-	
-	double Kp = .001;
-	double Ki = 0;
+	double Kp = 1.5;
+	double Ki = .1;
 	double Kd = 0;
 	
 	// ID's
@@ -92,18 +88,22 @@ public class Robot extends IterativeRobot {
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
+		 // Creates the interface to the back camera
+		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
+		 // Configures Camera
+		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		 // Creates the Pipeline image processor
 		 vision = new CameraPID();
+		 // Creates visonthread the manager for all of this
+		 visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
+		 // Configures visionthread
+		 visionThread.setDaemon(true);
+		 visionThread.start();
+		
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 
 		 con = new PIDController(Kp,Ki,Kd,vision,drivetrain);
-			//double turnTest = centerX - (IMG_WIDTH/2);
-			//System.out.println("Turn Test");
-			//System.out.println(turnTest);
-			//hub =  new UltrasonicHub();
-			//ArrayList<String> devices;
-			
-			//hub.addReader("/dev/ttyUSB1");
-
+		 con.setSetpoint(0);
 	}
 	
 	public void teleopInit(){		
@@ -162,6 +162,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void autonomousPeriodic(){
+		System.out.println(con.getAvgError());
 	}
 	
 	public void disabledInit(){
