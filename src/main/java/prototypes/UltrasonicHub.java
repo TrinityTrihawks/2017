@@ -33,6 +33,7 @@ public class UltrasonicHub {
         this.readerlist = new ArrayList<SimpleRead>();
         this.serialMap = new HashMap<String,SimpleRead>();
     }
+    
 
     /**
      * This method adds a reader to the readerlist, and creates the object. This method will also check if portName is valid.
