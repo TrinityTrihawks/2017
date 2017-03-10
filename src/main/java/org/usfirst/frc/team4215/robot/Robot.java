@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import org.usfirst.frc.team4215.robot.WinchTest;
+import org.usfirst.frc.team4215.robot.prototypes.PIDTask;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -55,7 +56,7 @@ public class Robot extends IterativeRobot {
 	WinchTest winch;
 	CameraPID vision;
 	UltrasonicHub hub;
-	PIDController con;
+	PIDTask camAuto;
 	VisionThread visionThread;
 	
 	double Kp = 1.5;
@@ -102,26 +103,16 @@ public class Robot extends IterativeRobot {
 		
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 
-		 con = new PIDController(Kp,Ki,Kd,vision,drivetrain);
-		 con.setSetpoint(0);
+		 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0);
 	}
 	
 	public void teleopInit(){		
 		//drivetrain.disableControl();
-		con.disable();
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 	}
 	
 
 	public void teleopPeriodic(){
-		/*
-		ArrayList<Integer> distances = hub.getDistancefromallPorts();
-		for (int i=0; i<distances.size(); i++)
-		{
-			System.out.print("d: " + distances.get(i) + "\t");			
-		}
-		System.out.println("\n");
-		*/
 		
 		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
 		double right = -drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
@@ -158,14 +149,13 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		con.enable();
+		camAuto.run();
 	}
 	
 	public void autonomousPeriodic(){
-		System.out.println(con.getAvgError());
+		System.out.println(camAuto.getError());
 	}
 	
 	public void disabledInit(){
-		con.disable();
 	}
 }
