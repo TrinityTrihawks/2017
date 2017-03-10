@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 //from RXTX library
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
@@ -17,7 +19,7 @@ import gnu.io.SerialPort;
  * @author Jack Rausch
  *
  */
-public class UltrasonicHub {
+public class UltrasonicHub implements PIDSource {
     //an array of Strings to encapsulate port names
     private ArrayList<String> portlist;
     //an array of SimpleRead objects to encapsulate the readers
@@ -146,6 +148,24 @@ public class UltrasonicHub {
             return theta*(180/Math.PI);
         }
     }
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double pidGet() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }
 
