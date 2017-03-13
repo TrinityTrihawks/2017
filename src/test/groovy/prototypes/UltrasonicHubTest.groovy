@@ -15,24 +15,23 @@ class UltrasonicHubTest extends Specification{
 	ArrayList<SimpleRead> mockList
 	SimpleRead mockSimpleRead1
 	SimpleRead mockSimpleRead2
-	UltrasonicHub mockHub
+	UltrasonicHub hub
 	
 	@Shared
 	Iterator testData
 	
 	def 'setup'(){
-		mockHub = new UltrasonicHub()
+		hub = new UltrasonicHub()
 		mockList = new ArrayList<>()
 		
 		mockSimpleRead1 = Mock()
 		mockSimpleRead2 = Mock()
-		mockHub = Mock()
 		
 		
 		mockList.add(mockSimpleRead1)
 		mockList.add(mockSimpleRead2)
-		mockList.add(mockHub)
-	}
+		
+	}	
 	
 	def 'setupSpec'() {
 		// Sets up the data for testing
@@ -46,14 +45,15 @@ class UltrasonicHubTest extends Specification{
 	@Unroll("#angle should return #expectedAngle")
 	def 'Returns proper angles'(){
 		given:
-			ReflectionTestUtils.setField(mockHub,"readerlist",mockList)
+			ReflectionTestUtils.setField(hub,"readerlist", mockList)
 			
 		when:
-			double angle = mockHub.getCorrectionAngle()
-			
+			double angle = hub.getCorrectionAngle()
+					
 		then:
-			ArrayList portReadings = mockHub.getDistancefromallPorts()
-			Assert.assertEquals(angle,expectedAngle.toDouble(),0.0001)
+			1* mockSimpleRead1.getDistance() >> input1.toInteger()
+			1* mockSimpleRead2.getDistance() >> input2.toInteger()
+			Assert.assertEquals(expectedAngle.toDouble(), angle, 0.0001)
 			
 		where:
 		[input1, input2, expectedAngle] << testData
