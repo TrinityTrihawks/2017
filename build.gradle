@@ -1,7 +1,7 @@
 plugins {
     id "groovy"
-    id "jaci.openrio.gradle.GradleRIO" version "2017.1.1"
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id "jaci.openrio.gradle.GradleRIO" version "2017.1.5"
+    id 'com.github.johnrengelman.shadow' version "1.2.4"
 }
 
 frc {
@@ -9,6 +9,9 @@ frc {
     robotClass = "org.usfirst.frc.team4215.robot.Robot"
 }
 
+wpi {
+  cscoreVersion="1.0.2"
+}
 repositories {
     mavenCentral()
 }
@@ -18,12 +21,12 @@ dependencies {
     compile talonSrx()
 
     compile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
-    
+
 	testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 	testCompile 'com.blogspot.toomuchcoding:spock-subjects-collaborators-extension:1.2.1'
 	testCompile 'org.codehaus.groovy:groovy-all:2.4.6'
-	
-	
+
+
 	testCompile group: 'com.xlson.groovycsv', name: 'groovycsv', version: '1.1'
 	testCompile group: 'net.sf.opencsv', name: 'opencsv', version: '2.3'
 	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.13'
@@ -40,8 +43,11 @@ def robotManifest = {
   attributes 'Robot-Class': frc.robotClass
 }
 
-jar {
-    manifest robotManifest
+shadowJar {
+    manifest{
+      attributes 'Main-Class': 'edu.wpi.first.wpilibj.RobotBase'
+      attributes 'Robot-Class': frc.robotClass
+    }
 }
 
 task wrapper(type: Wrapper) {
