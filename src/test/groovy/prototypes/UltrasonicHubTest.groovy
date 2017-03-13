@@ -3,14 +3,22 @@ package prototypes
 import spock.lang.Specification
 import org.springframework.test.util.ReflectionTestUtils
 import spock.lang.Unroll
+
+import java.util.ArrayList
+import java.util.Iterator
+
 import org.junit.Assert
 import com.xlson.groovycsv.CsvParser
+import spock.lang.Shared
 
 class UltrasonicHubTest extends Specification{
 	ArrayList<SimpleRead> mockList
 	SimpleRead mockSimpleRead1
 	SimpleRead mockSimpleRead2
 	UltrasonicHub hub
+	
+	@Shared
+	Iterator testData
 	
 	def 'setup'(){
 		hub = new UltrasonicHub()
@@ -22,7 +30,8 @@ class UltrasonicHubTest extends Specification{
 		
 		mockList.add(mockSimpleRead1)
 		mockList.add(mockSimpleRead2)
-	}
+		
+	}	
 	
 	def 'setupSpec'() {
 		// Sets up the data for testing
@@ -36,17 +45,17 @@ class UltrasonicHubTest extends Specification{
 	@Unroll("#angle should return #expectedAngle")
 	def 'Returns proper angles'(){
 		given:
-			ReflectionTestUtils.setField(hub,"readerlist",mockList)
+			ReflectionTestUtils.setField(hub,"readerlist", mockList)
 			
 		when:
 			double angle = hub.getCorrectionAngle()
-			
+					
 		then:
-			1* mockSimpleRead1.getDistance() >> dist1
-			1* mockSimpleRead2.getDistance() >> dist2
-			Assert.assertEquals(angle,expectedAngle.toDouble(),0.0001)
+			1* mockSimpleRead1.getDistance() >> input1.toInteger()
+			1* mockSimpleRead2.getDistance() >> input2.toInteger()
+			Assert.assertEquals(expectedAngle.toDouble(), angle, 0.0001)
 			
 		where:
-		[input1, input2, output] << testData
+		[input1, input2, expectedAngle] << testData
 	}
 }
