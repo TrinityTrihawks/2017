@@ -14,7 +14,7 @@ public class Arm {
 	DigitalInput limitSwitch;
 	
 	public Arm() {
-		arm = new Victor(2);
+		arm = new Victor(1);
 		
 		enc = new Encoder(1, 2, false);
 		//change the ports to whichever are the correct ones

@@ -75,8 +75,8 @@ public class Robot extends IterativeRobot {
 	int IMG_WIDTH = 640;
 	int IMG_HEIGHT = 480;
 	
-	AxisCamera cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-	//AxisCamera cameraFront = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
+	AxisCamera cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
+	AxisCamera cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.36");
 	
 	public void robotInit(){
 		arm =  new Arm();
@@ -88,6 +88,7 @@ public class Robot extends IterativeRobot {
 		 hub.addReader("/dev/ttyUSB1");
 		 // Creates the interface to the back camera
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
+		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.36");
 		 // Configures Camera
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 // Creates the Pipeline image processor
