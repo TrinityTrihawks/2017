@@ -29,6 +29,8 @@ public class UltrasonicHub implements PIDSource {
     //private static ArrayList<Integer> portReadings;
     //Constructs reader object which is where the distance is actually pulled from
     private SimpleRead reader;
+    
+    public static String debug(){return "hi";}
 
     public UltrasonicHub(){
         this.portlist = new ArrayList<String>();
