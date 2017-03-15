@@ -75,8 +75,8 @@ public class Robot extends IterativeRobot {
 	int IMG_WIDTH = 640;
 	int IMG_HEIGHT = 480;
 	
-	AxisCamera cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
-	AxisCamera cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.36");
+	AxisCamera cameraBack;
+	AxisCamera cameraFront;
 	
 	public void robotInit(){
 		arm =  new Arm();
@@ -86,22 +86,27 @@ public class Robot extends IterativeRobot {
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
-		 // Creates the interface to the back camera
-		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
-		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.36");
-		 // Configures Camera
-		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 // Creates the Pipeline image processor
 		 vision = new CameraPID();
-		 // Creates visonthread the manager for all of this
-		 visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
-		 // Configures visionthread
-		 visionThread.setDaemon(true);
-		 visionThread.start();
+		 
+		 // Creates the interface to the back camera
+		 
+		 try{
+			 /*
+			 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
+			 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		     visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
+		     visionThread.setDaemon(true);
+			 visionThread.start();
+			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0);
+			 */
+		 }
+		 catch(Exception e){
+			 System.out.println(e.getMessage());
+		 }
 		
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 
-		 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0);
+		 
 	}
 	
 	public void teleopInit(){		
@@ -147,15 +152,20 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		camAuto.run();
+		//camAuto.run();
 	}
 	
+	@Override
 	public void autonomousPeriodic(){
-		System.out.println(camAuto.getError());
 		System.out.println(hub.getCorrectionAngle());
+		//System.out.print("HEllo");
 		
 	}
 	
+	@Override
 	public void disabledInit(){
+	}
+	@Override
+	public void disabledPeriodic(){
 	}
 }

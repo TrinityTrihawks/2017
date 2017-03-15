@@ -18,6 +18,7 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 	
 	int IMG_WIDTH = 320;
 	int IMG_HEIGHT = 240;
+	double closedLoopPosBounds = 7*12;
 	private final Object imgLock = new Object();
 	Thread visionThread;
 	double turn;
@@ -39,7 +40,7 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 	 */
 	@Override
 	public synchronized double pidGet() {		
-		return turn;
+		return closedLoopPosBounds*turn;
 	}
 	
 	
@@ -57,8 +58,6 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 	                centerX = r.x + (r.width / 2);
 	                double offSet = centerX - (IMG_WIDTH / 2);
 	        		turn = offSet/IMG_WIDTH;
-	                System.out.println(offSet); 	//if the code is actually working,
-	              //  System.out.println("Current Center X variable");        //a number should be displayed
 	            }
 	        }
 	      else {
