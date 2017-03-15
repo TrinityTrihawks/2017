@@ -152,6 +152,8 @@ public class Robot extends IterativeRobot {
 	
 	public void autonomousPeriodic(){
 		System.out.println(camAuto.getError());
+		System.out.println(hub.getCorrectionAngle());
+		
 	}
 	
 	public void disabledInit(){
