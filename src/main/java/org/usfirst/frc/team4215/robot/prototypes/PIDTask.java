@@ -1,4 +1,4 @@
-package main.java.org.usfirst.frc.team4215.robot.prototypes;
+package org.usfirst.frc.team4215.robot.prototypes;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -52,5 +52,8 @@ public class PIDTask implements Runnable {
 		control.disable();
 		
 	}
-
+	
+	public double getError(){
+		return control.getAvgError();
+	}
 }

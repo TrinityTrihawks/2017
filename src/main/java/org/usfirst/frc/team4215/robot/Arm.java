@@ -1,31 +1,43 @@
-package main.java.org.usfirst.frc.team4215.robot;
 
+package org.usfirst.frc.team4215.robot;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 
 public class Arm {
-	
-	private Victor armV;
+	double coef = .5;
+	private Victor arm;
 	private Encoder enc;
 	private DoubleSolenoid ds;
+	DigitalInput limitSwitch;
 	
 	public Arm() {
-		armV = new Victor(2);
+		arm = new Victor(1);
 		
 		enc = new Encoder(1, 2, false);
 		//change the ports to whichever are the correct ones
 		//reversed may need to be 'true', depending on how encoder is set up
 		
-		ds = new DoubleSolenoid(6, 7);
+		ds = new DoubleSolenoid(6, 5);
 		//These are sample port numbers. Change them to the correct ones.
 		//might need to include moduleNumber in parameters
+		limitSwitch = new DigitalInput(0);
 	}
 	
 	
-	
-	public void setArm(double power) {
-		armV.set(power);
+	public void setArm(double power) {		
+		if(!limitSwitch.get()& power < 0){
+			power = 0;
+		}
+		
+		if (power > 1) power = 1;
+		else if (power < -1) power = -1;
+		power *= coef;
+		arm.set(power);
+		
 	}
 	
 	
@@ -44,7 +56,7 @@ public class Arm {
 	
 	
 	public double getArmPower() {
-		return armV.get();
+		return arm.get();
 	}
 	
 	

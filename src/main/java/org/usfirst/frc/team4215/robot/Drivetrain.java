@@ -1,4 +1,4 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot;
 
 //imports things needed for talons
 import com.ctre.CANTalon;
@@ -8,8 +8,29 @@ import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 //import jaci.pathfinder.Trajectory;
+
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 	
-	public class Drivetrain {
+	public class Drivetrain implements PIDOutput {
+		public enum MotorGranular{
+			FAST,
+			NORMAL,
+			SLOW
+		}
+		
+		public enum AutoMode {
+			Turn,
+			Strafe,
+			Distance
+		}
+		
+		AutoMode mode;
+		
+		double coeffNormal = .666;
+		double coeffFast = 1;
+		double coeffSlow = .3;
 		
 		double wheelRadius = 3; // inches
 		double wheelCirc = 2*Math.PI*wheelRadius; //wheel circumference
@@ -80,7 +101,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 			frWheel.setProfile(0);
 			brWheel.setProfile(0);
 			blWheel.setProfile(0);
-			
+			mode = AutoMode.Distance;
 			//list of all the wheel objects
 			talonList = new CANTalon[]{
 					flWheel,
@@ -89,6 +110,8 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 					brWheel
 			};
 		}
+			
+			
 		
 		/**
 		 * Sets the PIDs for the wheels
@@ -303,7 +326,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 				rFront = rFront/wheelCirc;
 				rBack = rBack/wheelCirc;
 			}
-			if(controlMode == CANTalon.TalonControlMode.Speed){
+			else if(controlMode == CANTalon.TalonControlMode.Speed){
 				lFront = lFront*secondsToMinutes/wheelCirc;
 				lBack = lBack*secondsToMinutes/wheelCirc;
 				rFront = rFront*secondsToMinutes/wheelCirc;
@@ -382,14 +405,60 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 		 * @param double strafe
 		 * @param boolean IsStrafing
 		 */
-		public void drive(double left, double right, double strafe, boolean IsStrafing){
+		public void drive(double left, double right, double strafe, boolean IsStrafing
+							, MotorGranular m){
+			switch(m){
+				case FAST:
+					left *= coeffFast;
+					right *= coeffFast;
+					strafe *= coeffFast;
+					break;
+				case NORMAL:
+					left *= coeffNormal;
+					right *= coeffNormal;
+					strafe *= coeffNormal;
+					break;
+				case SLOW:
+					left *= coeffSlow;
+					right *= coeffNormal;
+					break;
+			}
+			
+			
 			if (!IsStrafing){
 				Go(left,left,right,right);
 			}
+			
 
 			if (IsStrafing){
 			Go(strafe,-strafe,-strafe,strafe);
 			}
-	
-	}
+		}
+		
+		public void setAutoMode(AutoMode m){
+			mode = m;
+		}
+		
+		public AutoMode getAutoMode(AutoMode m){
+			return mode;
+		}
+		
+		@Override
+		public void pidWrite(double output) {
+			
+			switch(mode){
+			
+				case Distance:
+					drive(output,output, 0, false, MotorGranular.FAST);
+					break;
+				case Strafe:
+					drive(0,0, -output, true, MotorGranular.FAST);
+					break;
+				case Turn:
+					drive(output,-output, 0, false, MotorGranular.FAST);
+					break;
+			}
+		}
 }
+	
+	

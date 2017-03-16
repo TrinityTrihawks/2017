@@ -1,7 +1,7 @@
-package main.java.org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot;
+
 
 import com.ctre.CANTalon;
-
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Config;
@@ -29,6 +29,15 @@ public class Pathmaker {
 	
 	
 	/**
+	 * This method must be used at the beginning of Autonomous for the Pathmaker code to work.
+	 * @author Jack Rausch
+	 */
+	public void pathmInit(){
+		Trajectory.Config configuration = null;
+		Trajectory trajectory = null;
+		TankModifier modifier = null;
+	}
+	/**
 	 * This method creates the configuration based on certain parameters. 
 	 * If you wish to get the configuration use the getConfig method instead.
 	 * @author Jack Rausch
@@ -54,22 +63,29 @@ public class Pathmaker {
 			new Waypoint(-5,0,0)
 		};
 	
-	Waypoint[] auto2 = new Waypoint[]{
-			
-	};
+	public Pathmaker() {
 
-	Waypoint[] auto3 = new Waypoint[]{
-		
+	}
+
+	//x and y correspond to meters
+	Waypoint[] auto1 = new Waypoint[]{
+			//new Waypoint(x, y, Pathfinder.d2r(theta))
 	};
 	
-	public Pathmaker() {
-	}
+	Waypoint[] auto2 = new Waypoint[]{
+			//new Waypoint(x, y, Pathfinder.d2r(theta))
+	};
+	
+	Waypoint[] auto3 = new Waypoint[]{
+			//new Waypoint(x, y, Pathfinder.d2r(theta))
+	};
 
 	/**
 	 * This method gets the trajectory if it has already been generated or generates it if necessary.
 	 * @author Jack Rausch
 	 * @param auto
 	 * @param config
+
 	 * @return Trajectory
 	 */
 	public Trajectory getTrajectory(Waypoint[] auto, Trajectory.Config config){
@@ -81,6 +97,27 @@ public class Pathmaker {
 		}
 	}
 	
+	/**
+	 * This method gets the configuration if it has already been generated or generates it if necessary. Use this method to get the configuration.
+	 * @author Jack Rausch
+	 * @param dt
+	 * @param MAX_VELOCITY
+	 * @param MAX_ACCELERATION
+	 * @param MAX_JERK
+	 * @return configuration
+	 */
+	public Trajectory.Config getConfig(double dt, double MAX_VELOCITY, double MAX_ACCELERATION, double MAX_JERK){
+		if (configuration == null){
+			//Admittedly a very inefficient way to do this, but I'll fix it later(never).
+			configuration = config(MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+			return configuration;
+		} else {
+			return configuration;
+		}
+				
+	}
+
+
 	/**
 	 * This method creates a modified trajectory based on wheel base width, or merely gets it if you have already created said trajectory.
 	 * This method gets both the right and left trajectory
@@ -139,6 +176,4 @@ public class Pathmaker {
 		}
 		return pointList;
 	}
-
-
 }

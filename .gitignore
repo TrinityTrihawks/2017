@@ -1,5 +1,7 @@
-
-.gradle/*
+*.MD5
+.~*
+.setting/*
+*/.gradle/*
 desktop.ini
 .project
 *.class
@@ -20,3 +22,5 @@ bin/
 .classpath
 .metadata/*
 .settings/*
+/.gradle/
+/build/
