@@ -18,7 +18,8 @@ dependencies {
     compile talonSrx()
 
     compile group: 'org.rxtx', name: 'rxtx', version: '2.1.7'
-    
+	compile 'org.json:json:20160810'
+	
 	testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 	testCompile 'com.blogspot.toomuchcoding:spock-subjects-collaborators-extension:1.2.1'
 	testCompile 'org.codehaus.groovy:groovy-all:2.4.6'
