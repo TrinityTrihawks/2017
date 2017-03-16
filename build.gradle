@@ -1,7 +1,7 @@
 plugins {
     id "groovy"
-    id "jaci.openrio.gradle.GradleRIO" version "2017.1.1"
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id "jaci.openrio.gradle.GradleRIO" version "2017.1.5"
+    id 'com.github.johnrengelman.shadow' version "1.2.4"
 }
 
 frc {
@@ -9,6 +9,9 @@ frc {
     robotClass = "org.usfirst.frc.team4215.robot.Robot"
 }
 
+wpi {
+  cscoreVersion="1.0.2"
+}
 repositories {
     mavenCentral()
 }
@@ -41,8 +44,12 @@ def robotManifest = {
   attributes 'Robot-Class': frc.robotClass
 }
 
-jar {
-    manifest robotManifest
+shadowJar {
+    manifest{
+      attributes 'Main-Class': 'edu.wpi.first.wpilibj.RobotBase'
+      attributes 'Robot-Class': frc.robotClass
+    }
+    archiveName = "2017.jar"
 }
 
 task wrapper(type: Wrapper) {

@@ -77,9 +77,6 @@ public class Robot extends IterativeRobot {
 	
 	AxisCamera cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 	//AxisCamera cameraFront = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
-	private double centerX = 0.0;			//Creates the variable centerX. 
-	
-	private final Object imgLock = new Object();
 	
 	public void robotInit(){
 		arm =  new Arm();
@@ -120,11 +117,13 @@ public class Robot extends IterativeRobot {
 		boolean isStrafing = drivestick.getRawButton(STRAFE_ID);
 		
 		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.NORMAL;
-		if(drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) && !drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
+		if(drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) 
+				&& !drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
 			 mode = Drivetrain.MotorGranular.FAST;
 		}
 		
-		else if(!drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) && drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
+		else if(!drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) 
+					&& drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
 			mode = Drivetrain.MotorGranular.SLOW;
 		}
 		
@@ -141,10 +140,8 @@ public class Robot extends IterativeRobot {
 			arm.armOff();
 		}
 		
-		arm.setArm(leftStick.getRawAxis(1));
-		double l = leftStick.getRawAxis(4);
-		
-		winch.set(l);
+		arm.setArm(leftStick.getRawAxis(1));		
+		winch.set(leftStick.getRawAxis(4));
 	}
 	
 	@Override
@@ -154,6 +151,8 @@ public class Robot extends IterativeRobot {
 	
 	public void autonomousPeriodic(){
 		System.out.println(camAuto.getError());
+		System.out.println(hub.getCorrectionAngle());
+		
 	}
 	
 	public void disabledInit(){
