@@ -2,6 +2,9 @@ package org.usfirst.frc.team4215.robot.prototypes;
 
 import java.lang.reflect.Method;
 
+import prototypes.SimpleRead;
+import prototypes.UltrasonicHub;
+
 /**
  * This class uses reflection to find the debug methods within each class.
  * The debug methods contain all the values the creater deemed useful for debugging.
@@ -17,6 +20,11 @@ public class Debugger {
 	private Class noparams[] = {};
 	private Method mtf;
 	
+	public static void main(String[] args) throws InstantiationException, IllegalAccessException{
+		Debugger hub = new Debugger();
+		hub.cls = UltrasonicHub.class;
+		hub.debug();
+	}
 	/**
 	 * Constructor for the method which builds the class and debug method objects from the classname.
 	 * The class name's input should be a String in the form: "package.class"
@@ -24,17 +32,9 @@ public class Debugger {
 	 * @param String classname
 	 * @author Jack Rausch
 	 */
-	public Debugger(String classname){
-		classname = this.classname;
-		//try/catch loop to print errors if any exceptions are triggered
-		try {
-			//builds class object from inputed classname value
-			cls = Class.forName(classname);
-			//builds method from the class object built in the previous line
-			mtf = cls.getDeclaredMethod("debug", noparams);
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-		}
+	public Debugger(){
+		cls = this.cls;
+		mtf = this.mtf;
 	}
 	
 	/**
@@ -45,6 +45,8 @@ public class Debugger {
 	 */
 	public void debug(){
 		try{
+			//builds the debug method from the class
+			mtf = cls.getDeclaredMethod("debug", noparams);
 			//Creates an instance of the class to be used in the debug methods invocation
 			Object instance = cls.newInstance();
 			//invokes the debug method; null is used because the debug method has no parameters
