@@ -16,6 +16,6 @@ public interface JSONDebug {
 	 * @author Jack Rausch
 	 * @return JSONObject
 	 */
-	JSONObject debug();
+	JSONObject jdebug();
 	
 }

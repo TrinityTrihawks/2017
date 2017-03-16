@@ -175,7 +175,7 @@ public class UltrasonicHub implements PIDSource, JSONDebug {
 
 
 	@Override
-	public JSONObject debug() {
+	public JSONObject jdebug() {
 		JSONObject json = new JSONObject();
 		json.put("readers", readerlist);
 		json.put("ports", portlist);

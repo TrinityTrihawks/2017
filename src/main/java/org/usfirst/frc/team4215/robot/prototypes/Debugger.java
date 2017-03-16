@@ -2,8 +2,6 @@ package org.usfirst.frc.team4215.robot.prototypes;
 
 import java.lang.reflect.Method;
 
-import prototypes.SimpleRead;
-import prototypes.UltrasonicHub;
 
 /**
  * This class uses reflection to find the debug methods within each class.
@@ -15,26 +13,20 @@ import prototypes.UltrasonicHub;
  */
 public class Debugger {
 	
-	private String classname;
 	private Class cls;
+	private Object tor;
 	private Class noparams[] = {};
 	private Method mtf;
 	
-	public static void main(String[] args) throws InstantiationException, IllegalAccessException{
-		Debugger hub = new Debugger();
-		hub.cls = UltrasonicHub.class;
-		hub.debug();
-	}
 	/**
-	 * Constructor for the method which builds the class and debug method objects from the classname.
-	 * The class name's input should be a String in the form: "package.class"
-	 * Example: UltrasonicHub's classname is "prototypes.UltrasonicHub"
-	 * @param String classname
+	 * 
+	 * @param Class 
+	 * @param Constructor 
 	 * @author Jack Rausch
 	 */
-	public Debugger(){
-		cls = this.cls;
-		mtf = this.mtf;
+	public Debugger(Class cl, Object ctor){
+		this.cls = cl;
+		this.tor = ctor;
 	}
 	
 	/**
@@ -46,16 +38,19 @@ public class Debugger {
 	public void debug(){
 		try{
 			//builds the debug method from the class
-			mtf = cls.getDeclaredMethod("debug", noparams);
+			mtf = cls.getDeclaredMethod("jdebug", noparams);
 			//Creates an instance of the class to be used in the debug methods invocation
-			Object instance = cls.newInstance();
+			//Object instance = cls.newInstance();
 			//invokes the debug method; null is used because the debug method has no parameters
-			Object invoc = mtf.invoke(instance, null);
+			Object invoc = mtf.invoke(tor, null);
 			System.out.print(invoc);
 		} catch (Exception e){
 			System.err.println(e);
 		}
 	}
+	
+	
+	
 	
 	
 }
