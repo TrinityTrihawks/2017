@@ -157,8 +157,13 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic(){
-		System.out.println(hub.getCorrectionAngle());
-		//System.out.print("HEllo");
+		
+		try{
+			System.out.println(hub.getCorrectionAngle());
+		}
+		catch(IndexOutOfBoundsException c){
+			System.out.print("Check Ultrasonics");
+		}
 		
 	}
 	
