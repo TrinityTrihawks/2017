@@ -135,8 +135,9 @@ public class UltrasonicHub implements PIDSource, JSONDebug {
      * @author Jack Rausch
      * @return double theta
      */
-    public double getCorrectionAngle(){
+    public double getCorrectionAngle() throws IndexOutOfBoundsException {
         //creates and sets portReadings as an array of distances taken from the two front devices
+    	
         ArrayList<Integer> portReadings = getDistancefromallPorts();
         //sets dist1 and dist2 to the first two distances taken
         double dist1 = portReadings.get(0);
