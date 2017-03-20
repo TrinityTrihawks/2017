@@ -38,7 +38,7 @@ public class Debugger {
 	public void debug(){
 		try{
 			//builds the debug method from the class
-			mtf = cls.getDeclaredMethod("jdebug", noparams);
+			//mtf = cls.getDeclaredMethod("jdebug", noparams);
 			//Creates an instance of the class to be used in the debug methods invocation
 			//Object instance = cls.newInstance();
 			//invokes the debug method; null is used because the debug method has no parameters

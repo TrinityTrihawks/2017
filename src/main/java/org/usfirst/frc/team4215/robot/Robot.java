@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -57,7 +58,9 @@ public class Robot extends IterativeRobot {
 	CameraPID vision;
 	UltrasonicHub hub;
 	PIDTask camAuto;
+	PIDTask ultraAuto;
 	VisionThread visionThread;
+	AnalogGyro gyro;
 	
 	double Kp = 1.5;
 	double Ki = .1;
@@ -87,31 +90,38 @@ public class Robot extends IterativeRobot {
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
 		 vision = new CameraPID();
+		 gyro = new AnalogGyro(0);
+		 gyro.calibrate();
 		 
 		 // Creates the interface to the back camera
 		 
 		 try{
-			 /*
+			 
 			 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
 			 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		     visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
 		     visionThread.setDaemon(true);
 			 visionThread.start();
-			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0);
-			 */
+			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
+			 
 		 }
 		 catch(Exception e){
 			 System.out.println(e.getMessage());
 		 }
 		
-		 drivetrain.setAutoMode(AutoMode.Strafe);
-		 
+		 drivetrain.setAutoMode(AutoMode.Turn);
+		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		 
 	}
 	
 	public void teleopInit(){		
 		//drivetrain.disableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
+		try{
+			ultraAuto.disable();
+		}catch(Exception e){
+			
+		}
 	}
 	
 
@@ -152,14 +162,22 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		//camAuto.run();
+		double turn = 0;
+		try{
+			turn = hub.getCorrectionAngle();
+			System.out.println(turn);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		ultraAuto = new PIDTask(gyro,drivetrain,.01,0,0,turn,0);
+		ultraAuto.run();
 	}
 	
 	@Override
 	public void autonomousPeriodic(){
 		
 		try{
-			System.out.println(hub.getCorrectionAngle());
+			System.out.println("Error:"+ ultraAuto.getError() + " Pos:" + gyro.getAngle());
 		}
 		catch(IndexOutOfBoundsException c){
 			System.out.print("Check Ultrasonics");

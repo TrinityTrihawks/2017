@@ -49,7 +49,7 @@ public class UltrasonicHub implements PIDSource, JSONDebug {
      * @return ArrayList<String> portList
      * @throws PortInUseException
      */
-    public ArrayList<String> addReader(String portName) {
+    public void addReader(String portName) {
         try {
             //creates portlist to parse for given port name
             Enumeration portList = CommPortIdentifier.getPortIdentifiers();
@@ -83,12 +83,9 @@ public class UltrasonicHub implements PIDSource, JSONDebug {
         } catch (PortInUseException e) {
             //thrown if port in use by open(String app, int time) method
             System.out.println(e);
-            return null;
         } catch (Exception e) {
             System.out.println(e);
-            return null;
         }
-        return portlist;
         
     }
     
@@ -117,7 +114,7 @@ public class UltrasonicHub implements PIDSource, JSONDebug {
      * @author Jack Rausch
      * @return ArrayList<Integer> portReadings
      */
-    public ArrayList<Integer> getDistancefromallPorts(){
+    public ArrayList<Integer> getDistancefromallPorts() throws IndexOutOfBoundsException{
         //creates an arraylist of portreadings
         ArrayList<Integer> portReadings = new ArrayList<Integer>();
         //iterates over the list of readers added
