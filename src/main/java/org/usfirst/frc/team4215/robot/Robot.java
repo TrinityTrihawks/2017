@@ -169,12 +169,6 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		drivetrain.resetMotionProfile();
-		drivetrain.enslaveBackWheels();
-		drivetrain.configureFrontTalons();
-		drivetrain.setTalonControlMode(TalonControlMode.MotionProfile);
-		drivetrain.resetEncoder();
-		drivetrain.eatPoints();
 		
 		/*
 		Trajectory.Config config = pathmaker.config(80, 100, 1500);
@@ -195,8 +189,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		drivetrain.control();
-		drivetrain.follow();
+		drivetrain.mpTest();
 	}
 	
 	@Override
