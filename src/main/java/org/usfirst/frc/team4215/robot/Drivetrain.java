@@ -385,6 +385,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			 * This will signal the robot to start a MP */
 				/* user just tapped button 6 */
 			_example.startMotionProfile();
+			System.out.println(_talon.getPosition());
 			}
 		}
 		
