@@ -377,8 +377,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			_example.control();
 			_talon.changeControlMode(TalonControlMode.MotionProfile);
 			
-			CANTalon.SetValueMotionProfile setOutput = _example.getSetValue();
-					
+			CANTalon.SetValueMotionProfile setOutput = _example.getSetValue();		
 			_talon.set(setOutput.value);
 
 			/* if btn is pressed and was not pressed last time,
