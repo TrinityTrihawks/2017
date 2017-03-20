@@ -44,6 +44,9 @@ import org.opencv.imgproc.Imgproc;
 import prototypes.UltrasonicHub;
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -74,6 +77,10 @@ public class Robot extends IterativeRobot {
 	double Kp = 1.5;
 	double Ki = .1;
 	double Kd = 0;
+	
+	double dashData0;
+	double dashData1;
+	double dashData2;
 	
 	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = 3;
@@ -122,6 +129,17 @@ public class Robot extends IterativeRobot {
 		 }
 		
 		 drivetrain.setAutoMode(AutoMode.Strafe);
+		 
+		 
+		 
+		 dashData0 = SmartDashboard.getNumber("DB/Slider 0", 0.0);
+		 dashData1 = SmartDashboard.getNumber("DB/Slider 1", 1.0);
+		 dashData2 = SmartDashboard.getNumber("DB/Slider 2", 2.0);
+		 
+		 System.out.println("dashData0: " + dashData0);
+		 System.out.println("dashData1: " + dashData1);
+		 System.out.println("dashData2: " + dashData2);
+		 
 		 
 		 
 	}
