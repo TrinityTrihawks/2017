@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
 	VisionThread visionThread;
 	AnalogGyro gyro;
 	
-	double Kp = 1.5;
+	double Kp = .01;
 	double Ki = .1;
 	double Kd = 0;
 	
@@ -109,7 +109,7 @@ public class Robot extends IterativeRobot {
 			 System.out.println(e.getMessage());
 		 }
 		
-		 drivetrain.setAutoMode(AutoMode.Turn);
+		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		 
 	}
@@ -162,26 +162,13 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		double turn = 0;
-		try{
-			turn = hub.getCorrectionAngle();
-			System.out.println(turn);
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		ultraAuto = new PIDTask(gyro,drivetrain,.01,0,0,turn,0);
-		ultraAuto.run();
+		camAuto.run();
 	}
 	
 	@Override
 	public void autonomousPeriodic(){
 		
-		try{
-			System.out.println("Error:"+ ultraAuto.getError() + " Pos:" + gyro.getAngle());
-		}
-		catch(IndexOutOfBoundsException c){
-			System.out.print("Check Ultrasonics");
-		}
+		System.out.println(camAuto.getError());
 		
 	}
 	
