@@ -191,7 +191,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		drivetrain.getPosition();
+		drivetrain.mpTest();
+		dist = drivetrain.getPosition();
+		System.out.println(dist[1]);
 	}
 	
 	@Override

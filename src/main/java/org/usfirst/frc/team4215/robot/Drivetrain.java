@@ -371,7 +371,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		}
 		CTREMotionProfiler[] profileList = new CTREMotionProfiler[4];
 		public void mpTest(){
-			if(profileList == null){
+			if(profileList[1] == null){
 				for (int i = 0; i < talonList.length; i++){	
 					CANTalon _talon = talonList[i];
 					CTREMotionProfiler _example = new CTREMotionProfiler(_talon);
@@ -394,6 +394,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			else{
 				for(int i = 0; i < talonList.length; i++){
 					profileList[i].control();
+					CANTalon.SetValueMotionProfile setOutput = profileList[i].getSetValue();		
+					talonList[i].set(setOutput.value);
 				}
 			}
 		}

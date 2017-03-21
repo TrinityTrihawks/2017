@@ -187,6 +187,7 @@ public class CTREMotionProfiler {
 					if (_status.isUnderrun == false) {
 						_loopTimeout = kNumLoopsTimeout;
 					}
+					
 					/*
 					 * If we are executing an MP and the MP finished, start loading
 					 * another. We will go into hold state so robot servo's
@@ -203,9 +204,10 @@ public class CTREMotionProfiler {
 					}
 					break;
 			}
+			System.out.println("Status: " + _state);
 		}
 		/* printfs and/or logging */
-		System.out.println("Status: " + _status.toString());
+		
 	}
 
 	public void startFilling() {
