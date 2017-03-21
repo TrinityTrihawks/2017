@@ -180,6 +180,8 @@ public class Robot extends IterativeRobot {
 		leftPointList = pathmaker.convertTrajectory(trajList[0], true);
 		rightPointList = pathmaker.convertTrajectory(trajList[1], false);
 		*/
+		
+		drivetrain.mpTest();
 	}
 	
 	double[] dist = new double[4];
@@ -189,7 +191,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		drivetrain.mpTest();
 		drivetrain.getPosition();
 	}
 	
