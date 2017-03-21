@@ -370,6 +370,25 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		
 		}
 		
+		public void mpTest(){
+		for (int i = 0; i < talonList.length; i++){	
+			CANTalon _talon = talonList[i];
+			CTREMotionProfiler _example = new CTREMotionProfiler(_talon);
+			_example.control();
+			_talon.changeControlMode(TalonControlMode.MotionProfile);
+			
+			CANTalon.SetValueMotionProfile setOutput = _example.getSetValue();		
+			_talon.set(setOutput.value);
+
+			/* if btn is pressed and was not pressed last time,
+			 * In other words we just detected the on-press event.
+			 * This will signal the robot to start a MP */
+				/* user just tapped button 6 */
+			_example.startMotionProfile();
+			System.out.println(_talon.getPosition());
+			}
+		}
+		
 		public MotionProfileStatus[] getStatus(){
 			MotionProfileStatus status_tmp0 = new MotionProfileStatus();
 			MotionProfileStatus status_tmp1 = new MotionProfileStatus();
