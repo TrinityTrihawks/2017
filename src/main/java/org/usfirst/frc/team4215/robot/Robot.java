@@ -128,7 +128,9 @@ public class Robot extends IterativeRobot {
 	
 	public void teleopInit(){		
 		//drivetrain.disableControl();
-		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
+		drivetrain.setPID(1,0,0);
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
+		drivetrain.enableControl();
 	}
 	
 
@@ -170,7 +172,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit(){
 		
-		/*
+		
 		Trajectory.Config config = pathmaker.config(80, 100, 1500);
 		System.out.println(config.sample_count);
 		Trajectory trajectory = pathmaker.getTrajectory(pathmaker.test, config);
@@ -179,16 +181,14 @@ public class Robot extends IterativeRobot {
 		System.out.println(trajList.length);
 		leftPointList = pathmaker.convertTrajectory(trajList[0], true);
 		rightPointList = pathmaker.convertTrajectory(trajList[1], false);
-		*/
-		
-		drivetrain.mpTest();
+	
 	}
 	
 	double[] dist = new double[4];
 	double[] log = new double[7];
 	/**
 	 * This function is called periodically during autonomous
-	 */
+	 */ 
 	@Override
 	public void autonomousPeriodic() {
 		drivetrain.mpTest();

@@ -174,16 +174,17 @@ public class CTREMotionProfiler {
 						/* start (once) the motion profile */
 						_setValue = CANTalon.SetValueMotionProfile.Enable;
 						/* MP will start once the control frame gets scheduled */
-						_state = 2;
+						//_state = 0;
 						_loopTimeout = kNumLoopsTimeout;
 					}
 					break;
-				case 2: /* check the status of the MP */
+				/*
+				case 2: /* check the status of the MP /
 					/*
 					 * if talon is reporting things are good, keep adding to our
 					 * timeout. Really this is so that you can unplug your talon in
 					 * the middle of an MP and react to it.
-					 */
+					 /
 					if (_status.isUnderrun == false) {
 						_loopTimeout = kNumLoopsTimeout;
 					}
@@ -192,17 +193,18 @@ public class CTREMotionProfiler {
 					 * If we are executing an MP and the MP finished, start loading
 					 * another. We will go into hold state so robot servo's
 					 * position.
-					 */
+					 /
 					if (_status.activePointValid && _status.activePoint.isLastPoint) {
 						/*
 						 * because we set the last point's isLast to true, we will
 						 * get here when the MP is done
-						 */
+						 /
 						_setValue = CANTalon.SetValueMotionProfile.Hold;
 						_state = 0;
 						_loopTimeout = -1;
 					}
 					break;
+					*/
 			}
 			System.out.println("Status: " + _state);
 		}

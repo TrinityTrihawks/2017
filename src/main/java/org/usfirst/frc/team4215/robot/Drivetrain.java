@@ -400,6 +400,14 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			}
 		}
 		
+		public void resetMp(){
+			if(profileList[0] == null){
+				for(int i = 0; i < 0; i++){
+					profileList[i].reset();
+				}
+			}
+		}
+		
 		public MotionProfileStatus[] getStatus(){
 			MotionProfileStatus status_tmp0 = new MotionProfileStatus();
 			MotionProfileStatus status_tmp1 = new MotionProfileStatus();

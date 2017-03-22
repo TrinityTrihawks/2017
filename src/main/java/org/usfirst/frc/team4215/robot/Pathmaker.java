@@ -27,7 +27,6 @@ public class Pathmaker {
 	private Trajectory trajectory;
 	private TankModifier modifier;
 	
-	
 	/**
 	 * This method must be used at the beginning of Autonomous for the Pathmaker code to work.
 	 * @author Jack Rausch
