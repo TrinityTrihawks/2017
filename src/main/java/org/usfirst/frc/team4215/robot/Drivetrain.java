@@ -369,23 +369,42 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		
 		
 		}
-		
+		CTREMotionProfiler[] profileList = new CTREMotionProfiler[4];
 		public void mpTest(){
-		for (int i = 0; i < talonList.length; i++){	
-			CANTalon _talon = talonList[i];
-			CTREMotionProfiler _example = new CTREMotionProfiler(_talon);
-			_example.control();
-			_talon.changeControlMode(TalonControlMode.MotionProfile);
+			if(profileList[1] == null){
+				for (int i = 0; i < talonList.length; i++){	
+					CANTalon _talon = talonList[i];
+					CTREMotionProfiler _example = new CTREMotionProfiler(_talon);
 			
-			CANTalon.SetValueMotionProfile setOutput = _example.getSetValue();		
-			_talon.set(setOutput.value);
-
-			/* if btn is pressed and was not pressed last time,
-			 * In other words we just detected the on-press event.
-			 * This will signal the robot to start a MP */
-				/* user just tapped button 6 */
-			_example.startMotionProfile();
-			System.out.println(_talon.getPosition());
+					_talon.changeControlMode(TalonControlMode.MotionProfile);
+			
+					CANTalon.SetValueMotionProfile setOutput = _example.getSetValue();		
+					_talon.set(setOutput.value);
+			
+			
+					/* if btn is pressed and was not pressed last time,
+					 * In other words we just detected the on-press event.
+					 * This will signal the robot to start a MP */
+					/* user just tapped button 6 */
+					_example.startMotionProfile();
+					_example.control();
+					profileList[i] = _example;
+				}
+			}
+			else{
+				for(int i = 0; i < talonList.length; i++){
+					profileList[i].control();
+					CANTalon.SetValueMotionProfile setOutput = profileList[i].getSetValue();		
+					talonList[i].set(setOutput.value);
+				}
+			}
+		}
+		
+		public void resetMp(){
+			if(profileList[0] == null){
+				for(int i = 0; i < 0; i++){
+					profileList[i].reset();
+				}
 			}
 		}
 		
