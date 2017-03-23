@@ -169,7 +169,7 @@ public class CTREMotionProfiler {
 						 * wait for MP to stream to Talon, really just the first few
 						 * points
 						 */
-					/* do we have a minimum numberof points in Talon */
+					/* do we have a minimum number of points in Talon */
 					if (_status.btmBufferCnt > kMinPointsInTalon) {
 						/* start (once) the motion profile */
 						_setValue = CANTalon.SetValueMotionProfile.Enable;

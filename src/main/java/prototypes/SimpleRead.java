@@ -3,6 +3,9 @@ package prototypes;
 import java.io.*;
 import java.util.*;
 
+import org.json.JSONObject;
+import org.usfirst.frc.team4215.robot.prototypes.JSONDebug;
+
 //from RXTX
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
@@ -15,7 +18,7 @@ import gnu.io.UnsupportedCommOperationException;
  * @author Mr. Erickson
  *
  */
-public class SimpleRead implements Runnable, SerialPortEventListener {
+public class SimpleRead implements Runnable, SerialPortEventListener, JSONDebug {
 
     //length of the data you hope to get
     private int BytesSize = 6;
@@ -26,6 +29,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
     //Sometimes the bytes come in an unexpected order so this alignment allows us to still read that output
     private int alignment= 0;
     private int distance = 0;
+    private byte[] bytevals;
 
     SimpleRead() {
     	
@@ -109,6 +113,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
         alignment = 0; 
         //list of bytes which has bounds of six
         byte[] bytes = new byte[6];
+        bytevals = bytes;
 
         try {
 			while (index<capacity && ((read = inputStream.read(bytes, index, capacity-index)) != -1)) {
@@ -168,4 +173,14 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
     public void setDistance(int dist){
         this.distance = dist;
     }
+
+	@Override
+	public JSONObject jdebug() {
+		JSONObject json = new JSONObject();
+		json.put("inputstream", inputStream);
+		json.put("serialport", serialPort);
+		json.put("alignment", alignment);
+		json.put("bytes", bytevals);
+		return json;
+	}
 }
