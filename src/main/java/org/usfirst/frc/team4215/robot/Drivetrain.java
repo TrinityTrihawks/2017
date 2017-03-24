@@ -44,8 +44,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		CANTalon blWheel;
 		CANTalon brWheel;
 		
-		CTREMotionProfiler right;
-		CTREMotionProfiler left;
+
 		
 		//Declare Lists of wheels to be used for pathmaker trajectories
 		CANTalon[] talonList;
@@ -76,8 +75,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			frWheel = new CANTalon(3);
 			flWheel = new CANTalon(2);
 			
-			right = new CTREMotionProfiler(frWheel);
-			left = new CTREMotionProfiler(flWheel);
 			
 			//instantiates gyro object with port number
 			gyro = new AnalogGyro(1);
@@ -151,10 +148,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		
 
 		
-		public void resetMotionProfile(){
-			right.reset();
-			left.reset();
-		}
 		
 		
 		int totalCount = 0;
@@ -207,28 +200,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			}
 		}
 		
-		public void enslaveBackWheels(){
-			brWheel.changeControlMode(CANTalon.TalonControlMode.Follower);
-			brWheel.set(frWheel.getDeviceID());
-			blWheel.changeControlMode(CANTalon.TalonControlMode.Follower);
-			blWheel.set(frWheel.getDeviceID());
-
-		}
 		
-		public void configureFrontTalons(){
-			flWheel.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-			frWheel.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-			flWheel.reverseSensor(true);
-			frWheel.reverseOutput(true);
-			flWheel.setEncPosition(0);
-			frWheel.setEncPosition(0);	
-		}
 		
-		public void control(){
-			right.control();
-			left.control();
-			
-		}
 		
 		
 		/**
@@ -346,49 +319,38 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			Go(0,0,0,0);
 		}
 		
-		public void follow(){
+		CTREMotionProfiler[] profileList = new CTREMotionProfiler[4];
+		public void createProfiles(){
+			for (int i = 0; i < talonList.length; i++){	
+				CANTalon _talon = talonList[i];
+				CTREMotionProfiler profile = new CTREMotionProfiler(_talon);
+				profileList[i] = profile;
+			}
+		}
 			
-			/*
+		public void startMotionProfiles(){
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
+				CTREMotionProfiler profile = profileList[i];
 				_talon.changeControlMode(TalonControlMode.MotionProfile);
+				profile.startMotionProfile();
 			}
-			*/
-			frWheel.changeControlMode(TalonControlMode.MotionProfile);
-			flWheel.changeControlMode(TalonControlMode.MotionProfile);
-			
-			CANTalon.SetValueMotionProfile setOutputLeft = left.getSetValue();
-			CANTalon.SetValueMotionProfile setOutputRight = right.getSetValue();
-			
-			flWheel.set(setOutputLeft.value);
-			frWheel.set(setOutputRight.value);
-			
-			right.startMotionProfile();
-			left.startMotionProfile();
-		
-		
-		
 		}
-		CTREMotionProfiler[] profileList = new CTREMotionProfiler[4];
+		
+		/*
 		public void mpTest(){
 			if(profileList[1] == null){
 				for (int i = 0; i < talonList.length; i++){	
 					CANTalon _talon = talonList[i];
-					CTREMotionProfiler _example = new CTREMotionProfiler(_talon);
+					CTREMotionProfiler profile = new CTREMotionProfiler(_talon);
 			
 					_talon.changeControlMode(TalonControlMode.MotionProfile);
 			
-					CANTalon.SetValueMotionProfile setOutput = _example.getSetValue();		
+					CANTalon.SetValueMotionProfile setOutput = profile.getSetValue();		
 					_talon.set(setOutput.value);
 			
-			
-					/* if btn is pressed and was not pressed last time,
-					 * In other words we just detected the on-press event.
-					 * This will signal the robot to start a MP */
-					/* user just tapped button 6 */
-					_example.startMotionProfile();
-					_example.control();
-					profileList[i] = _example;
+					profile.startMotionProfile();
+					profile.control();
 				}
 			}
 			else{
@@ -397,10 +359,18 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 					CANTalon.SetValueMotionProfile setOutput = profileList[i].getSetValue();		
 					talonList[i].set(setOutput.value);
 				}
+		}
+		*/
+		
+		public void runMotionProfile(){
+			for(int i = 0; i < talonList.length; i++){
+				profileList[i].control();
+				CANTalon.SetValueMotionProfile setOutput = profileList[i].getSetValue();		
+				talonList[i].set(setOutput.value);
 			}
 		}
 		
-		public void resetMp(){
+		public void resetMotionProfile(){
 			if(profileList[0] == null){
 				for(int i = 0; i < 0; i++){
 					profileList[i].reset();
@@ -408,31 +378,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			}
 		}
 		
-		public MotionProfileStatus[] getStatus(){
-			MotionProfileStatus status_tmp0 = new MotionProfileStatus();
-			MotionProfileStatus status_tmp1 = new MotionProfileStatus();
-			MotionProfileStatus status_tmp2 = new MotionProfileStatus();
-			MotionProfileStatus status_tmp3 = new MotionProfileStatus();
-			
-			flWheel.getMotionProfileStatus(status_tmp0);
-			frWheel.getMotionProfileStatus(status_tmp1);
-			brWheel.getMotionProfileStatus(status_tmp2);
-			blWheel.getMotionProfileStatus(status_tmp3);
-			
-			MotionProfileStatus[] stat = new MotionProfileStatus[] {
-					status_tmp0,
-					status_tmp1,
-					status_tmp2,
-					status_tmp3
-						
-			};
-			return stat;
-		}
 		
-		public void eatPoints(){
-			right.startFilling();
-			left.startFilling();
-		}
+		
 		
 		
 		/**
