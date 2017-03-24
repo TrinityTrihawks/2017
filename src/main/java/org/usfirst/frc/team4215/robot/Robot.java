@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -57,9 +58,11 @@ public class Robot extends IterativeRobot {
 	CameraPID vision;
 	UltrasonicHub hub;
 	PIDTask camAuto;
+	PIDTask ultraAuto;
 	VisionThread visionThread;
+	AnalogGyro gyro;
 	
-	double Kp = 1.5;
+	double Kp = .01;
 	double Ki = .1;
 	double Kd = 0;
 	
@@ -87,31 +90,38 @@ public class Robot extends IterativeRobot {
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
 		 vision = new CameraPID();
+		 gyro = new AnalogGyro(0);
+		 gyro.calibrate();
 		 
 		 // Creates the interface to the back camera
 		 
 		 try{
-			 /*
+			 
 			 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
 			 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		     visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
 		     visionThread.setDaemon(true);
 			 visionThread.start();
-			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0);
-			 */
+			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
+			 
 		 }
 		 catch(Exception e){
 			 System.out.println(e.getMessage());
 		 }
 		
 		 drivetrain.setAutoMode(AutoMode.Strafe);
-		 
+		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		 
 	}
 	
 	public void teleopInit(){		
 		//drivetrain.disableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
+		try{
+			ultraAuto.disable();
+		}catch(Exception e){
+			
+		}
 	}
 	
 
@@ -152,13 +162,13 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		//camAuto.run();
+		camAuto.run();
 	}
 	
 	@Override
 	public void autonomousPeriodic(){
-		System.out.println(hub.getCorrectionAngle());
-		//System.out.print("HEllo");
+		
+		System.out.println(camAuto.getError());
 		
 	}
 	

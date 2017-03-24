@@ -210,7 +210,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 			}
 			
 			if (IsStrafing){
-			Go(strafe,-strafe,-strafe,strafe);
+			Go(-strafe,strafe,strafe,-strafe);
 			}
 	
 		}
