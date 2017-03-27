@@ -16,6 +16,9 @@ public class Arm {
 	public Arm() {
 		arm = new Victor(1);
 		
+		//so that up on joystick goes up on arm
+		arm.setInverted(true);
+		
 		enc = new Encoder(1, 2, false);
 		//change the ports to whichever are the correct ones
 		//reversed may need to be 'true', depending on how encoder is set up
