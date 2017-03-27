@@ -179,7 +179,9 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		camAuto.run();
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
+		drivetrain.setPID(1,0,0);
+		drivetrain.Go(5,5,5,5);
 	}
 	
 	double[] dist = new double[4];
