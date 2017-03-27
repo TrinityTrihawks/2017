@@ -92,10 +92,12 @@ public class Robot extends IterativeRobot {
 		 vision = new CameraPID();
 		 gyro = new AnalogGyro(0);
 		 gyro.calibrate();
-		 
+		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.37");
+		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
+
 		 // Creates the interface to the back camera
 		 
-		 try{
+		 //try{
 			 
 			 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
 			 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
@@ -104,10 +106,10 @@ public class Robot extends IterativeRobot {
 			 visionThread.start();
 			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
 			 
-		 }
-		 catch(Exception e){
-			 System.out.println(e.getMessage());
-		 }
+		// }
+		 //catch(Exception e){
+			// System.out.println(e.getMessage());
+		// }
 		
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
