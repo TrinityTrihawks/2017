@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -69,9 +70,11 @@ public class Robot extends IterativeRobot {
 	CameraPID vision;
 	UltrasonicHub hub;
 	PIDTask camAuto;
+	PIDTask ultraAuto;
 	VisionThread visionThread;
+	AnalogGyro gyro;
 	
-	double Kp = 1.5;
+	double Kp = .01;
 	double Ki = .1;
 	double Kd = 0;
 	
@@ -104,33 +107,38 @@ public class Robot extends IterativeRobot {
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
 		 vision = new CameraPID();
+		 gyro = new AnalogGyro(0);
+		 gyro.calibrate();
 		 
 		 // Creates the interface to the back camera
 		 
 		 try{
-			 /*
+			 
 			 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
 			 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		     visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
 		     visionThread.setDaemon(true);
 			 visionThread.start();
-			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0);
-			 */
+			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
+			 
 		 }
 		 catch(Exception e){
 			 System.out.println(e.getMessage());
 		 }
 		
 		 drivetrain.setAutoMode(AutoMode.Strafe);
-		 
+		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		 
 	}
 	
 	public void teleopInit(){		
 		//drivetrain.disableControl();
-		drivetrain.setPID(1,0,0);
-		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.enableControl();
+		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
+		try{
+			ultraAuto.disable();
+		}catch(Exception e){
+			
+		}
 	}
 	
 
@@ -171,17 +179,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		
-		/*
-		Trajectory.Config config = pathmaker.config(80, 100, 1500);
-		System.out.println(config.sample_count);
-		Trajectory trajectory = pathmaker.getTrajectory(pathmaker.test, config);
-		System.out.println("" +trajectory.length() + trajectory.get(3).x);
-		Trajectory[] trajList = pathmaker.getBothTrajectories(6, trajectory);
-		System.out.println(trajList.length);
-		leftPointList = pathmaker.convertTrajectory(trajList[0], true);
-		rightPointList = pathmaker.convertTrajectory(trajList[1], false);
-		*/
+		camAuto.run();
 	}
 	
 	double[] dist = new double[4];
@@ -190,15 +188,10 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */ 
 	@Override
-	public void autonomousPeriodic() {
-		/*
-		drivetrain.mpTest();
-		dist = drivetrain.getPosition();
-		System.out.println(dist[1]);
-		*/
-		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.setPID(1, 0, 0);
-		drivetrain.Go(5, 5, 5, 5);
+	public void autonomousPeriodic(){
+		
+		System.out.println(camAuto.getError());
+		
 	}
 	
 	@Override

@@ -1,6 +1,9 @@
 package org.usfirst.frc.team4215.robot;
 
 
+import org.json.JSONObject;
+import org.usfirst.frc.team4215.robot.prototypes.JSONDebug;
+
 import com.ctre.CANTalon;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
@@ -16,7 +19,7 @@ import jaci.pathfinder.modifiers.TankModifier;
  * @author Jack Rausch
  *
  */
-public class Pathmaker {
+public class Pathmaker implements JSONDebug{
 	
 	private final double dt = .01;
 	private double MAX_VELOCITY;
@@ -64,6 +67,10 @@ public class Pathmaker {
 	
 	public Pathmaker() {
 
+	public Pathmaker(Waypoint[] auto, Trajectory.Config configuration, TankModifier modifier) {
+		this.auto = auto;
+		this.configuration = configuration;
+		this.modifier = modifier;
 	}
 
 	//x and y correspond to meters
@@ -175,4 +182,37 @@ public class Pathmaker {
 		}
 		return pointList;
 	}
+	
+	/**
+	 * This method takes the Trajectory defined by Jaci's code and converts it into points that the TalonSRX code can use.
+	 * @author Jack Rausch
+	 * @param leftTraj
+	 * @return double[][]
+	 */
+	public double[][] convertLeftTrajectory(Trajectory leftTraj){
+		double[][] pointListL =  new double[][]{};
+		for (int i = 0; i < leftTraj.length(); i++) {
+		    Trajectory.Segment seg = trajectory.get(i);
+		    CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
+		    
+		    point.position = seg.position;
+		    point.velocity = seg.velocity;
+		    point.timeDurMs = 10;
+		    
+		    pointListL[0][i] = point.velocity;
+		    pointListL[1][i] = point.position;
+		    
+		}
+		return pointListL;
+	}
+	@Override
+	public JSONObject jdebug() {
+		JSONObject json = new JSONObject();
+		json.put("dt", dt);
+		json.put("Autonomous path", auto);
+		json.put("Configuration", configuration);
+		json.put("Modifier", modifier);
+		return json;
+	}
+	
 }
