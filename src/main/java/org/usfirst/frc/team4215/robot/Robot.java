@@ -202,8 +202,6 @@ public class Robot extends IterativeRobot {
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.setPID(1,0,0);
 		drivetrain.Go(24,24,24,24);
-		dist = drivetrain.getPosition();
-		System.out.println(dist[0]);
 	}
 	
 	double[] dist = new double[4];
@@ -214,7 +212,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic(){
 		
-		System.out.println(camAuto.getError());
+		dist = drivetrain.getPosition();
+		System.out.println(dist[0]);
 		
 	}
 	
