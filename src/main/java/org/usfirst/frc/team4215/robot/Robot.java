@@ -98,7 +98,7 @@ public class Robot extends IterativeRobot {
 		 time = new Timer();
 		 logger = new SimpleCsvLogger();
 		 logger.init(new String[] {"FR","BR","FL","BR","Angle","Time"},new String[] {"In","In","In","In","Degrees","S"});
-		 pathmaker = new Pathmaker();
+		 //pathmaker = new Pathmaker();
 		 arm =  new Arm();
 		 leftStick = new Joystick(0);
 		 drivetrain = Drivetrain.Create();

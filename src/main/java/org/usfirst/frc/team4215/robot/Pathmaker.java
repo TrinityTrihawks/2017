@@ -2,7 +2,6 @@ package org.usfirst.frc.team4215.robot;
 
 
 import org.json.JSONObject;
-import org.usfirst.frc.team4215.robot.prototypes.JSONDebug;
 
 import com.ctre.CANTalon;
 import jaci.pathfinder.Pathfinder;
@@ -19,7 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
  * @author Jack Rausch
  *
  */
-public class Pathmaker implements JSONDebug{
+public class Pathmaker {
 	
 	private final double dt = .01;
 	private double MAX_VELOCITY;
@@ -65,7 +64,6 @@ public class Pathmaker implements JSONDebug{
 			new Waypoint(-5,0,0)
 		};
 	
-	public Pathmaker() {
 
 	public Pathmaker(Waypoint[] auto, Trajectory.Config configuration, TankModifier modifier) {
 		this.auto = auto;
@@ -205,14 +203,6 @@ public class Pathmaker implements JSONDebug{
 		}
 		return pointListL;
 	}
-	@Override
-	public JSONObject jdebug() {
-		JSONObject json = new JSONObject();
-		json.put("dt", dt);
-		json.put("Autonomous path", auto);
-		json.put("Configuration", configuration);
-		json.put("Modifier", modifier);
-		return json;
-	}
+	
 	
 }
