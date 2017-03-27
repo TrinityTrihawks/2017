@@ -201,7 +201,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.enableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.setPID(1,0,0);
-		drivetrain.Go(5,5,5,5);
+		drivetrain.Go(24,24,24,24);
 		dist = drivetrain.getPosition();
 		System.out.println(dist[0]);
 	}
