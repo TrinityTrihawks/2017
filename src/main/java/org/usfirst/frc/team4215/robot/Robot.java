@@ -172,7 +172,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit(){
 		
-		
+		/*
 		Trajectory.Config config = pathmaker.config(80, 100, 1500);
 		System.out.println(config.sample_count);
 		Trajectory trajectory = pathmaker.getTrajectory(pathmaker.test, config);
@@ -181,7 +181,7 @@ public class Robot extends IterativeRobot {
 		System.out.println(trajList.length);
 		leftPointList = pathmaker.convertTrajectory(trajList[0], true);
 		rightPointList = pathmaker.convertTrajectory(trajList[1], false);
-	
+		*/
 	}
 	
 	double[] dist = new double[4];
@@ -191,9 +191,14 @@ public class Robot extends IterativeRobot {
 	 */ 
 	@Override
 	public void autonomousPeriodic() {
+		/*
 		drivetrain.mpTest();
 		dist = drivetrain.getPosition();
 		System.out.println(dist[1]);
+		*/
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
+		drivetrain.setPID(1, 0, 0);
+		drivetrain.Go(5, 5, 5, 5);
 	}
 	
 	@Override
