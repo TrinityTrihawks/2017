@@ -197,9 +197,10 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
+		drivetrain.resetEncoder();
+		drivetrain.enableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.setPID(1,0,0);
-		drivetrain.enableControl();
 		drivetrain.Go(5,5,5,5);
 	}
 	
