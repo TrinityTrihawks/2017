@@ -78,8 +78,8 @@ public class Robot extends IterativeRobot {
 	int IMG_WIDTH = 640;
 	int IMG_HEIGHT = 480;
 	
-	AxisCamera cameraBack;
 	AxisCamera cameraFront;
+	AxisCamera cameraBack;
 	
 	public void robotInit(){
 		arm =  new Arm();
@@ -92,16 +92,16 @@ public class Robot extends IterativeRobot {
 		 vision = new CameraPID();
 		 gyro = new AnalogGyro(0);
 		 gyro.calibrate();
-		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.37");
-		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
+		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 
 		 // Creates the interface to the back camera
 		 
 		 //try{
 			 
-			 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
-			 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		     visionThread = new VisionThread(cameraBack,new Pipeline(), vision);
+			 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
+			 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		     visionThread = new VisionThread(cameraFront,new Pipeline(), vision);
 		     visionThread.setDaemon(true);
 			 visionThread.start();
 			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
