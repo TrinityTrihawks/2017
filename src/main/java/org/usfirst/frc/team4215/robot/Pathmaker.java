@@ -105,7 +105,7 @@ public class Pathmaker {
 	 * @param MAX_JERK
 	 * @return configuration
 	 */
-	public Trajectory.Config getConfig(double dt, double MAX_VELOCITY, double MAX_ACCELERATION, double MAX_JERK){
+	public Trajectory.Config getConfig( double MAX_VELOCITY, double MAX_ACCELERATION, double MAX_JERK){
 		if (configuration == null){
 			//Admittedly a very inefficient way to do this, but I'll fix it later(never).
 			configuration = config(MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);

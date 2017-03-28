@@ -171,16 +171,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		
-		
-		Trajectory.Config config = pathmaker.config(80, 100, 1500);
-		System.out.println(config.sample_count);
-		Trajectory trajectory = pathmaker.getTrajectory(pathmaker.test, config);
-		System.out.println("" +trajectory.length() + trajectory.get(3).x);
-		Trajectory[] trajList = pathmaker.getBothTrajectories(6, trajectory);
-		System.out.println(trajList.length);
-		leftPointList = pathmaker.convertTrajectory(trajList[0], true);
-		rightPointList = pathmaker.convertTrajectory(trajList[1], false);
+		drivetrain.resetEncoder();
+		drivetrain.mpTestSetup();
 	
 	}
 	
@@ -191,7 +183,8 @@ public class Robot extends IterativeRobot {
 	 */ 
 	@Override
 	public void autonomousPeriodic() {
-		drivetrain.mpTest();
+		CANTalon.SetValueMotionProfile enable = CANTalon.SetValueMotionProfile.Enable;
+		drivetrain.Go(enable.value, enable.value, enable.value, enable.value);
 		dist = drivetrain.getPosition();
 		System.out.println(dist[1]);
 	}

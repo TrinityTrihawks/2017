@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
 	
 	public class Drivetrain implements PIDOutput {
 		public enum MotorGranular{
@@ -52,7 +54,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		
 		AnalogGyro gyro;
 		
-
+		Pathmaker path;
 		
 		private static Drivetrain instance;
 		
@@ -109,6 +111,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 					blWheel,
 					brWheel
 			};
+			
+			path = new Pathmaker();
 		}
 			
 			
@@ -165,7 +169,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		 * @param double[][] pointList
 		 * @param String side
 		 */
-		public void fillPoints(double[][] pointList, String side){
+		public void fillPoints(double[][] pointList, Boolean side){
 			
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
@@ -180,14 +184,12 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 				point.profileSlotSelect = 0;
 				point.velocityOnly = false;
 				
-				if (side == "left"){
+				if (side){
 					flWheel.pushMotionProfileTrajectory(point);
 					blWheel.pushMotionProfileTrajectory(point);
-				} else if (side == "right"){
+				} else{
 					frWheel.pushMotionProfileTrajectory(point);
 					brWheel.pushMotionProfileTrajectory(point);
-				} else{
-					System.err.println("Invalid String Name");
 				}
 				
 				totalCount++;
@@ -309,7 +311,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		public double[] getPosition(){
 			for (int i = 0; i < talonList.length; i++){
 				CANTalon _talon = talonList[i];
-				err[i] = _talon.getPosition();
+				err[i] = wheelCirc*_talon.getPosition();
 			}
 			
 			return err;
@@ -369,43 +371,20 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		
 		
 		}
-		CTREMotionProfiler[] profileList = new CTREMotionProfiler[4];
-		public void mpTest(){
-			if(profileList[1] == null){
-				for (int i = 0; i < talonList.length; i++){	
-					CANTalon _talon = talonList[i];
-					CTREMotionProfiler _example = new CTREMotionProfiler(_talon);
-			
-					_talon.changeControlMode(TalonControlMode.MotionProfile);
-			
-					CANTalon.SetValueMotionProfile setOutput = _example.getSetValue();		
-					_talon.set(setOutput.value);
-			
-			
-					/* if btn is pressed and was not pressed last time,
-					 * In other words we just detected the on-press event.
-					 * This will signal the robot to start a MP */
-					/* user just tapped button 6 */
-					_example.startMotionProfile();
-					_example.control();
-					profileList[i] = _example;
-				}
-			}
-			else{
-				for(int i = 0; i < talonList.length; i++){
-					profileList[i].control();
-					CANTalon.SetValueMotionProfile setOutput = profileList[i].getSetValue();		
-					talonList[i].set(setOutput.value);
-				}
-			}
-		}
 		
-		public void resetMp(){
-			if(profileList[0] == null){
-				for(int i = 0; i < 0; i++){
-					profileList[i].reset();
-				}
-			}
+		CTREMotionProfiler[] profileList = new CTREMotionProfiler[4];
+		
+		public void mpTestSetup(){
+			Trajectory.Config config = path.getConfig(50, 25, 5);
+			Waypoint[] test = path.test;
+			Trajectory orginalPath = path.getTrajectory(test, config);
+			Trajectory[] leftAndRightPath = path.getBothTrajectories(wheelCirc, orginalPath);
+			double[][] leftPath = path.convertTrajectory(leftAndRightPath[0], true);
+			double[][] rightPath = path.convertTrajectory(leftAndRightPath[1], false);
+			
+			fillPoints(leftPath,true);
+			fillPoints(rightPath,false);
+			
 		}
 		
 		public MotionProfileStatus[] getStatus(){
