@@ -12,6 +12,20 @@ import edu.wpi.first.wpilibj.PIDController;
 public class PIDTask implements Runnable {
 	PIDController control;
 	double margin;
+	private int smearCount = 10;
+	
+	
+	public PIDTask(PIDSource sensor, PIDOutput motor, 
+			double Kp, double Ki, double Kd,double setpoint,double margin, int smear) {
+		
+		
+		PIDController control = new PIDController(Kp,Ki,Kd,sensor,motor);
+		control.setSetpoint(setpoint);
+		this.control = control;
+		this.margin = margin;
+		smearCount = smear;
+		
+	}
 	
 	/**
 	 * Makes a PIDTask
@@ -26,11 +40,9 @@ public class PIDTask implements Runnable {
 	 */
 	public PIDTask(PIDSource sensor, PIDOutput motor, 
 					double Kp, double Ki, double Kd,double setpoint,double margin) {
-		PIDController control = new PIDController(Kp,Ki,Kd,sensor,motor);
-		control.setSetpoint(setpoint);
-		this.control = control;
-		this.margin = margin;
+		this(sensor,motor,Kp,Ki,Kd,setpoint,margin,10);
 	}
+	
 	
 	/**
 	 * Starts and monitors PIDCotroller
@@ -46,10 +58,14 @@ public class PIDTask implements Runnable {
 		int count = 0;
 		// Waits till the error is small
 		while(count < 10){
-			if(error > margin){
+			
+			if(error < margin){
 				error = control.getAvgError();
 				++count;
+			}else{
+				count = 0;
 			}
+			
 		}
 		
 		// Disables the controller
@@ -63,5 +79,13 @@ public class PIDTask implements Runnable {
 	
 	public double getError(){
 		return control.getAvgError();
+	}
+	
+	public void setSmearCount(int count){
+		smearCount = count;
+	}
+	
+	public int getSmearCount(){
+		return smearCount;
 	}
 }
