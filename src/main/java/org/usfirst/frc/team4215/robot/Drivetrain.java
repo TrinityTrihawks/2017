@@ -149,7 +149,12 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 		
 		
 		
-
+		public void setAllowableClosedLoopError(int i){
+			flWheel.setAllowableClosedLoopErr(i);
+			frWheel.setAllowableClosedLoopErr(i);
+			blWheel.setAllowableClosedLoopErr(i);
+			brWheel.setAllowableClosedLoopErr(i);
+		}
 		
 		public void resetMotionProfile(){
 			right.reset();

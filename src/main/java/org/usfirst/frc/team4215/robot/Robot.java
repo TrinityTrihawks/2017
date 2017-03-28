@@ -97,8 +97,8 @@ public class Robot extends IterativeRobot {
 	int IMG_WIDTH = 640;
 	int IMG_HEIGHT = 480;
 	
-	AxisCamera cameraBack;
-	AxisCamera cameraFront;
+	//AxisCamera cameraBack;
+	//AxisCamera cameraFront;
 	
 	public void robotInit(){
 		 pdp = new PowerDistributionPanel();
@@ -118,7 +118,7 @@ public class Robot extends IterativeRobot {
 		 gyro.calibrate();
 		 
 		 // Creates the interface to the back camera
-		 
+/*		 
 		 try{
 			 
 			 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
@@ -132,7 +132,7 @@ public class Robot extends IterativeRobot {
 		 catch(Exception e){
 			 System.out.println(e.getMessage());
 		 }
-		
+	*/	
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		 
@@ -197,11 +197,12 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
+		drivetrain.setAllowableClosedLoopError(0);
 		drivetrain.resetEncoder();
 		drivetrain.enableControl();
-		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.setPID(1,0,0);
-		drivetrain.Go(48,48,48,48);
+		drivetrain.setTalonControlMode(TalonControlMode.Speed);
+		drivetrain.setPID(.5,0,0);
+
 	}
 	
 	double[] dist = new double[4];
@@ -211,7 +212,7 @@ public class Robot extends IterativeRobot {
 	 */ 
 	@Override
 	public void autonomousPeriodic(){
-		
+		drivetrain.Go(4,4,4,4);
 		dist = drivetrain.getPosition();
 		System.out.println(dist[0]);
 		
