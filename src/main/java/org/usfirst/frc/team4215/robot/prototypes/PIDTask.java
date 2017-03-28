@@ -25,8 +25,9 @@ public class PIDTask implements Runnable {
 	 * @param margin
 	 */
 	public PIDTask(PIDSource sensor, PIDOutput motor, 
-					double Kp, double Ki, double Kd,double margin) {
+					double Kp, double Ki, double Kd,double setpoint,double margin) {
 		PIDController control = new PIDController(Kp,Ki,Kd,sensor,motor);
+		control.setSetpoint(setpoint);
 		this.control = control;
 		this.margin = margin;
 	}
@@ -38,19 +39,26 @@ public class PIDTask implements Runnable {
 	public void run() {
 		
 		//Sets up error value to watch
-		double error = Double.MAX_VALUE;
+		double error = control.getAvgError();;
 		
 		//enables controller
 		control.enable();
-		
+		int count = 0;
 		// Waits till the error is small
-		while(Math.abs(error) > margin){
-			error = control.getAvgError();
+		while(count < 10){
+			if(error > margin){
+				error = control.getAvgError();
+				++count;
+			}
 		}
 		
 		// Disables the controller
 		control.disable();
 		
+	}
+	
+	public void disable(){
+		control.disable();
 	}
 	
 	public double getError(){

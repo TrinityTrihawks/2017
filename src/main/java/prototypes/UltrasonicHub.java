@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 
+import org.json.JSONObject;
+import org.usfirst.frc.team4215.robot.prototypes.JSONDebug;
+
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 //from RXTX library
@@ -14,12 +17,12 @@ import gnu.io.SerialPort;
 /**
  * This class encapsulates all the Ultrasonic devices defined by SimpleRead and allows us to iterate over them.
  * From this class the distance from one port, or all the ports is obtainable.
- * It also has a method to check if the face of the robot is parrallel to the object in front of you 
+ * It also has a method to check if the face of the robot is parallel to the object in front of you 
  * and returns the correction angle if it is not.
  * @author Jack Rausch
  *
  */
-public class UltrasonicHub implements PIDSource {
+public class UltrasonicHub implements PIDSource, JSONDebug {
     //an array of Strings to encapsulate port names
     private ArrayList<String> portlist;
     //an array of SimpleRead objects to encapsulate the readers
@@ -29,6 +32,8 @@ public class UltrasonicHub implements PIDSource {
     //private static ArrayList<Integer> portReadings;
     //Constructs reader object which is where the distance is actually pulled from
     private SimpleRead reader;
+    
+    
 
     public UltrasonicHub(){
         this.portlist = new ArrayList<String>();
@@ -44,7 +49,7 @@ public class UltrasonicHub implements PIDSource {
      * @return ArrayList<String> portList
      * @throws PortInUseException
      */
-    public ArrayList<String> addReader(String portName) {
+    public void addReader(String portName) {
         try {
             //creates portlist to parse for given port name
             Enumeration portList = CommPortIdentifier.getPortIdentifiers();
@@ -78,12 +83,9 @@ public class UltrasonicHub implements PIDSource {
         } catch (PortInUseException e) {
             //thrown if port in use by open(String app, int time) method
             System.out.println(e);
-            return null;
         } catch (Exception e) {
             System.out.println(e);
-            return null;
         }
-        return portlist;
         
     }
     
@@ -112,7 +114,7 @@ public class UltrasonicHub implements PIDSource {
      * @author Jack Rausch
      * @return ArrayList<Integer> portReadings
      */
-    public ArrayList<Integer> getDistancefromallPorts(){
+    public ArrayList<Integer> getDistancefromallPorts() throws IndexOutOfBoundsException{
         //creates an arraylist of portreadings
         ArrayList<Integer> portReadings = new ArrayList<Integer>();
         //iterates over the list of readers added
@@ -130,8 +132,9 @@ public class UltrasonicHub implements PIDSource {
      * @author Jack Rausch
      * @return double theta
      */
-    public double getCorrectionAngle(){
+    public double getCorrectionAngle() throws IndexOutOfBoundsException {
         //creates and sets portReadings as an array of distances taken from the two front devices
+    	
         ArrayList<Integer> portReadings = getDistancefromallPorts();
         //sets dist1 and dist2 to the first two distances taken
         double dist1 = portReadings.get(0);
@@ -166,6 +169,15 @@ public class UltrasonicHub implements PIDSource {
 	public double pidGet() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	@Override
+	public JSONObject jdebug() {
+		JSONObject json = new JSONObject();
+		json.put("readers", readerlist);
+		json.put("ports", portlist);
+		return json;
 	}
 
 }

@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4215.robot;
 
 
+import org.json.JSONObject;
+
 import com.ctre.CANTalon;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
@@ -62,8 +64,11 @@ public class Pathmaker {
 			new Waypoint(-5,0,0)
 		};
 	
-	public Pathmaker() {
 
+	public Pathmaker(Waypoint[] auto, Trajectory.Config configuration, TankModifier modifier) {
+		this.auto = auto;
+		this.configuration = configuration;
+		this.modifier = modifier;
 	}
 
 	//x and y correspond to meters
@@ -175,4 +180,29 @@ public class Pathmaker {
 		}
 		return pointList;
 	}
+	
+	/**
+	 * This method takes the Trajectory defined by Jaci's code and converts it into points that the TalonSRX code can use.
+	 * @author Jack Rausch
+	 * @param leftTraj
+	 * @return double[][]
+	 */
+	public double[][] convertLeftTrajectory(Trajectory leftTraj){
+		double[][] pointListL =  new double[][]{};
+		for (int i = 0; i < leftTraj.length(); i++) {
+		    Trajectory.Segment seg = trajectory.get(i);
+		    CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
+		    
+		    point.position = seg.position;
+		    point.velocity = seg.velocity;
+		    point.timeDurMs = 10;
+		    
+		    pointListL[0][i] = point.velocity;
+		    pointListL[1][i] = point.position;
+		    
+		}
+		return pointListL;
+	}
+	
+	
 }
