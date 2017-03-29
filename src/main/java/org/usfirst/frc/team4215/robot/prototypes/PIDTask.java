@@ -56,6 +56,7 @@ public class PIDTask implements Runnable {
 		//enables controller
 		control.enable();
 		int count = 0;
+
 		// Waits till the error is small
 		while(count < 10){
 			
@@ -64,8 +65,7 @@ public class PIDTask implements Runnable {
 				++count;
 			}else{
 				count = 0;
-			}
-			
+			}			
 		}
 		
 		// Disables the controller
