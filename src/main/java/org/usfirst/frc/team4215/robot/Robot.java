@@ -92,24 +92,40 @@ public class Robot extends IterativeRobot {
 		 vision = new CameraPID();
 		 gyro = new AnalogGyro(0);
 		 gyro.calibrate();
+		 
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-
+		 Pipeline pipeline = new Pipeline();
+		 System.out.println("Back camera initialized properly");
 		 // Creates the interface to the back camera
-		 
-		 //try{
-			 
+		 			 
 			 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 			 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		     visionThread = new VisionThread(cameraFront,new Pipeline(), vision);
-		     visionThread.setDaemon(true);
-			 visionThread.start();
-			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
+			 System.out.println("Front camera initialized properly");
 			 
-		// }
-		 //catch(Exception e){
-			// System.out.println(e.getMessage());
-		// }
+			 CvSink cvSink = CameraServer.getInstance().getVideo();
+			 CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
+			 Mat mat = new Mat();
+			 System.out.println("CvSink and CvSouce initialized properly");
+			 System.out.println(mat);
+			 
+			 CameraServer.getInstance().startAutomaticCapture(cameraFront);
+			 CameraServer.getInstance().getVideo(cameraFront);
+			 System.out.println("CameraServer initialized properly");
+			 
+		     visionThread = new VisionThread(cameraFront, pipeline, vision);
+		     System.out.println("VisonThread initialized properly");
+			 System.out.println(Pipeline.findContoursOutput + "This is from Robot.Java; good things are happening");
+
+		     
+		     visionThread.setDaemon(true);
+		     System.out.println("Daemon set properly");
+		     
+			 visionThread.start();
+			 System.out.println("VisonThread started without a hitch");
+			 
+			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
+			 System.out.println("PIDTask is working properly. Expect results");
 		
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);

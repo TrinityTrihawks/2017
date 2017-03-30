@@ -62,6 +62,7 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 	        }
 	      else {
 	    	  System.out.println("No Contours");
+	    	  System.out.println(Pipeline.findContoursOutput + "CameraPID is messed up");
 	      }
 	}
 
