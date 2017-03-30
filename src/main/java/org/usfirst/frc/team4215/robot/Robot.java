@@ -95,29 +95,32 @@ public class Robot extends IterativeRobot {
 		 
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 Pipeline pipeline = new Pipeline();
 		 System.out.println("Back camera initialized properly");
 		 // Creates the interface to the back camera
+
+		 Pipeline pipeline = new Pipeline();
 		 			 
 			 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 			 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
 			 System.out.println("Front camera initialized properly");
 			 
+			 Mat mat = new Mat();
+
 			 CvSink cvSink = CameraServer.getInstance().getVideo();
 			 CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
-			 Mat mat = new Mat();
+			 cvSink.grabFrame(mat);
 			 System.out.println("CvSink and CvSouce initialized properly");
 			 System.out.println(mat);
 			 
+			 //CameraServer.getInstance().addServer();
+
 			 CameraServer.getInstance().startAutomaticCapture(cameraFront);
 			 CameraServer.getInstance().getVideo(cameraFront);
 			 System.out.println("CameraServer initialized properly");
 			 
 		     visionThread = new VisionThread(cameraFront, pipeline, vision);
 		     System.out.println("VisonThread initialized properly");
-			 System.out.println(Pipeline.findContoursOutput + "This is from Robot.Java; good things are happening");
 
-		     
 		     visionThread.setDaemon(true);
 		     System.out.println("Daemon set properly");
 		     

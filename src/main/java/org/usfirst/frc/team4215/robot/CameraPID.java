@@ -43,7 +43,7 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 		return closedLoopPosBounds*turn;
 	}
 	
-	
+	boolean isFirsttime = true;
 	/**
 	 * The Pipeline processer method
 	 * @param pipeline
@@ -60,9 +60,13 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 	        		turn = offSet/IMG_WIDTH;
 	            }
 	        }
-	      else {
+	    if(isFirsttime = true){
+	    	isFirsttime = false;
+	    	 System.out.println(pipeline.findContoursOutput());
+	    }
+		 
+		 else {
 	    	  System.out.println("No Contours");
-	    	  System.out.println(Pipeline.findContoursOutput + "CameraPID is messed up");
 	      }
 	}
 
