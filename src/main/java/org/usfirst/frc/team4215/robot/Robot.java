@@ -76,6 +76,7 @@ public class Robot extends IterativeRobot {
 	PIDTask ultraAuto;
 	VisionThread visionThread;
 	AnalogGyro gyro;
+	PIDTask gyroPID;
 	
 	double Kp = .01;
 	double Ki = .1;
@@ -145,6 +146,7 @@ public class Robot extends IterativeRobot {
 		 System.out.println("dashData1: " + dashData1);
 		 System.out.println("dashData2: " + dashData2);
 		 
+		 gyroPID = new PIDTask(gyro, drivetrain, dashData0, dashData1, dashData2, 0);
 		 
 		 
 	}
