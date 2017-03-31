@@ -1,8 +1,9 @@
 package org.usfirst.frc.team4215.robot;
 
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
-
+import java.lang.Math;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -44,6 +45,10 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 	}
 	
 	boolean isFirsttime = true;
+	double offSet;
+	double centerX;
+	
+	
 	/**
 	 * The Pipeline processer method
 	 * @param pipeline
@@ -51,23 +56,39 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 	@Override
 	public void copyPipelineOutputs(Pipeline pipeline) {
 		// TODO Auto-generated method stub
-		double centerX;
 		 if (!pipeline.filterContoursOutput().isEmpty()) {
-	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+			 Rect r = null;
+			 for (MatOfPoint mop : pipeline.filterContoursOutput()){
+				 if (r==null){
+	            r = Imgproc.boundingRect(mop);
+	            }
+				 else {
+					 r = Merge(r, Imgproc.boundingRect(mop));
+			 }
+			 }	 
 	            synchronized (imgLock) {
 	                centerX = r.x + (r.width / 2);
-	                double offSet = centerX - (IMG_WIDTH / 2);
+	                offSet = centerX - (IMG_WIDTH / 2);
 	        		turn = offSet/IMG_WIDTH;
+	    	    	System.out.println(offSet);
 	            }
+	            
 	        }
-	    if(isFirsttime = true){
-	    	isFirsttime = false;
-	    	 System.out.println(pipeline.findContoursOutput());
-	    }
-		 
 		 else {
 	    	  System.out.println("No Contours");
 	      }
+		
+	}
+
+	private Rect Merge(Rect r, Rect boundingRect) {
+
+		int left = Math.min(r.x, boundingRect.x);
+		int top = Math.min(r.y, boundingRect.y);
+		int right = Math.max(r.x + r.width, boundingRect.x + boundingRect.width);
+		int bottom = Math.max(r.y + boundingRect.height, boundingRect.y + boundingRect.height);
+		
+		
+		return new Rect(left, top, right - left, bottom - top);
 	}
 
 }
