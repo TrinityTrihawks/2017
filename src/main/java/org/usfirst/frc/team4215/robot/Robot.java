@@ -191,7 +191,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit(){
 		//camAuto.run();
-		con.enable();
+		//con.enable();
 	}
 	
 	@Override
@@ -208,7 +208,7 @@ public class Robot extends IterativeRobot {
 			nang = gyro.getAngle();
 			System.out.println(nang);
 		}
-		System.out.println(con.getAvgError());
+		//System.out.println(con.getAvgError());
 		
 		
 	}
