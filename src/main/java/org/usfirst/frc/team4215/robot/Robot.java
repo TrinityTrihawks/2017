@@ -197,16 +197,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic(){
 		
-		double sang = gyro.getAngle();
-		System.out.println(sang);
+		//double sang = gyro.getAngle();
+		//System.out.println(sang);
 		double cang = hub.getCorrectionAngle();
 		System.out.println(cang);
 		drivetrain.setAutoMode(AutoMode.Turn);
-		double nang = 0;
-		while (nang != sang - cang){
+		//double nang = 0;
+		while (cang != 0){
 			drivetrain.pidWrite(.1);
-			nang = gyro.getAngle();
-			System.out.println(nang);
+			//nang = gyro.getAngle();
+			//System.out.println(nang);
 		}
 		//System.out.println(con.getAvgError());
 		
