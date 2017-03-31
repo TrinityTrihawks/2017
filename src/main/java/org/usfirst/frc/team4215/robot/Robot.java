@@ -61,6 +61,7 @@ public class Robot extends IterativeRobot {
 	PIDTask ultraAuto;
 	VisionThread visionThread;
 	AnalogGyro gyro;
+	PIDController con;
 	
 	double Kp = .01;
 	double Ki = .1;
@@ -81,6 +82,7 @@ public class Robot extends IterativeRobot {
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
 	
+	@Override
 	public void robotInit(){
 		arm =  new Arm();
 		leftStick = new Joystick(0);
@@ -89,7 +91,7 @@ public class Robot extends IterativeRobot {
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
-		 vision = new CameraPID();
+
 		 gyro = new AnalogGyro(0);
 		 gyro.calibrate();
 		 
@@ -98,12 +100,13 @@ public class Robot extends IterativeRobot {
 		 System.out.println("Back camera initialized properly");
 		 // Creates the interface to the back camera
 
-		 Pipeline pipeline = new Pipeline();
+		 
+		 //Pipeline pipeline = new Pipeline();
 		 			 
 			 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 			 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
 			 System.out.println("Front camera initialized properly");
-			 
+			 /*
 			 Mat mat = new Mat();
 
 			 CvSink cvSink = CameraServer.getInstance().getVideo();
@@ -113,28 +116,32 @@ public class Robot extends IterativeRobot {
 			 System.out.println(mat);
 			 
 			 //CameraServer.getInstance().addServer();
-
-			 CameraServer.getInstance().startAutomaticCapture(cameraFront);
-			 CameraServer.getInstance().getVideo(cameraFront);
-			 System.out.println("CameraServer initialized properly");
+*/
+			 //CameraServer.getInstance().startAutomaticCapture(cameraFront);
+			 //CvSink cvSink = CameraServer.getInstance().getVideo(cameraFront);
 			 
-		     visionThread = new VisionThread(cameraFront, pipeline, vision);
-		     System.out.println("VisonThread initialized properly");
 
-		     visionThread.setDaemon(true);
+			 System.out.println("CameraServer initialized properly");
+
+			 vision = new CameraPID();
+		     visionThread = new VisionThread(cameraFront, new Pipeline(), vision);
+		     System.out.println("VisonThread initialized properly");
+		     
+		     visionThread.setDaemon(false);
 		     System.out.println("Daemon set properly");
 		     
 			 visionThread.start();
 			 System.out.println("VisonThread started without a hitch");
 			 
-			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
-			 System.out.println("PIDTask is working properly. Expect results");
-		
+			 //camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
+			 //System.out.println("PIDTask is working properly. Expect results");
+			 con = new PIDController(Kp, Ki, Kd, vision, drivetrain);
+			 
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		 
 	}
-	
+	@Override
 	public void teleopInit(){		
 		//drivetrain.disableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
@@ -145,7 +152,7 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	
-
+	@Override
 	public void teleopPeriodic(){
 		
 		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
@@ -183,7 +190,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		camAuto.run();
+		//camAuto.run();
+		con.enable();
 	}
 	
 	@Override
@@ -200,12 +208,14 @@ public class Robot extends IterativeRobot {
 			//nang = gyro.getAngle();
 			//System.out.println(nang);
 		}
+		System.out.println(con.getAvgError());
 		
 		
 	}
 	
 	@Override
 	public void disabledInit(){
+		con.disable();
 	}
 	@Override
 	public void disabledPeriodic(){
