@@ -63,8 +63,8 @@ public class Robot extends IterativeRobot {
 	AnalogGyro gyro;
 	PIDController con;
 	
-	double Kp = .001;
-	double Ki = .01;
+	double Kp = .01;
+	double Ki = .05;
 	double Kd = 0;
 	
 	// ID's
@@ -76,8 +76,8 @@ public class Robot extends IterativeRobot {
 	int STRAFE_DRIVE_ID = 0;
 	int DRIVE_LEFT_TOP_TRIGGER = 5;
 	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
-	int IMG_WIDTH = 640;
-	int IMG_HEIGHT = 480;
+	int IMG_WIDTH = 320;
+	int IMG_HEIGHT = 240;
 	
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
@@ -139,9 +139,9 @@ public class Robot extends IterativeRobot {
 			// con = new PIDController(Kp, Ki, Kd, vision, drivetrain);
 			 
 		 drivetrain.setAutoMode(AutoMode.Strafe);
-//		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
-		 
+		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);		 
 	}
+
 	@Override
 	public void teleopInit(){		
 		//drivetrain.disableControl();
@@ -195,8 +195,10 @@ public class Robot extends IterativeRobot {
 		//Drivetrain.MotorGranular autoMode = Drivetrain.MotorGranular.SLOW;
 		//autoMode = Drivetrain.MotorGranular.SLOW;
 		drivetrain.setAutoMode(AutoMode.Strafe);
+		System.out.println("mode: " + drivetrain.getAutoMode());
+
 		//con.enable();
-		//camAuto.run();
+		camAuto.run();
 		
 	}
 	
@@ -217,7 +219,7 @@ public class Robot extends IterativeRobot {
 			//System.out.println(nang);
 		}
 */		
-		//System.out.println( "  camAuto error: " + con.getError());
+		System.out.println( "  camAuto error: " + camAuto.getError());
 		
 	}
 	

@@ -78,6 +78,7 @@ public class PIDTask implements Runnable {
 		
 		// Disables the controller
 		control.disable();
+		System.out.println("run completed " + error);
 		
 	}
 	

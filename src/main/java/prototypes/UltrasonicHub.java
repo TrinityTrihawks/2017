@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-import org.json.JSONObject;
+//import org.json.JSONObject;
 import org.usfirst.frc.team4215.robot.prototypes.JSONDebug;
 
 import edu.wpi.first.wpilibj.PIDSource;
@@ -22,7 +22,7 @@ import gnu.io.SerialPort;
  * @author Jack Rausch
  *
  */
-public class UltrasonicHub implements PIDSource, JSONDebug {
+public class UltrasonicHub implements PIDSource {
     //an array of Strings to encapsulate port names
     private ArrayList<String> portlist;
     //an array of SimpleRead objects to encapsulate the readers
@@ -172,14 +172,14 @@ public class UltrasonicHub implements PIDSource, JSONDebug {
 	}
 
 
-	@Override
-	public JSONObject jdebug() {
+	//@Override
+/*	public JSONObject jdebug() {
 		JSONObject json = new JSONObject();
 		json.put("readers", readerlist);
 		json.put("ports", portlist);
 		return json;
 	}
-
+*/
 }
 
 
