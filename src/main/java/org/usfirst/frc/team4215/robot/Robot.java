@@ -77,6 +77,7 @@ public class Robot extends IterativeRobot {
 	VisionThread visionThread;
 	AnalogGyro gyro;
 	PIDTask gyroPID;
+	PIDController gpid;
 	
 	double Kp = .01;
 	double Ki = .1;
@@ -111,12 +112,15 @@ public class Robot extends IterativeRobot {
 		 leftStick = new Joystick(0);
 		 drivetrain = Drivetrain.Create();
 		 winch = new WinchTest();
+		 /*
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
+		 */
 		 vision = new CameraPID();
 		 gyro = new AnalogGyro(0);
 		 gyro.calibrate();
+		 gpid = new PIDController(.01, 0, 0, 0, gyro, drivetrain);
 		 
 		 // Creates the interface to the back camera
 /*		 
@@ -146,7 +150,7 @@ public class Robot extends IterativeRobot {
 		 System.out.println("dashData1: " + dashData1);
 		 System.out.println("dashData2: " + dashData2);
 		 
-		// gyroPID = new PIDTask(gyro, drivetrain, dashData0, dashData1, dashData2, 0, Kd);
+		 gyroPID = new PIDTask(gyro, drivetrain, dashData0, dashData1, dashData2, 0, 0);
 		 
 		 
 	}
@@ -199,12 +203,15 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
+		/*
 		drivetrain.setAllowableClosedLoopError(0);
 		drivetrain.resetEncoder();
 		drivetrain.enableControl();
-		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.setPID(.0625,0,.01);
-		drivetrain.Go(96,96,96,96);
+		drivetrain.setTalonControlMode(TalonControlMode.Speed);
+		drivetrain.setPID(.5,0,0);
+		*/
+		drivetrain.setAutoMode(AutoMode.Turn);
+		gpid.enable();
 
 	}
 	
@@ -215,9 +222,13 @@ public class Robot extends IterativeRobot {
 	 */ 
 	@Override
 	public void autonomousPeriodic(){
+		/*
+		drivetrain.Go(4,4,4,4);
 		dist = drivetrain.getPosition();
 		System.out.println(dist[0]);
+		*/
 		
+		System.out.println(gpid.getAvgError());
 	}
 	
 	@Override
