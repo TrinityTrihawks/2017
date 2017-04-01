@@ -201,8 +201,6 @@ public class Robot extends IterativeRobot {
 		
 		arm.setArm(leftStick.getRawAxis(1));		
 		winch.set(leftStick.getRawAxis(4));
-		data[0] = gyro.getAngle(); 
-		logger.writeData(data);
 		System.out.println(gpid.getAvgError());
 	}
 	
@@ -236,7 +234,8 @@ public class Robot extends IterativeRobot {
 		dist = drivetrain.getPosition();
 		System.out.println(dist[0]);
 		*/
-		
+		data[0] = gyro.getAngle(); 
+		logger.writeData(data);
 	}
 	
 	@Override
