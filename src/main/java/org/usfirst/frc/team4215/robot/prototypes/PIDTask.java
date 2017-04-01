@@ -13,6 +13,7 @@ public class PIDTask implements Runnable {
 	PIDController control;
 	double margin;
 	private int smearCount = 10;
+	boolean debug = false;
 	
 	
 	public PIDTask(PIDSource sensor, PIDOutput motor, 
@@ -25,6 +26,10 @@ public class PIDTask implements Runnable {
 		this.margin = margin;
 		smearCount = smear;
 		
+	}
+	
+	public void setDebug(boolean debug){
+		this.debug = debug;
 	}
 	
 	/**
@@ -59,6 +64,9 @@ public class PIDTask implements Runnable {
 		// Waits till the error is small
 		while(count < 10){
 			
+			if (debug)
+				System.out.println(control.getAvgError());
+				
 			if(error < margin){
 				error = control.getAvgError();
 				++count;

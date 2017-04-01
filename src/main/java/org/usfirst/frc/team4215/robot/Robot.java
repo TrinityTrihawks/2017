@@ -63,8 +63,8 @@ public class Robot extends IterativeRobot {
 	AnalogGyro gyro;
 	PIDController con;
 	
-	double Kp = .01;
-	double Ki = .1;
+	double Kp = .001;
+	double Ki = .01;
 	double Kd = 0;
 	
 	// ID's
@@ -116,7 +116,8 @@ public class Robot extends IterativeRobot {
 			 System.out.println(mat);
 			 
 			 //CameraServer.getInstance().addServer();
-*/
+			 */
+			 
 			 //CameraServer.getInstance().startAutomaticCapture(cameraFront);
 			 //CvSink cvSink = CameraServer.getInstance().getVideo(cameraFront);
 			 
@@ -133,12 +134,12 @@ public class Robot extends IterativeRobot {
 			 visionThread.start();
 			 System.out.println("VisonThread started without a hitch");
 			 
-			 //camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
+			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
 			 //System.out.println("PIDTask is working properly. Expect results");
-			 con = new PIDController(Kp, Ki, Kd, vision, drivetrain);
+			// con = new PIDController(Kp, Ki, Kd, vision, drivetrain);
 			 
 		 drivetrain.setAutoMode(AutoMode.Strafe);
-		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
+//		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		 
 	}
 	@Override
@@ -190,14 +191,19 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		//camAuto.run();
+		//con.setToleranceBuffer(10);
+		//Drivetrain.MotorGranular autoMode = Drivetrain.MotorGranular.SLOW;
+		//autoMode = Drivetrain.MotorGranular.SLOW;
+		drivetrain.setAutoMode(AutoMode.Strafe);
 		//con.enable();
+		//camAuto.run();
+		
 	}
 	
 	@Override
-	public void autonomousPeriodic(){
+	public void autonomousPeriodic() {
 		
-		//double sang = gyro.getAngle();
+/*		//double sang = gyro.getAngle();
 		//System.out.println(sang);
 		double cang = hub.getCorrectionAngle();
 		System.out.println(cang);
@@ -205,18 +211,22 @@ public class Robot extends IterativeRobot {
 		//double nang = 0;
 		while (cang != 0){
 			drivetrain.pidWrite(.1);
+			cang = hub.getCorrectionAngle();
+
 			//nang = gyro.getAngle();
 			//System.out.println(nang);
 		}
-		//System.out.println(con.getAvgError());
-		
+*/		
+		//System.out.println( "  camAuto error: " + con.getError());
 		
 	}
 	
 	@Override
 	public void disabledInit(){
-		con.disable();
+		//con.disable();
+		camAuto.disable();
 	}
+	
 	@Override
 	public void disabledPeriodic(){
 	}

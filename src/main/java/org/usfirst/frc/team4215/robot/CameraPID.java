@@ -41,7 +41,7 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 	 */
 	@Override
 	public synchronized double pidGet() {		
-		return closedLoopPosBounds*turn;
+		return turn;
 	}
 	
 	boolean isFirsttime = true;
@@ -60,24 +60,26 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
 			 Rect r = null;
 			 for (MatOfPoint mop : pipeline.filterContoursOutput()){
 				 if (r==null){
-	            r = Imgproc.boundingRect(mop);
-	            }
+					 r = Imgproc.boundingRect(mop);
+				 }
 				 else {
 					 r = Merge(r, Imgproc.boundingRect(mop));
-			 }
+				 }
 			 }	 
-	            synchronized (imgLock) {
-	                centerX = r.x + (r.width / 2);
-	                offSet = centerX - (IMG_WIDTH / 2);
-	        		turn = offSet/IMG_WIDTH;
-	    	    	System.out.println(offSet);
-	            }
+
+			 synchronized (imgLock) {
+                centerX = r.x + (r.width / 2);
+                offSet = centerX - (IMG_WIDTH / 2);
+        		turn = offSet/IMG_WIDTH;
+//   	    	System.out.println("o:" + offSet + ", t: "+ turn);
+
+            }
 	            
-	        }
+	     }
 		 else {
+			 	turn = 0.0;
 	    	  System.out.println("No Contours");
-	      }
-		
+		 }		
 	}
 
 	private Rect Merge(Rect r, Rect boundingRect) {
