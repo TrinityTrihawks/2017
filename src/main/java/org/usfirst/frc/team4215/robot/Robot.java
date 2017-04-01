@@ -64,7 +64,7 @@ public class Robot extends IterativeRobot {
 	PIDController con;
 	
 	double Kp = .01;
-	double Ki = .1;
+	double Ki = .05;
 	double Kd = 0;
 	
 	// ID's
@@ -76,8 +76,8 @@ public class Robot extends IterativeRobot {
 	int STRAFE_DRIVE_ID = 0;
 	int DRIVE_LEFT_TOP_TRIGGER = 5;
 	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
-	int IMG_WIDTH = 640;
-	int IMG_HEIGHT = 480;
+	int IMG_WIDTH = 320;
+	int IMG_HEIGHT = 240;
 	
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
@@ -116,7 +116,8 @@ public class Robot extends IterativeRobot {
 			 System.out.println(mat);
 			 
 			 //CameraServer.getInstance().addServer();
-*/
+			 */
+			 
 			 //CameraServer.getInstance().startAutomaticCapture(cameraFront);
 			 //CvSink cvSink = CameraServer.getInstance().getVideo(cameraFront);
 			 
@@ -133,14 +134,14 @@ public class Robot extends IterativeRobot {
 			 visionThread.start();
 			 System.out.println("VisonThread started without a hitch");
 			 
-			 //camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
+			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
 			 //System.out.println("PIDTask is working properly. Expect results");
-			 con = new PIDController(Kp, Ki, Kd, vision, drivetrain);
+			// con = new PIDController(Kp, Ki, Kd, vision, drivetrain);
 			 
 		 drivetrain.setAutoMode(AutoMode.Strafe);
-		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
-		 
+		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);		 
 	}
+
 	@Override
 	public void teleopInit(){		
 		//drivetrain.disableControl();
@@ -190,14 +191,21 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		//camAuto.run();
-		con.enable();
+		//con.setToleranceBuffer(10);
+		//Drivetrain.MotorGranular autoMode = Drivetrain.MotorGranular.SLOW;
+		//autoMode = Drivetrain.MotorGranular.SLOW;
+		drivetrain.setAutoMode(AutoMode.Strafe);
+		System.out.println("mode: " + drivetrain.getAutoMode());
+
+		//con.enable();
+		camAuto.run();
+		
 	}
 	
 	@Override
-	public void autonomousPeriodic(){
+	public void autonomousPeriodic() {
 		
-		//double sang = gyro.getAngle();
+/*		//double sang = gyro.getAngle();
 		//System.out.println(sang);
 		double cang = hub.getCorrectionAngle();
 		System.out.println(cang);
@@ -208,20 +216,23 @@ public class Robot extends IterativeRobot {
 			tcoeff = -tcoeff;
 		}
 		while (cang != 0){
-			drivetrain.pidWrite(tocoeff);
-			System.out.println(cang);
+			drivetrain.pidWrite(.1);
+			cang = hub.getCorrectionAngle();
+
 			//nang = gyro.getAngle();
 			//System.out.println(nang);
 		}
-		System.out.println(con.getAvgError());
-		
+*/		
+		System.out.println( "  camAuto error: " + camAuto.getError());
 		
 	}
 	
 	@Override
 	public void disabledInit(){
-		con.disable();
+		//con.disable();
+		camAuto.disable();
 	}
+	
 	@Override
 	public void disabledPeriodic(){
 	}
