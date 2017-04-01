@@ -291,6 +291,14 @@ import jaci.pathfinder.Waypoint;
 			return speed;
 		}
 		
+		double[] volts = new double[4];
+		public double[] getVoltages(){
+			for(int i = 0; i < talonList.length; i++){
+				CANTalon _talon  = talonList[i];
+				volts[i] = _talon.getBusVoltage();
+			}
+			return volts;
+		}
 		
 		/**
 		 * Get angle of gyro
