@@ -134,7 +134,7 @@ public class Robot extends IterativeRobot {
 			 visionThread.start();
 			 System.out.println("VisonThread started without a hitch");
 			 
-			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
+			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,.01);
 			 //System.out.println("PIDTask is working properly. Expect results");
 			// con = new PIDController(Kp, Ki, Kd, vision, drivetrain);
 			 
@@ -198,7 +198,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("mode: " + drivetrain.getAutoMode());
 		camAuto.setDebug(true);
 		//con.enable();
-		//camAuto.run();
+		camAuto.run();
 		
 	}
 	
