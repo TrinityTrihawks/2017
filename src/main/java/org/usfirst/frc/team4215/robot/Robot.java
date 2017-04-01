@@ -207,8 +207,10 @@ public class Robot extends IterativeRobot {
 		drivetrain.resetEncoder();
 		drivetrain.enableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.Speed);
-		drivetrain.setPID(.5,0,0);
+		drivetrain.setPID(.0625,0,.01);
+		drivetrain.Go(96,96,96,96);
 		*/
+		
 		String[] tmp = new String[] {"1"};
 		logger.init(tmp,tmp);
 		drivetrain.setAutoMode(AutoMode.Turn);
