@@ -56,16 +56,27 @@ public class PIDTask implements Runnable {
 	public void run() {
 		
 		//Sets up error value to watch
-		double error = control.getAvgError();;
+		double error = control.getAvgError();
 		
+		if (debug) {
+			System.out.println("Average Error: " + control.getAvgError());				
+		}
+
 		//enables controller
 		control.enable();
+
 		int count = 0;
 		// Waits till the error is small
 		while(count < 10){
 			
-			if (debug)
-				System.out.println(control.getAvgError());
+			if (!control.isEnabled())
+			{
+				break;
+			}
+			
+			if (debug) {
+				System.out.println("count: " + count + "  Average Error: " + control.getAvgError());				
+			}
 				
 			if(error < margin){
 				error = control.getAvgError();
@@ -73,8 +84,8 @@ public class PIDTask implements Runnable {
 			}else{
 				count = 0;
 			}
-			
 		}
+		
 		
 		// Disables the controller
 		control.disable();

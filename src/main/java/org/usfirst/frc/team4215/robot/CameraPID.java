@@ -71,14 +71,13 @@ public class CameraPID implements PIDSource, VisionRunner.Listener<Pipeline> {
                 centerX = r.x + (r.width / 2);
                 offSet = centerX - (IMG_WIDTH / 2);
         		turn = offSet/IMG_WIDTH;
-   	    	System.out.println("o:" + offSet + ", t: "+ turn);
-
+        		//System.out.println("o:" + offSet + ", t: "+ turn);
             }
 	            
 	     }
 		 else {
 			turn = 0.0;
- 			System.out.println("No Contours");
+ 			//System.out.println("No Contours");
 		 }		
 	}
 

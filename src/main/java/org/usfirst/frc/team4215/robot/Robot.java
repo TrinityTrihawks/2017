@@ -196,9 +196,9 @@ public class Robot extends IterativeRobot {
 		//autoMode = Drivetrain.MotorGranular.SLOW;
 		drivetrain.setAutoMode(AutoMode.Strafe);
 		System.out.println("mode: " + drivetrain.getAutoMode());
-
+		camAuto.setDebug(true);
 		//con.enable();
-		camAuto.run();
+		//camAuto.run();
 		
 	}
 	
@@ -219,6 +219,7 @@ public class Robot extends IterativeRobot {
 			//System.out.println(nang);
 		}
 */		
+		camAuto.run();
 		System.out.println( "  camAuto error: " + camAuto.getError());
 		
 	}
