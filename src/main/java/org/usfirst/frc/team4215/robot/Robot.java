@@ -162,6 +162,9 @@ public class Robot extends IterativeRobot {
 		}catch(Exception e){
 			
 		}
+		String[] tmp = new String[] {"1"};
+		logger.init(tmp,tmp);
+		System.out.println("Setting auto mode...");
 		drivetrain.setAutoMode(AutoMode.Turn);
 		gpid.enable();
 
