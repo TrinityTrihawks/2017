@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4215.robot.prototypes;
 
-import org.json.JSONObject;
+//import org.json.JSONObject;
 
 /**
  * Interface requiring the debug method so that it can be utilized by the Debugger class.
@@ -16,6 +16,6 @@ public interface JSONDebug {
 	 * @author Jack Rausch
 	 * @return JSONObject
 	 */
-	JSONObject jdebug();
+	//JSONObject jdebug();
 	
 }

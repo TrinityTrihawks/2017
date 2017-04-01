@@ -112,7 +112,7 @@ import jaci.pathfinder.Waypoint;
 					brWheel
 			};
 			
-			path = new Pathmaker();
+			//path = new Pathmaker();
 		}
 			
 			
