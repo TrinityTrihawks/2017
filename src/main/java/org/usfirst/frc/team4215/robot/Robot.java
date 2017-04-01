@@ -223,6 +223,7 @@ public class Robot extends IterativeRobot {
 		
 		String[] tmp = new String[] {"1"};
 		logger.init(tmp,tmp);
+		gyroPID.run();
 	
 
 	}
@@ -246,6 +247,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit(){
 		logger.close();
+		gyroPID.disable();
 	}
 	
 	@Override

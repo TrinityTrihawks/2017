@@ -31,7 +31,6 @@ public class PIDTask implements Runnable {
 		this.control = control;
 		this.margin = margin;
 	}
-	
 	/**
 	 * Starts and monitors PIDCotroller
 	 */
@@ -39,13 +38,18 @@ public class PIDTask implements Runnable {
 	public void run() {
 		
 		//Sets up error value to watch
-		double error = control.getAvgError();;
+		double error = control.getAvgError();
+		
 		
 		//enables controller
 		control.enable();
 		int count = 0;
 		// Waits till the error is small
 		while(count < 10){
+			
+			if(!control.isEnabled()){
+				break;
+			}
 			if(error > margin){
 				error = control.getAvgError();
 				++count;
