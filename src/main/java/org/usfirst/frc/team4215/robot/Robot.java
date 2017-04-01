@@ -80,7 +80,7 @@ public class Robot extends IterativeRobot {
 	
 	double Kp = .01;
 	double Ki = .1;
-	double Kd = 0;
+	double Kd = 0.0;
 	
 	double dashData0;
 	double dashData1;
@@ -146,7 +146,7 @@ public class Robot extends IterativeRobot {
 		 System.out.println("dashData1: " + dashData1);
 		 System.out.println("dashData2: " + dashData2);
 		 
-		 gyroPID = new PIDTask(gyro, drivetrain, dashData0, dashData1, dashData2, 0);
+		// gyroPID = new PIDTask(gyro, drivetrain, dashData0, dashData1, dashData2, 0, Kd);
 		 
 		 
 	}
@@ -202,8 +202,9 @@ public class Robot extends IterativeRobot {
 		drivetrain.setAllowableClosedLoopError(0);
 		drivetrain.resetEncoder();
 		drivetrain.enableControl();
-		drivetrain.setTalonControlMode(TalonControlMode.Speed);
-		drivetrain.setPID(.5,0,0);
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
+		drivetrain.setPID(.0625,0,.01);
+		drivetrain.Go(96,96,96,96);
 
 	}
 	
@@ -214,7 +215,6 @@ public class Robot extends IterativeRobot {
 	 */ 
 	@Override
 	public void autonomousPeriodic(){
-		drivetrain.Go(4,4,4,4);
 		dist = drivetrain.getPosition();
 		System.out.println(dist[0]);
 		
