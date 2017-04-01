@@ -123,7 +123,7 @@ public class Robot extends IterativeRobot {
 		 gpid = new PIDController(.01, 0, 0, 0, gyro, drivetrain);
 		 
 		 // Creates the interface to the back camera
-/*		 
+		 /*		 
 		 try{
 			 
 			 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.39");
@@ -137,7 +137,7 @@ public class Robot extends IterativeRobot {
 		 catch(Exception e){
 			 System.out.println(e.getMessage());
 		 }
-	*/	
+		*/	
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		 
@@ -151,7 +151,6 @@ public class Robot extends IterativeRobot {
 		 System.out.println("dashData2: " + dashData2);
 		 
 		 gyroPID = new PIDTask(gyro, drivetrain, dashData0, dashData1, dashData2, 0, 0);
-		 
 		 
 	}
 	
@@ -210,6 +209,8 @@ public class Robot extends IterativeRobot {
 		drivetrain.setTalonControlMode(TalonControlMode.Speed);
 		drivetrain.setPID(.5,0,0);
 		*/
+		String[] tmp = new String[] {"1"};
+		logger.init(tmp,tmp);
 		drivetrain.setAutoMode(AutoMode.Turn);
 		gpid.enable();
 
@@ -217,6 +218,7 @@ public class Robot extends IterativeRobot {
 	
 	double[] dist = new double[4];
 	double[] log = new double[7];
+	double[] data = new double[1];
 	/**
 	 * This function is called periodically during autonomous
 	 */ 
@@ -227,7 +229,8 @@ public class Robot extends IterativeRobot {
 		dist = drivetrain.getPosition();
 		System.out.println(dist[0]);
 		*/
-		
+		data[0] = gyro.getAngle(); 
+		logger.writeData(data);
 		System.out.println(gpid.getAvgError());
 	}
 	
