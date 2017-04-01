@@ -204,6 +204,7 @@ public class Robot extends IterativeRobot {
 		data[0] = gyro.getAngle(); 
 		logger.writeData(data);
 		System.out.println(gpid.getAvgError());
+		System.out.println(gyro.getAngle());
 	}
 	
 	@Override
