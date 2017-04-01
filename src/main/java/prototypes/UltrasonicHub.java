@@ -162,13 +162,16 @@ public class UltrasonicHub implements PIDSource, JSONDebug {
 	@Override
 	public PIDSourceType getPIDSourceType() {
 		// TODO Auto-generated method stub
-		return null;
+		return PIDSourceType.kDisplacement;
 	}
 
 	@Override
 	public double pidGet() {
-		// TODO Auto-generated method stub
-		return 0;
+		ArrayList<Integer> portReadings = getDistancefromallPorts();
+        //sets dist1 and dist2 to the first two distances taken
+        double dist1 = portReadings.get(0);
+        double dist2 = portReadings.get(1);
+		return dist1-dist2;
 	}
 
 
