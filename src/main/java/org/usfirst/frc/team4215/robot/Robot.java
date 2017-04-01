@@ -210,7 +210,11 @@ public class Robot extends IterativeRobot {
 		double cang = hub.getCorrectionAngle();
 		System.out.println(cang);
 		drivetrain.setAutoMode(AutoMode.Turn);
+		double tcoeff = 1;
 		//double nang = 0;
+		if (cang > 0){
+			tcoeff = -tcoeff;
+		}
 		while (cang != 0){
 			drivetrain.pidWrite(.1);
 			cang = hub.getCorrectionAngle();
