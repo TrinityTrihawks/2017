@@ -88,8 +88,8 @@ public class Robot extends IterativeRobot {
 	double dashData2;
 	
 	// ID's
-	int DRIVE_LEFT_JOYSTICK_ID = 3;
-	int DRIVE_RIGHT_JOYSTICK_ID = 1;
+	int DRIVE_LEFT_JOYSTICK_ID = 1;
+	int DRIVE_RIGHT_JOYSTICK_ID = 3;
 	int STRAFE_ID = 8;
 	int WINCH_ID = 1;
 	int ARM_ID = 4;
@@ -118,7 +118,7 @@ public class Robot extends IterativeRobot {
 		 hub.addReader("/dev/ttyUSB1");
 		 */
 		 vision = new CameraPID();
-		 gyro = new AnalogGyro(0);
+		 gyro = new AnalogGyro(1);
 		 gyro.calibrate();
 		 gpid = new PIDController(.01, 0, 0, 0, gyro, drivetrain);
 		 
@@ -163,8 +163,8 @@ public class Robot extends IterativeRobot {
 			
 		}
 		drivetrain.setAutoMode(AutoMode.Turn);
-		gpid.enable();
-
+		String[] tmp = new String[] {"1","2","3","4"};
+		logger.init(tmp,tmp);
 	}
 	
 
@@ -201,8 +201,9 @@ public class Robot extends IterativeRobot {
 		
 		arm.setArm(leftStick.getRawAxis(1));		
 		winch.set(leftStick.getRawAxis(4));
-		System.out.println(gpid.getAvgError());
-		System.out.println(gyro.getAngle());
+		volts = drivetrain.getVoltages();
+		logger.writeData(volts);
+		System.out.println("FL:" + volts[0] + " FR:" + volts[1] + " BL:" + volts[2] + " BR:" + volts[3]);
 	}
 	
 	@Override
@@ -216,8 +217,6 @@ public class Robot extends IterativeRobot {
 		drivetrain.Go(96,96,96,96);
 		*/
 		
-		String[] tmp = new String[] {"1"};
-		logger.init(tmp,tmp);
 	
 
 	}
@@ -235,6 +234,7 @@ public class Robot extends IterativeRobot {
 		dist = drivetrain.getPosition();
 		System.out.println(dist[0]);
 		*/
+		System.out.println(gpid.getAvgError());
 		data[0] = gyro.getAngle(); 
 		logger.writeData(data);
 	}
@@ -247,5 +247,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic(){
 
+	}
+	
+	double[] volts;
+	@Override
+	public void testPeriodic(){
+		
 	}
 }
