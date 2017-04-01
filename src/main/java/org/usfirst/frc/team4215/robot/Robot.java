@@ -202,6 +202,7 @@ public class Robot extends IterativeRobot {
 		arm.setArm(leftStick.getRawAxis(1));		
 		winch.set(leftStick.getRawAxis(4));
 		System.out.println(gpid.getAvgError());
+		System.out.println(gyro.getAngle());
 	}
 	
 	@Override
