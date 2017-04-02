@@ -162,6 +162,9 @@ public class Robot extends IterativeRobot {
 		}catch(Exception e){
 			
 		}
+		String[] tmp = new String[] {"1"};
+		logger.init(tmp,tmp);
+		System.out.println("Setting auto mode...");
 		drivetrain.setAutoMode(AutoMode.Turn);
 		String[] tmp = new String[] {"1","2","3","4"};
 		logger.init(tmp,tmp);
@@ -217,6 +220,10 @@ public class Robot extends IterativeRobot {
 		drivetrain.Go(96,96,96,96);
 		*/
 		
+		String[] tmp = new String[] {"1"};
+		logger.init(tmp,tmp);
+		gyroPID.run();
+	
 
 	}
 	
@@ -241,6 +248,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit(){
 		logger.close();
+		gyroPID.disable();
 	}
 	
 	@Override
