@@ -118,7 +118,7 @@ public class Robot extends IterativeRobot {
 		 hub.addReader("/dev/ttyUSB1");
 		 */
 		 vision = new CameraPID();
-		 gyro = new AnalogGyro(1);
+		 gyro = new AnalogGyro(0);
 		 gyro.calibrate();
 		 gpid = new PIDController(.01, 0, 0, 0, gyro, drivetrain);
 		 
@@ -150,7 +150,7 @@ public class Robot extends IterativeRobot {
 		 System.out.println("dashData1: " + dashData1);
 		 System.out.println("dashData2: " + dashData2);
 		 
-		 gyroPID = new PIDTask(gyro, drivetrain, dashData0, dashData1, dashData2, 0, 0);
+		 gyroPID = new PIDTask(gyro, drivetrain, dashData0, dashData1, dashData2, 60, 0);
 		 
 	}
 	
@@ -203,7 +203,7 @@ public class Robot extends IterativeRobot {
 		winch.set(leftStick.getRawAxis(4));
 		volts = drivetrain.getVoltages();
 		logger.writeData(volts);
-		System.out.println("FL:" + volts[0] + " FR:" + volts[1] + " BL:" + volts[2] + " BR:" + volts[3]);
+		System.out.println(gyro.getAngle());
 	}
 	
 	@Override
@@ -217,7 +217,6 @@ public class Robot extends IterativeRobot {
 		drivetrain.Go(96,96,96,96);
 		*/
 		
-	
 
 	}
 	
