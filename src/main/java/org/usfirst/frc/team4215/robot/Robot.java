@@ -1,46 +1,21 @@
 package org.usfirst.frc.team4215.robot;
 
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.cscore.AxisCamera;
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CameraServer;
-import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import org.usfirst.frc.team4215.robot.steamworks.VisionTest;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.PIDController;
 
-import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
-import com.ctre.CANTalon;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import org.usfirst.frc.team4215.robot.WinchTest;
 import org.usfirst.frc.team4215.robot.prototypes.PIDTask;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 import prototypes.UltrasonicHub;
-import com.ctre.CANTalon;
 
 /**
  * The VM is configured to automatically run this class, and to call the
