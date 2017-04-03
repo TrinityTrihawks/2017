@@ -211,14 +211,13 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		/*
 		drivetrain.setAllowableClosedLoopError(0);
 		drivetrain.resetEncoder();
 		drivetrain.enableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.Speed);
 		drivetrain.setPID(.0625,0,.01);
 		drivetrain.Go(96,96,96,96);
-		*/
+		
 		
 		String[] tmp = new String[] {"1"};
 		logger.init(tmp,tmp);
