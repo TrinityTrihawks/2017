@@ -196,7 +196,7 @@ public class Robot extends IterativeRobot {
 		//autoMode = Drivetrain.MotorGranular.SLOW;
 		drivetrain.setAutoMode(AutoMode.Strafe);
 		System.out.println("mode: " + drivetrain.getAutoMode());
-		camAuto.setDebug(true);
+		//camAuto.setDebug(true);
 		//con.enable();
 		camAuto.run();
 		
