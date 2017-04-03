@@ -162,8 +162,8 @@ public class Robot extends IterativeRobot {
 		}catch(Exception e){
 			
 		}
-		String[] tmp = new String[] {"1"};
-		logger.init(tmp,tmp);
+		//String[] tmp = new String[] {"1"};
+		//logger.init(tmp,tmp);
 		System.out.println("Setting auto mode...");
 		drivetrain.setAutoMode(AutoMode.Turn);
 		String[] tmp = new String[] {"1","2","3","4"};
@@ -216,12 +216,12 @@ public class Robot extends IterativeRobot {
 		drivetrain.enableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.Speed);
 		drivetrain.setPID(.0625,0,.01);
-		drivetrain.Go(96,96,96,96);
-		
 		
 		String[] tmp = new String[] {"1"};
 		logger.init(tmp,tmp);
+		drivetrain.Go(96,96,96,96);
 		gyroPID.run();
+		drivetrain.Go(12, 12, 12, 12);
 	
 
 	}
