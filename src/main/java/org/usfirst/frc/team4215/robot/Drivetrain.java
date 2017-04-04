@@ -36,13 +36,13 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 	
 	AutoMode mode;
 	
-	double coeffNormal = .666;
-	double coeffFast = 1;
-	double coeffSlow = .3;
+	double final coeffNormal = .666;
+	double final coeffFast = 1;
+	double final coeffSlow = .3;
 	
-	double wheelRadius = 3; // inches
-	double wheelCirc = 2*Math.PI*wheelRadius;
-	double secondsToMinutes = (double) 1/60; // seconds/minutes
+	double final wheelRadius = 3; // inches
+	double final wheelCirc = 2*Math.PI*wheelRadius;
+	double final secondsToMinutes = 1.0/60; // seconds/minutes
 	
 	CANTalon.TalonControlMode controlMode;
 	
