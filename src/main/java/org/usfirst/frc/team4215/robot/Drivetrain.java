@@ -3,9 +3,25 @@ package org.usfirst.frc.team4215.robot;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.PIDOutput;
 	
-public class Drivetrain implements PIDOutput {
+public class Drivetrain extends Subsystem implements PIDOutput{
+	
+	@Override
+	protected void initDefaultCommand() {
+
+	}
+	protected void setDefaultCommand(){
+		return;
+	}
+	
+	public Command getCurrentCommand(){
+		return null;
+	}
+	
 	public enum MotorGranular{
 		FAST,
 		NORMAL,
@@ -235,4 +251,7 @@ public class Drivetrain implements PIDOutput {
 				break;
 		}
 	}
+
+
+	
 }

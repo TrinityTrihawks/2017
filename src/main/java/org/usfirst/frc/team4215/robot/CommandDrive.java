@@ -10,7 +10,7 @@ public class CommandDrive extends Command {
 	
 	
 	Drivetrain drivetrain;
-	double distance;
+	public double distance;
 	
 	public CommandDrive(double distance){
 	
