@@ -1,39 +1,37 @@
 package org.usfirst.frc.team4215.robot;
 
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
-
+import org.usfirst.frc.team4215.robot.prototypes.PIDTask;
 import com.ctre.CANTalon.TalonControlMode;
-
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class CommandDrive extends Command {
+public class CommandVision extends Command {
+
 	
-	
+	PIDController camAuto;
+	CameraPID vision;
 	Drivetrain drivetrain;
-	public double distance;
+	double Kp = .01;
+	double Ki = .05;
+	double Kd = 0;
 	
-	public CommandDrive(double distance){
-	
+	public CommandVision(){
 		drivetrain = Drivetrain.Create();
-		this.distance = distance;
+		drivetrain.setAutoMode(AutoMode.Strafe);
+		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		requires(drivetrain);
-		
 	}
-	
 	protected void initialize(){
-		drivetrain.resetEncoder();
-		drivetrain.setTalonControlMode(TalonControlMode.Speed);
-		drivetrain.setAutoMode(AutoMode.Distance);
-	    drivetrain.setPID(.0625,0,.01); 
-	    drivetrain.Go(distance,distance,distance,distance); 
-	    
+		 camAuto = new PIDController(Kp, Ki, Kd, vision, drivetrain);
+		 
 	}
 	
 	protected void end(){
 		drivetrain.disableControl();
 	}
 	
-	protected void interrupted(){
+protected void interrupted(){
 		
 	}
 	
