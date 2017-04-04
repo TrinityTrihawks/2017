@@ -82,20 +82,7 @@ public class Robot extends IterativeRobot {
 		 System.out.println("Front camera initialized properly");
 			
 
-		 System.out.println("CameraServer initialized properly");
-
-		 vision = new CameraPID();
-		 visionThread = new VisionThread(cameraFront, new Pipeline(), vision);
-		 System.out.println("VisonThread initialized properly");
-		     
-		 visionThread.setDaemon(false);
-		 System.out.println("Daemon set properly");
 		 
-		 visionThread.start();
-		 System.out.println("VisonThread started without a hitch");
-			 
-		 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,.01);
-			 
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);		 
 	}
