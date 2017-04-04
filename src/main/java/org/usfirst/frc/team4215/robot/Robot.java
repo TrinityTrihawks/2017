@@ -76,42 +76,25 @@ public class Robot extends IterativeRobot {
 		 // Creates the interface to the back camera
 
 		 
-		 //Pipeline pipeline = new Pipeline();
 		 			 
-			 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
-			 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
-			 System.out.println("Front camera initialized properly");
-			 /*
-			 Mat mat = new Mat();
+		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
+		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		 System.out.println("Front camera initialized properly");
+			
 
-			 CvSink cvSink = CameraServer.getInstance().getVideo();
-			 CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
-			 cvSink.grabFrame(mat);
-			 System.out.println("CvSink and CvSouce initialized properly");
-			 System.out.println(mat);
-			 
-			 //CameraServer.getInstance().addServer();
-			 */
-			 
-			 //CameraServer.getInstance().startAutomaticCapture(cameraFront);
-			 //CvSink cvSink = CameraServer.getInstance().getVideo(cameraFront);
-			 
+		 System.out.println("CameraServer initialized properly");
 
-			 System.out.println("CameraServer initialized properly");
-
-			 vision = new CameraPID();
-		     visionThread = new VisionThread(cameraFront, new Pipeline(), vision);
-		     System.out.println("VisonThread initialized properly");
+		 vision = new CameraPID();
+		 visionThread = new VisionThread(cameraFront, new Pipeline(), vision);
+		 System.out.println("VisonThread initialized properly");
 		     
-		     visionThread.setDaemon(false);
-		     System.out.println("Daemon set properly");
-		     
-			 visionThread.start();
-			 System.out.println("VisonThread started without a hitch");
+		 visionThread.setDaemon(false);
+		 System.out.println("Daemon set properly");
+		 
+		 visionThread.start();
+		 System.out.println("VisonThread started without a hitch");
 			 
-			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,.01);
-			 //System.out.println("PIDTask is working properly. Expect results");
-			// con = new PIDController(Kp, Ki, Kd, vision, drivetrain);
+		 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,.01);
 			 
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);		 
@@ -166,50 +149,23 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		//con.setToleranceBuffer(10);
-		//Drivetrain.MotorGranular autoMode = Drivetrain.MotorGranular.SLOW;
-		//autoMode = Drivetrain.MotorGranular.SLOW;
-		drivetrain.setAutoMode(AutoMode.Strafe);
-		System.out.println("mode: " + drivetrain.getAutoMode());
-		camAuto.setDebug(true);
-		//con.enable();
-		//camAuto.run();
+		
 		
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
-		
-/*		//double sang = gyro.getAngle();
-		//System.out.println(sang);
-		double cang = hub.getCorrectionAngle();
-		System.out.println(cang);
-		drivetrain.setAutoMode(AutoMode.Turn);
-		double tcoeff = 1;
-		//double nang = 0;
-		if (cang > 0){
-			tcoeff = -tcoeff;
-		}
-		while (cang != 0){
-			drivetrain.pidWrite(.1);
-			cang = hub.getCorrectionAngle();
 
-			//nang = gyro.getAngle();
-			//System.out.println(nang);
-		}
-*/		
-		camAuto.run();
-		System.out.println( "  camAuto error: " + camAuto.getError());
 		
 	}
 	
 	@Override
 	public void disabledInit(){
-		//con.disable();
-		camAuto.disable();
+		
 	}
 	
 	@Override
 	public void disabledPeriodic(){
+		
 	}
 }
