@@ -36,7 +36,6 @@ public class Robot extends IterativeRobot {
 	UltrasonicHub hub;
 	PIDTask camAuto;
 	PIDTask ultraAuto;
-	VisionThread visionThread;
 	AnalogGyro gyro;
 	PIDController con;
 	
@@ -90,7 +89,7 @@ public class Robot extends IterativeRobot {
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
-		autonomousCommandLeft = new AutonomousCommandLeft(); 
+		//autonomousCommandLeft = new AutonomousCommandLeft(); 
 	}
 
 	@Override

@@ -8,15 +8,15 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class CommandVision extends Command {
 
-	
 	PIDController camAuto;
-	CameraPID vision;
 	Drivetrain drivetrain;
 	double Kp = .01;
 	double Ki = .05;
 	double Kd = 0;
 	
-	public CommandVision(){
+	
+	
+	public CommandVision(vision){
 		drivetrain = Drivetrain.Create();
 		drivetrain.setAutoMode(AutoMode.Strafe);
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
@@ -26,6 +26,7 @@ public class CommandVision extends Command {
 	}
 	protected void initialize(){
 		camAuto.enable();
+		drivetrain.enableControl();
 	}
 	
 	protected void end(){
