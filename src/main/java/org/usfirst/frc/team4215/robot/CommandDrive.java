@@ -12,14 +12,16 @@ public class CommandDrive extends Command {
 	Drivetrain drivetrain;
 	public double distance;
 	
-	double Kp = 0.0625;
+	double Kp = 0.0725;
 	double Ki = 0;
 	double Kd = 0.01;
 	
-	public CommandDrive(double distance){
+	int margin;
+	public CommandDrive(double distance, int margin){
 	
 		drivetrain = Drivetrain.Create();
 		this.distance = distance;
+		this.margin = margin;
 		requires(drivetrain);
 		
 	}
@@ -27,6 +29,7 @@ public class CommandDrive extends Command {
 	protected void initialize(){
 		drivetrain.resetEncoder();
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
+		drivetrain.setClosedLoopError(margin);
 		drivetrain.setAutoMode(AutoMode.Distance);
 	    drivetrain.setPID(Kp, Ki, Kd); 
 	    drivetrain.enableControl();
