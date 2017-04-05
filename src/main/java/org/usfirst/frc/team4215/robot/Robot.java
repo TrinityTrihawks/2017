@@ -32,12 +32,13 @@ public class Robot extends IterativeRobot {
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
 	WinchTest winch;
-	CameraPID vision;
+	CameraPID visionPID;
 	UltrasonicHub hub;
 	PIDTask camAuto;
 	PIDTask ultraAuto;
 	AnalogGyro gyro;
 	PIDController con;
+	VisionThread visionThread;
 	
 	Command autonomousCommandLeft;
 	
@@ -83,13 +84,21 @@ public class Robot extends IterativeRobot {
 		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 System.out.println("Front camera initialized properly");
-			
-
-		 
+/*
+		 visionPID = new CameraPID();
+	     visionThread = new VisionThread(cameraFront, new Pipeline(), visionPID);
+	     System.out.println("VisonThread initialized properly");
+	     
+	     visionThread.setDaemon(false);
+	     System.out.println("Daemon set properly");
+	     
+		 visionThread.start();
+		 System.out.println("VisonThread started without a hitch");
+		 */
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
-		//autonomousCommandLeft = new AutonomousCommandLeft(); 
+		autonomousCommandLeft = new AutonomousCommandLeft(cameraFront); 
 	}
 
 	@Override
