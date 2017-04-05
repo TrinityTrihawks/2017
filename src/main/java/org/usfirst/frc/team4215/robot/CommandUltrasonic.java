@@ -30,6 +30,7 @@ public class CommandUltrasonic extends Command {
 	protected void initialize() {
 		correction = hub.getCorrectionAngle();
 		correctionPID = new PIDController(Kp, Ki, Kd, gyro, drivetrain);
+		correctionPID.setSetpoint(correction);
 		correctionPID.enable();
 	}
 	
