@@ -24,7 +24,7 @@ public class CommandUltrasonic extends Command {
 	public CommandUltrasonic() {
 		hub = new UltrasonicHub();
 		hub.addReader("/dev/ttyUSB0");
-		 hub.addReader("/dev/ttyUSB1"); 
+		hub.addReader("/dev/ttyUSB1"); 
 		drivetrain = Drivetrain.Create();
 		requires(drivetrain);
 	}
@@ -50,7 +50,7 @@ public class CommandUltrasonic extends Command {
 	@Override
 	protected boolean isFinished() {
 		if (correctionPID.getError() == 0){
-			System.out.println("IsFinished = " + correction + "at" + drivetrain.getAngle());
+			System.out.println("IsFinished = " + correction + "at" + rain.getAngle());
 			return true;
 		}
 		System.out.println("IsFinished = false");
