@@ -17,23 +17,25 @@ public class CommandUltrasonic extends Command {
 	
 	//values gotten from tuning
 	private final double Kp = 0.012029;
-	private final double Kd = 0;
-	private final double Ki =  0;
+	private final double Kd = 0.00046235;
+	private final double Ki = 0.0375292;
 	
 	
 	public CommandUltrasonic() {
 		hub = new UltrasonicHub();
 		hub.addReader("/dev/ttyUSB0");
-		 hub.addReader("/dev/ttyUSB1"); 
+		hub.addReader("/dev/ttyUSB1"); 
 		drivetrain = Drivetrain.Create();
+		correction = hub.getCorrectionAngle();
+		correctionPID = new PIDController(Kp, Ki, Kd, 0, drivetrain, drivetrain);
+		correctionPID.setSetpoint(correction);
 		requires(drivetrain);
 	}
 	
 	protected void initialize() {
+		drivetrain.calibrateGyro();
 		drivetrain.setAutoMode(AutoMode.Turn);
-		correction = hub.getCorrectionAngle();
-		correctionPID = new PIDController(Kp, Ki, Kd, 0, drivetrain, drivetrain);
-		correctionPID.setSetpoint(correction);
+	    drivetrain.setPID(Kp, Ki, Kd);
 		correctionPID.enable();
 		System.out.println("Initialized");
 	}
