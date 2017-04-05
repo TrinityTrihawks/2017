@@ -18,9 +18,11 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		return;
 	}
 	
+	/*
 	public Command getCurrentCommand(){
 		return super.getCurrentCommand();
 	}
+	*/
 	
 	public enum MotorGranular{
 		FAST,
@@ -51,7 +53,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	CANTalon frWheel;
 	CANTalon blWheel;
 	CANTalon brWheel;
-	
+		
 	AnalogGyro gyro;
 	//Declare Lists of wheels to be used for pathmaker trajectories
 	CANTalon[] wheelList = new CANTalon[]{
@@ -101,7 +103,6 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		frWheel.reverseSensor(true);
 		brWheel.reverseSensor(true);
 		blWheel.reverseSensor(true);
-
 		
 		flWheel.setProfile(0);
 		frWheel.setProfile(0);
@@ -112,7 +113,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		gyro.calibrate();
 		
 		mode = AutoMode.Distance;
-	}
+}
 	
 	
 	public double getAngle(){
@@ -171,7 +172,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		brWheel.enableControl();
 		blWheel.enableControl();
 	}
-		
+	
 	public boolean isEnabled(){
 		boolean flag = frWheel.isEnabled();
 		flag &= flWheel.isEnabled();
@@ -179,7 +180,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		flag &= blWheel.isEnabled();
 		return flag;
 	}
-
+	
 	public boolean isClosedLoopDone(int margin){
 		if (frWheel.getClosedLoopError()< margin){
 			return true;

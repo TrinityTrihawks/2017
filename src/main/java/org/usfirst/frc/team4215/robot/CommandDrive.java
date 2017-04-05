@@ -11,7 +11,8 @@ public class CommandDrive extends Command {
 	
 	Drivetrain drivetrain;
 	public double distance;
-	
+	boolean repeat;
+	int count = 0;
 	double Kp = 0.0725;
 	double Ki = 0;
 	double Kd = 0.01;
@@ -29,7 +30,6 @@ public class CommandDrive extends Command {
 	protected void initialize(){
 		drivetrain.resetEncoder();
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.setClosedLoopError(margin);
 		drivetrain.setAutoMode(AutoMode.Distance);
 	    drivetrain.setPID(Kp, Ki, Kd); 
 	    drivetrain.enableControl();
@@ -46,10 +46,18 @@ public class CommandDrive extends Command {
 		System.out.println("Interrupted");
 	}
 	
+	int E_0 = 0;
+	int limit = 10;
 	@Override
 	protected boolean isFinished() {
 		int[] Array =  drivetrain.getClosedLoopError();
-		System.out.println(" IsFinished   " + Array[0]);		
-		return drivetrain.isClosedLoopDone(450);
+		System.out.println(" IsFinished   " + Array[0]);
+		if(E_0 == Array[0])
+			count++;
+		else{
+			E_0 = Array[0];
+			count = 0;
+		}
+		return count >= 10;
 	}
 }
