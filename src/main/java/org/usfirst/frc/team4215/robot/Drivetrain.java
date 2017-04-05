@@ -6,9 +6,8 @@ import com.ctre.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.PIDOutput;
 	
-public class Drivetrain extends Subsystem implements PIDOutput{
+public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	@Override
 	protected void initDefaultCommand() {
@@ -53,6 +52,7 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 	CANTalon blWheel;
 	CANTalon brWheel;
 	
+	AnalogGyro gyro;
 	//Declare Lists of wheels to be used for pathmaker trajectories
 	CANTalon[] wheelList = new CANTalon[]{
 			flWheel, frWheel, blWheel, brWheel
@@ -108,7 +108,20 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 		brWheel.setProfile(0);
 		blWheel.setProfile(0);
 		
+		gyro = new AnalogGyro(0);
+		gyro.calibrate();
+		
 		mode = AutoMode.Distance;
+	}
+	
+	
+	public double getAngle(){
+		return gyro.getAngle();
+	}
+	
+	public void calibrateGyro(){
+		gyro.reset();
+		gyro.calibrate();
 	}
 	
 	public void setPID(double Kp, double Ki, double Kd){
@@ -167,8 +180,8 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 		return flag;
 	}
 
-	public boolean isClosedLoopDone(){
-		if (frWheel.getClosedLoopError() == 0){
+	public boolean isClosedLoopDone(int margin){
+		if (frWheel.getClosedLoopError()< margin){
 			return true;
 		}
 		return false;
@@ -287,9 +300,27 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 				drive(0,0, -output, true, MotorGranular.FAST);
 				break;
 			case Turn:
-				drive(output,-output, 0, false, MotorGranular.FAST);
+				drive(-output,output, 0, false, MotorGranular.FAST);
 				break;
 		}
+	}
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		// TODO Auto-generated method stub
+		return PIDSourceType.kDisplacement;
+	}
+
+	@Override
+	public double pidGet() {
+		// TODO Auto-generated method stub
+		return gyro.getAngle();
 	}
 
 
