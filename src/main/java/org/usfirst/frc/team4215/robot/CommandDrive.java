@@ -12,6 +12,10 @@ public class CommandDrive extends Command {
 	Drivetrain drivetrain;
 	public double distance;
 	
+	double Kp = 0.0625;
+	double Ki = 0;
+	double Kd = 0.01;
+	
 	public CommandDrive(double distance){
 	
 		drivetrain = Drivetrain.Create();
@@ -22,25 +26,27 @@ public class CommandDrive extends Command {
 	
 	protected void initialize(){
 		drivetrain.resetEncoder();
-		drivetrain.setTalonControlMode(TalonControlMode.Speed);
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.setAutoMode(AutoMode.Distance);
-	    drivetrain.setPID(.0625,0,.01); 
+	    drivetrain.setPID(Kp, Ki, Kd); 
+	    drivetrain.enableControl();
 	    drivetrain.Go(distance,distance,distance,distance); 
-	    
+	    System.out.println("Initialized");
 	}
 	
 	protected void end(){
 		drivetrain.disableControl();
+		System.out.println("Ended");
 	}
 	
 	protected void interrupted(){
-		
+		System.out.println("Interrupted");
 	}
 	
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		double[] Array =  drivetrain.getDistance();
+		System.out.println(" IsFinished   " + Array[0]);		
+		return drivetrain.isClosedLoopDone();
 	}
-
 }

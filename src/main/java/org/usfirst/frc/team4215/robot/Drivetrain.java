@@ -14,12 +14,13 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 	protected void initDefaultCommand() {
 
 	}
+	
 	protected void setDefaultCommand(){
 		return;
 	}
 	
 	public Command getCurrentCommand(){
-		return null;
+		return super.getCurrentCommand();
 	}
 	
 	public enum MotorGranular{
@@ -36,13 +37,13 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 	
 	AutoMode mode;
 	
-	double final coeffNormal = .666;
-	double final coeffFast = 1;
-	double final coeffSlow = .3;
+	final double coeffNormal = .666;
+	final double coeffFast = 1;
+	final double coeffSlow = .3;
 	
-	double final wheelRadius = 3; // inches
-	double final wheelCirc = 2*Math.PI*wheelRadius;
-	double final secondsToMinutes = 1.0/60; // seconds/minutes
+	final double wheelRadius = 3; // inches
+	final double wheelCirc = 2*Math.PI*wheelRadius;
+	final double secondsToMinutes = 1.0/60; // seconds/minutes
 	
 	CANTalon.TalonControlMode controlMode;
 	
@@ -86,15 +87,21 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 		blWheel = new CANTalon(3);
 		brWheel = new CANTalon(2);
 		
-		flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+		flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		
 		flWheel.setAllowableClosedLoopErr(0);
 		frWheel.setAllowableClosedLoopErr(0);
 		blWheel.setAllowableClosedLoopErr(0);
 		brWheel.setAllowableClosedLoopErr(0);
+
+		flWheel.reverseSensor(true);
+		frWheel.reverseSensor(true);
+		brWheel.reverseSensor(true);
+		blWheel.reverseSensor(true);
+
 		
 		flWheel.setProfile(0);
 		frWheel.setProfile(0);
@@ -111,14 +118,15 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 		brWheel.setPID(Kp, Ki, Kd);
 	}
 	
-	public void resetEncoder(){
-		int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
+	public void resetEncoder(){		
+		//int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
+		int absolutePosition = 0;
 		flWheel.setEncPosition(absolutePosition);
-		absolutePosition = frWheel.getPulseWidthPosition() & 0xFFF;
+		//absolutePosition = frWheel.getPulseWidthPosition() & 0xFFF;
 		frWheel.setEncPosition(absolutePosition);
-		absolutePosition = blWheel.getPulseWidthPosition() & 0xFFF;
+		//absolutePosition = blWheel.getPulseWidthPosition() & 0xFFF;
 		blWheel.setEncPosition(absolutePosition);
-		absolutePosition = brWheel.getPulseWidthPosition() & 0xFFF;
+		//absolutePosition = brWheel.getPulseWidthPosition() & 0xFFF;
 		brWheel.setEncPosition(absolutePosition);
 	}
 	
@@ -150,6 +158,21 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 		brWheel.enableControl();
 		blWheel.enableControl();
 	}
+		
+	public boolean isEnabled(){
+		boolean flag = frWheel.isEnabled();
+		flag &= flWheel.isEnabled();
+		flag &= brWheel.isEnabled();
+		flag &= blWheel.isEnabled();
+		return flag;
+	}
+
+	public boolean isClosedLoopDone(){
+		if (frWheel.getClosedLoopError() == 0){
+			return true;
+		}
+		return false;
+	}
 	
 	public void disableControl(){
 		flWheel.disableControl();
@@ -160,10 +183,10 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 	
 	public double[] getDistance(){
 		double[] dist = new double[4];
-		dist[0] = frWheel.getEncPosition();
-		dist[1] = brWheel.getEncPosition();
-		dist[2] = flWheel.getEncPosition();
-		dist[3] = blWheel.getEncPosition();
+		dist[0] = frWheel.getPosition();
+		dist[1] = brWheel.getPosition();
+		dist[2] = flWheel.getPosition();
+		dist[3] = blWheel.getPosition();
 		
 		return dist;
 	}

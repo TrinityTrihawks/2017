@@ -11,6 +11,8 @@ import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 import com.ctre.CANTalon.TalonControlMode;
 import org.usfirst.frc.team4215.robot.WinchTest;
@@ -37,6 +39,8 @@ public class Robot extends IterativeRobot {
 	VisionThread visionThread;
 	AnalogGyro gyro;
 	PIDController con;
+	
+	Command autonomousCommandLeft;
 	
 	double Kp = .01;
 	double Ki = .05;
@@ -84,7 +88,9 @@ public class Robot extends IterativeRobot {
 
 		 
 		 drivetrain.setAutoMode(AutoMode.Strafe);
-		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);		 
+		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
+		 
+		autonomousCommandLeft = new AutonomousCommandLeft(); 
 	}
 
 	@Override
@@ -136,13 +142,14 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		
-		
+		if (autonomousCommandLeft != null){
+			autonomousCommandLeft.start();
+		}	
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
-
+		Scheduler.getInstance().run();
 		
 	}
 	
