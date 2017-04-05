@@ -32,7 +32,7 @@ public class CommandUltrasonic extends Command {
 	protected void initialize() {
 		drivetrain.setAutoMode(AutoMode.Turn);
 		correction = hub.getCorrectionAngle();
-		correctionPID = new PIDController(Kp, Ki, Kd, drivetrain, drivetrain);
+		correctionPID = new PIDController(Kp, Ki, Kd, 0, drivetrain, drivetrain);
 		correctionPID.setSetpoint(correction);
 		correctionPID.enable();
 		System.out.println("Initialized");
