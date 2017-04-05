@@ -191,6 +191,16 @@ public class Drivetrain extends Subsystem implements PIDOutput{
 		return dist;
 	}
 	
+	public int[] getClosedLoopError(){
+		int[] dist = new int[4];
+		dist[0] = frWheel.getClosedLoopError();
+		dist[1] = brWheel.getClosedLoopError();
+		dist[2] = flWheel.getClosedLoopError();
+		dist[3] = blWheel.getClosedLoopError();
+		
+		return dist;
+	}
+	
 	/**
 	 * floor/ceiling for power and setting wheels
 	 * @author Carl(RIP) and Will 
