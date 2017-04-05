@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 
 public class AutonomousCommandLeft extends CommandGroup {
 		
-	AutonomousCommandLeft(){
+	AutonomousCommandLeft(AxisCamera camerafront){
 		addSequential(new CommandDrive(41.5, 450));
 //		addSequential(new CommandTurn(60));
 	}

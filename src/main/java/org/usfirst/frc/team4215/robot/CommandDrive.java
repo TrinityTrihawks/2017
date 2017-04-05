@@ -50,6 +50,6 @@ public class CommandDrive extends Command {
 	protected boolean isFinished() {
 		int[] Array =  drivetrain.getClosedLoopError();
 		System.out.println(" IsFinished   " + Array[0]);		
-		return drivetrain.isClosedLoopDone();
+		return drivetrain.isClosedLoopDone(450);
 	}
 }
