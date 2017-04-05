@@ -2,6 +2,8 @@ package org.usfirst.frc.team4215.robot;
 
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 
+import com.ctre.CANTalon.TalonControlMode;
+
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -27,8 +29,12 @@ public class CommandTurn extends Command {
 	}
 	
 	protected void initialize(){
+		System.out.println("Initialized");
+		drivetrain.disableControl();
+		drivetrain.resetEncoder();
 		drivetrain.calibrateGyro();
 		drivetrain.setAutoMode(AutoMode.Turn);
+		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 	    drivetrain.setPID(Kp, Ki, Kd);
 	    conGyro.enable();
 	  //drivetrain.Go(angle,angle,angle,angle); 
@@ -39,7 +45,7 @@ public class CommandTurn extends Command {
 		conGyro.disable();
 	}
 	
-protected void interrupted(){
+	protected void interrupted(){
 		
 	}
 	
