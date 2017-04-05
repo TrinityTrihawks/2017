@@ -21,13 +21,15 @@ public class CommandVision extends Command {
 		drivetrain.setAutoMode(AutoMode.Strafe);
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 		requires(drivetrain);
+		 camAuto = new PIDController(Kp, Ki, Kd, vision, drivetrain);
+
 	}
 	protected void initialize(){
-		 camAuto = new PIDController(Kp, Ki, Kd, vision, drivetrain);
-		 
+		camAuto.enable();
 	}
 	
 	protected void end(){
+		camAuto.disable();
 		drivetrain.disableControl();
 	}
 	
@@ -37,8 +39,7 @@ protected void interrupted(){
 	
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return camAuto.getAvgError() == 0 ? true: false;
 	}
 
 }
