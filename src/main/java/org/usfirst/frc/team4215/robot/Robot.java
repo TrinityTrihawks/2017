@@ -69,10 +69,7 @@ public class Robot extends IterativeRobot {
 		 winch = new WinchTest();
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
-		 hub.addReader("/dev/ttyUSB1");
-
-		 gyro = new AnalogGyro(0);
-		 gyro.calibrate();
+		 hub.addReader("/dev/ttyUSB1"); 
 		 
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
@@ -160,6 +157,5 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void disabledPeriodic(){
-		
 	}
 }

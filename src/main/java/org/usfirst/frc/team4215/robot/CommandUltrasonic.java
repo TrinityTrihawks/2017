@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4215.robot;
 
+import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,26 +12,27 @@ public class CommandUltrasonic extends Command {
 	UltrasonicHub hub;
 	Drivetrain drivetrain;
 	PIDController correctionPID;
-	AnalogGyro gyro;
 	
 	double correction;
 	
 	//values gotten from tuning
 	private final double Kp = 0.012029;
-	private final double Kd = 0.00046235;
-	private final double Ki = 0.0375292;
+	private final double Kd = 0;
+	private final double Ki =  0;
 	
 	
 	public CommandUltrasonic() {
 		hub = new UltrasonicHub();
+		hub.addReader("/dev/ttyUSB0");
+		 hub.addReader("/dev/ttyUSB1"); 
 		drivetrain = Drivetrain.Create();
-		gyro = new AnalogGyro(0);
 		requires(drivetrain);
 	}
 	
 	protected void initialize() {
+		drivetrain.setAutoMode(AutoMode.Turn);
 		correction = hub.getCorrectionAngle();
-		correctionPID = new PIDController(Kp, Ki, Kd, gyro, drivetrain);
+		correctionPID = new PIDController(Kp, Ki, Kd, drivetrain, drivetrain);
 		correctionPID.setSetpoint(correction);
 		correctionPID.enable();
 		System.out.println("Initialized");
@@ -46,8 +49,8 @@ public class CommandUltrasonic extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		if (correctionPID.getAvgError() == 0){
-			System.out.println("IsFinished = true");
+		if (correctionPID.getError() == 0){
+			System.out.println("IsFinished = " + correction + "at" + drivetrain.getAngle());
 			return true;
 		}
 		System.out.println("IsFinished = false");
