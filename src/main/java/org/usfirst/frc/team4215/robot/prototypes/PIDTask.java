@@ -13,6 +13,7 @@ public class PIDTask implements Runnable {
 	PIDController control;
 	double margin;
 	private int smearCount = 10;
+	boolean debug = false;
 	
 	
 	public PIDTask(PIDSource sensor, PIDOutput motor, 
@@ -25,6 +26,10 @@ public class PIDTask implements Runnable {
 		this.margin = margin;
 		smearCount = smear;
 		
+	}
+	
+	public void setDebug(boolean debug){
+		this.debug = debug;
 	}
 	
 	/**
@@ -51,25 +56,41 @@ public class PIDTask implements Runnable {
 	public void run() {
 		
 		//Sets up error value to watch
-		double error = control.getAvgError();;
+		double error = control.getAvgError();
 		
+		if (debug) {
+			System.out.println("Average Error: " + control.getAvgError());				
+		}
+
 		//enables controller
 		control.enable();
+
 		int count = 0;
 
 		// Waits till the error is small
 		while(count < 10){
 			
+			if (!control.isEnabled())
+			{
+				break;
+			}
+			
+			if (debug) {
+				System.out.println("count: " + count + "  Average Error: " + control.getAvgError());				
+			}
+				
 			if(error < margin){
 				error = control.getAvgError();
 				++count;
 			}else{
 				count = 0;
-			}			
+			}
 		}
+		
 		
 		// Disables the controller
 		control.disable();
+		System.out.println("run completed " + error);
 		
 	}
 	

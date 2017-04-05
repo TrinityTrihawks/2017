@@ -1,46 +1,23 @@
 package org.usfirst.frc.team4215.robot;
 
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.cscore.AxisCamera;
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CameraServer;
-import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import org.usfirst.frc.team4215.robot.steamworks.VisionTest;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
-import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
-import com.ctre.CANTalon;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import org.usfirst.frc.team4215.robot.WinchTest;
 import org.usfirst.frc.team4215.robot.prototypes.PIDTask;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 import prototypes.UltrasonicHub;
-import com.ctre.CANTalon;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -61,9 +38,12 @@ public class Robot extends IterativeRobot {
 	PIDTask ultraAuto;
 	VisionThread visionThread;
 	AnalogGyro gyro;
+	PIDController con;
+	
+	Command autonomousCommandLeft;
 	
 	double Kp = .01;
-	double Ki = .1;
+	double Ki = .05;
 	double Kd = 0;
 	
 	// ID's
@@ -75,12 +55,13 @@ public class Robot extends IterativeRobot {
 	int STRAFE_DRIVE_ID = 0;
 	int DRIVE_LEFT_TOP_TRIGGER = 5;
 	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
-	int IMG_WIDTH = 640;
-	int IMG_HEIGHT = 480;
+	int IMG_WIDTH = 320;
+	int IMG_HEIGHT = 240;
 	
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
 	
+	@Override
 	public void robotInit(){
 		arm =  new Arm();
 		leftStick = new Joystick(0);
@@ -89,33 +70,30 @@ public class Robot extends IterativeRobot {
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1");
-		 vision = new CameraPID();
+
 		 gyro = new AnalogGyro(0);
 		 gyro.calibrate();
+		 
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-
+		 System.out.println("Back camera initialized properly");
 		 // Creates the interface to the back camera
+
 		 
-		 //try{
-			 
-			 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
-			 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		     visionThread = new VisionThread(cameraFront,new Pipeline(), vision);
-		     visionThread.setDaemon(true);
-			 visionThread.start();
-			 camAuto = new PIDTask(vision,drivetrain,Kp,Ki,Kd,0,0);
-			 
-		// }
-		 //catch(Exception e){
-			// System.out.println(e.getMessage());
-		// }
-		
+		 			 
+		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
+		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		 System.out.println("Front camera initialized properly");
+			
+
+		 
 		 drivetrain.setAutoMode(AutoMode.Strafe);
-		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
+		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
+		autonomousCommandLeft = new AutonomousCommandLeft(); 
 	}
-	
+
+	@Override
 	public void teleopInit(){		
 		//drivetrain.disableControl();
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
@@ -126,7 +104,7 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	
-
+	@Override
 	public void teleopPeriodic(){
 		
 		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
@@ -164,20 +142,24 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		camAuto.run();
+		if (autonomousCommandLeft != null){
+			autonomousCommandLeft.start();
+		}	
 	}
 	
 	@Override
-	public void autonomousPeriodic(){
-		
-		System.out.println(camAuto.getError());
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
 		
 	}
 	
 	@Override
 	public void disabledInit(){
+		
 	}
+	
 	@Override
 	public void disabledPeriodic(){
+		
 	}
 }

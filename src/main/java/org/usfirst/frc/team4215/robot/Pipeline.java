@@ -1,23 +1,12 @@
 package org.usfirst.frc.team4215.robot;
 
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.HashMap;
-
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 import org.opencv.core.*;
-import org.opencv.core.Core.*;
-import org.opencv.features2d.FeatureDetector;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
-import org.opencv.objdetect.*;
 
 /**
 *
@@ -28,8 +17,8 @@ import org.opencv.objdetect.*;
 public class Pipeline implements VisionPipeline {
 
 	//Outputs
-	private Mat hsvThresholdOutput = new Mat();
-	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
+	private Mat hslThresholdOutput = new Mat();
+    private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 
 	static {
@@ -40,31 +29,30 @@ public class Pipeline implements VisionPipeline {
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
 	@Override	public void process(Mat source0) {
-		// Step HSV_Threshold0:
-		Mat hsvThresholdInput = source0;
-		double[] hsvThresholdHue = {0.0, 180.0};
-		double[] hsvThresholdSaturation = {0.0, 255.0};
-		double[] hsvThresholdValue = {0.0, 218.51010101010098};
-		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
-
+		// Step HSL_Threshold0:
+		Mat hslThresholdInput = source0;
+		double[] hslThresholdHue = {84.17266187050359, 142.12121212121212};
+		double[] hslThresholdSaturation = {126.12410071942446, 190.60606060606062};
+		double[] hslThresholdLuminance = {110.07194244604317, 205.63131313131314};
+		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
 		// Step Find_Contours0:
-		Mat findContoursInput = hsvThresholdOutput;
+		Mat findContoursInput = hslThresholdOutput;
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 10.0;
-		double filterContoursMinPerimeter = 5.0;
-		double filterContoursMinWidth = 5.0;
-		double filterContoursMaxWidth = 1000;
-		double filterContoursMinHeight = 120.0;
-		double filterContoursMaxHeight = 200.0;
-		double[] filterContoursSolidity = {84.53237410071942, 100.0};
-		double filterContoursMaxVertices = 1000000;
-		double filterContoursMinVertices = 25.0;
+		double filterContoursMinArea = 30.0;
+		double filterContoursMinPerimeter = 50.0;
+		double filterContoursMinWidth = 0.0;
+		double filterContoursMaxWidth = 1000.0;
+		double filterContoursMinHeight = 0.0;
+		double filterContoursMaxHeight = 1000.0;
+		double[] filterContoursSolidity = {0, 100};
+		double filterContoursMaxVertices = 1000000.0;
+		double filterContoursMinVertices = 0.0;
 		double filterContoursMinRatio = 0.0;
-		double filterContoursMaxRatio = 1000;
+		double filterContoursMaxRatio = 1000.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 	}
@@ -73,8 +61,8 @@ public class Pipeline implements VisionPipeline {
 	 * This method is a generated getter for the output of a HSV_Threshold.
 	 * @return Mat output from HSV_Threshold.
 	 */
-	public Mat hsvThresholdOutput() {
-		return hsvThresholdOutput;
+	public Mat hslThresholdOutput() {
+		return hslThresholdOutput;
 	}
 
 	/**
@@ -103,9 +91,9 @@ public class Pipeline implements VisionPipeline {
 	 * @param val The min and max value
 	 * @param output The image in which to store the output.
 	 */
-	private void hsvThreshold(Mat input, double[] hue, double[] sat, double[] val,
+	private void hslThreshold(Mat input, double[] hue, double[] sat, double[] val,
 	    Mat out) {
-		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2HSV);
+		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2HLS);
 		Core.inRange(out, new Scalar(hue[0], sat[0], val[0]),
 			new Scalar(hue[1], sat[1], val[1]), out);
 	}

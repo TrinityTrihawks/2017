@@ -42,8 +42,8 @@ public class Debugger {
 			//Creates an instance of the class to be used in the debug methods invocation
 			//Object instance = cls.newInstance();
 			//invokes the debug method; null is used because the debug method has no parameters
-			Object invoc = mtf.invoke(tor, null);
-			System.out.print(invoc);
+			//Object invoc = mtf.invoke(tor, null);
+			//System.out.print(invoc);
 		} catch (Exception e){
 			System.err.println(e);
 		}
