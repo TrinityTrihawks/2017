@@ -45,7 +45,7 @@ public class CommandDrive extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		double[] Array =  drivetrain.getDistance();
+		int[] Array =  drivetrain.getClosedLoopError();
 		System.out.println(" IsFinished   " + Array[0]);		
 		return drivetrain.isClosedLoopDone();
 	}

@@ -24,16 +24,18 @@ public class CommandUltrasonic extends Command {
 		hub = new UltrasonicHub();
 		drivetrain = Drivetrain.Create();
 		gyro = new AnalogGyro(0);
-		requires(ultrasonichub);
+		requires(drivetrain);
 	}
 	
 	protected void initialize() {
 		correction = hub.getCorrectionAngle();
 		correctionPID = new PIDController(Kp, Ki, Kd, gyro, drivetrain);
+		correctionPID.setSetpoint(correction);
+		correctionPID.enable();
 	}
 	
 	protected void end(){
-		ultrasonicsub.stop();
+		correctionPID.disable();
 	}
 	
 	protected void interrupted(){
@@ -42,7 +44,10 @@ public class CommandUltrasonic extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		return false; //for now
+		if (correctionPID.getAvgError() == 0){
+			return true;
+		}
+		return false; 
 		
 	}
 	
