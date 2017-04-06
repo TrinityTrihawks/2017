@@ -35,7 +35,7 @@ public class CommandVision extends Command {
 		drivetrain = Drivetrain.Create();
 		drivetrain.setAutoMode(AutoMode.Strafe);
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
-		requires(drivetrain);
+		//requires(drivetrain);
 	}
 	
 	protected void initialize(){
