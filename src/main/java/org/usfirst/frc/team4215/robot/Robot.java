@@ -109,6 +109,7 @@ public class Robot extends IterativeRobot {
 		}catch(Exception e){
 			
 		}
+		drivetrain.strafeControlEnable();
 	}
 	
 	@Override
