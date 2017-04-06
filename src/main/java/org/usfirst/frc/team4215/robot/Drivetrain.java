@@ -6,7 +6,8 @@ import com.ctre.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.*;
-	
+import prototypes.UltrasonicHub;
+
 public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	@Override
@@ -80,9 +81,16 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		}
 		return instance;
 	}
-	
 
-	private Drivetrain() {
+	private UltrasonicHub brakes;
+	private boolean brakesFlag;
+	
+	
+	private Drivetrain(){
+		this(false);
+	}
+
+	private Drivetrain(boolean useUltra) {
 		//21-24 declare talons
 		flWheel = new CANTalon(4);
 		frWheel = new CANTalon(1);
@@ -113,9 +121,21 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		gyro.calibrate();
 		
 		mode = AutoMode.Distance;
-}
+
+		this.brakesFlag = useUltra; 
+		this.brakes = new UltrasonicHub();
+	}
 	
+	public void setBrakes(boolean brakesflag)
+	{
+		this.brakesFlag = brakesflag;
+	}
 	
+	public boolean getBrakes()
+	{
+		return brakesFlag;
+	}
+
 	public double getAngle(){
 		return gyro.getAngle();
 	}
@@ -183,6 +203,11 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	public boolean isClosedLoopDone(int margin){
 		if (frWheel.getClosedLoopError()< margin){
+			System.out.println("Drivetrain closed loop error: " frWheel.getClosedLoopError());
+			return true;
+		
+		} else if(brakesFlag && brakes.getAvgDistance() <= UltrasonicHub.ULTRASONIC_MIN_DISTANCE){
+			System.out.println("Drivetrain brake: " + brakes.getAvgDistance());
 			return true;
 		}
 		return false;
