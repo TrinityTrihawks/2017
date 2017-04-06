@@ -33,6 +33,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	public enum AutoMode {
 		Turn,
 		Strafe,
+		StrafeControl,
 		Distance
 	}
 	
@@ -48,13 +49,22 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	CANTalon.TalonControlMode controlMode;
 	
+	final double Kp = .1;
+	final double Ki = 0;
+	final double Kd = 0;
+	
+	final public DrivetrainDumkopf dumkopf = new DrivetrainDumkopf();
+	
 	//21-24 declare talons
 	CANTalon flWheel;
 	CANTalon frWheel;
 	CANTalon blWheel;
 	CANTalon brWheel;
-		
+	
 	AnalogGyro gyro;
+	
+	double strafe;
+	PIDController strafeControl;
 	//Declare Lists of wheels to be used for pathmaker trajectories
 	CANTalon[] wheelList = new CANTalon[]{
 			flWheel, frWheel, blWheel, brWheel
@@ -112,6 +122,8 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		gyro = new AnalogGyro(0);
 		gyro.calibrate();
 		
+		strafeControl  = new PIDController(Kp,Ki,Kd,0,this,this);
+		strafeControl.setSetpoint(0);
 		mode = AutoMode.Distance;
 }
 	
@@ -277,7 +289,8 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		}
 		
 		if (IsStrafing){
-			Go(-strafe,strafe,strafe,-strafe);
+			//Go(-strafe,strafe,strafe,-strafe);
+			dumkopf.pidWrite(strafe);
 		}
 
 	}
@@ -300,12 +313,32 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 			case Strafe:
 				drive(0,0, -output, true, MotorGranular.FAST);
 				break;
+			case StrafeControl:
+				Go(-strafe-output,strafe-output,strafe+output,-strafe+output);
 			case Turn:
 				drive(-output,output, 0, false, MotorGranular.FAST);
 				break;
 		}
 	}
-
+	
+	
+	private class DrivetrainDumkopf implements PIDOutput{
+		@Override
+		public void pidWrite(double output) {
+			strafe = output;
+		}
+	}
+	
+	
+	public void strafeControlEnable(){
+		strafeControl.enable();
+	}
+	
+	public void strafeControlDisable(){
+		strafeControl.disable();
+	}
+	
+	
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
 		// TODO Auto-generated method stub
