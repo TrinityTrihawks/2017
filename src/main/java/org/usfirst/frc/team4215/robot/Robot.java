@@ -12,6 +12,7 @@ import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import com.ctre.CANTalon.TalonControlMode;
@@ -40,7 +41,7 @@ public class Robot extends IterativeRobot {
 	PIDController con;
 	VisionThread visionThread;
 	
-	Command autonomousCommandLeft;
+	CommandGroup autonomousCommandLeft;
 	
 	double Kp = .01;
 	double Ki = .05;
@@ -55,8 +56,9 @@ public class Robot extends IterativeRobot {
 	int STRAFE_DRIVE_ID = 0;
 	int DRIVE_LEFT_TOP_TRIGGER = 5;
 	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
-	int IMG_WIDTH = 320;
-	int IMG_HEIGHT = 240;
+	
+	final int IMG_WIDTH = 320;
+	final int IMG_HEIGHT = 240;
 	
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
@@ -147,9 +149,12 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
+		Scheduler.getInstance().enable();
+		
 		if (autonomousCommandLeft != null){
 			autonomousCommandLeft.start();
-		}	
+		}
+		
 	}
 	
 	@Override
