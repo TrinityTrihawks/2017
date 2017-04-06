@@ -37,16 +37,16 @@ public class CommandUltrasonic extends Command {
 		drivetrain.setAutoMode(AutoMode.Turn);
 	    drivetrain.setPID(Kp, Ki, Kd);
 		correctionPID.enable();
-		System.out.println("Initialized");
+		System.out.println("Initialized Ultrasonic");
 	}
 	
 	protected void end(){
 		correctionPID.disable();
-		System.out.println("Ended");
+		System.out.println("CommandUltrasonic Ended");
 	}
 	
 	protected void interrupted(){
-		
+		System.out.println("CommandUltrasonic Interrupted");
 	}
 	
 	@Override
