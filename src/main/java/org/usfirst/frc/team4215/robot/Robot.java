@@ -164,7 +164,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void disabledInit(){
-		
+		Scheduler.getInstance().disable();
+		autonomousCommandLeft.cancel();
 	}
 	
 	@Override
