@@ -18,11 +18,17 @@ public class CommandDrive extends Command {
 	double Kd = 0.01;
 	
 	int margin;
+
 	public CommandDrive(double distance, int margin){
+		this(distance, margin, false);		
+	}
+
+	public CommandDrive(double distance, int margin, boolean useBrakes){
 	
 		drivetrain = Drivetrain.Create();
 		this.distance = distance;
 		this.margin = margin;
+		this.drivetrain.setBrakes(useBrakes);
 		//requires(drivetrain);
 		
 	}
