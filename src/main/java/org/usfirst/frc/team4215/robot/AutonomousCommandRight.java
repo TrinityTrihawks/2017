@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4215.robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.*;
 
 public class AutonomousCommandRight extends CommandGroup {
 

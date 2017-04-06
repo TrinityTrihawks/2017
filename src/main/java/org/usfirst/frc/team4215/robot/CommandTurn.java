@@ -29,7 +29,7 @@ public class CommandTurn extends Command {
 	}
 	
 	protected void initialize(){
-		drivetrain.disableControl();
+		//drivetrain.disableControl();
 		drivetrain.resetEncoder();
 		drivetrain.calibrateGyro();
 		drivetrain.setAutoMode(AutoMode.Turn);

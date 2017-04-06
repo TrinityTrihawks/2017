@@ -38,7 +38,7 @@ public class CommandDrive extends Command {
 	}
 	
 	protected void end(){
-		drivetrain.disableControl();
+		//drivetrain.disableControl();
 		System.out.println("CommandDrive Ended");
 	}
 	
