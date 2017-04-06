@@ -51,6 +51,8 @@ public class CommandTurn extends Command {
 	
 	@Override
 	protected boolean isFinished() {
+		double[] volts = drivetrain.getVoltages();
+		System.out.println(volts[0] + ", " + volts[1] + ", " + volts[2] + ", " + volts[3]);
 		return Math.abs(conGyro.getError()) < Math.abs(4);
 	}
 

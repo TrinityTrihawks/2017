@@ -230,6 +230,15 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		return dist;
 	}
 	
+	public double[] getVoltages(){
+		double[] volts = new double[4];
+		volts[0] = frWheel.getBusVoltage();
+		volts[1] = brWheel.getBusVoltage();
+		volts[2] = flWheel.getBusVoltage();
+		volts[3] = blWheel.getBusVoltage();
+		return volts;
+	}
+	
 	public int[] getClosedLoopError(){
 		int[] dist = new int[4];
 		dist[0] = frWheel.getClosedLoopError();
