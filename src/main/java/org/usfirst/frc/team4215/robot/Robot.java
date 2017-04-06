@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 	PIDController con;
 	VisionThread visionThread;
 	
-	CommandGroup autonomousCommandLeft;
+	CommandGroup autonomousCommand;
 	
 	double Kp = .01;
 	double Ki = .05;
@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
-		autonomousCommandLeft = new AutonomousCommandLeft(cameraFront); 
+		autonomousCommand = new AutonomousCommandLeft(cameraFront); 
 	}
 
 	@Override
@@ -151,8 +151,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit(){
 		Scheduler.getInstance().enable();
 		
-		if (autonomousCommandLeft != null){
-			autonomousCommandLeft.start();
+		if (autonomousCommand != null){
+			autonomousCommand.start();
 		}
 		
 	}
@@ -165,7 +165,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit(){
 		Scheduler.getInstance().disable();
-		autonomousCommandLeft.cancel();
+		autonomousCommand.cancel();
 	}
 	
 	@Override
