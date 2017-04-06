@@ -69,10 +69,11 @@ public class Robot extends IterativeRobot {
 		leftStick = new Joystick(0);
 		 drivetrain = Drivetrain.Create();
 		 winch = new WinchTest();
+/*
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1"); 
-		 
+*/		 
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 System.out.println("Back camera initialized properly");
@@ -97,7 +98,7 @@ public class Robot extends IterativeRobot {
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
-		autonomousCommand = new AutonomousCommandLeft(cameraFront); 
+		autonomousCommand = new AutonomousCommandCenter(); 
 	}
 
 	@Override
@@ -149,17 +150,15 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
+
 		Scheduler.getInstance().enable();
-		
-		if (autonomousCommand != null){
-			autonomousCommand.start();
-		}
-		
+		autonomousCommand.start();
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();		
+		
 	}
 	
 	@Override

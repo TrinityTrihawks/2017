@@ -142,6 +142,18 @@ public class UltrasonicHub implements PIDSource {
         return 0;
     }
     
+    public double getMinDistance(){
+        ArrayList<Integer> portReadings = getDistancefromallPorts();
+        int currentmin = 5000;
+        for (int i = 0; i < portReadings.size(); i++){
+        	if (portReadings.get(i) < currentmin){
+        		currentmin = portReadings.get(i);
+        	}
+        }
+
+        return currentmin;
+    }
+    
     /**
      * This method checks if the face of a robot is parrallel to whatever surface its facing.
      * If so it returns a value of 0, otherwise it returns the correction angle. This method preassumes that there are two Ultrasonic sensors on the desired face.

@@ -20,7 +20,7 @@ public class CommandDrive extends Command {
 	int margin;
 
 	public CommandDrive(double distance, int margin){
-		this(distance, margin, false);		
+		this(distance, margin, false);
 	}
 
 	public CommandDrive(double distance, int margin, boolean useBrakes){
@@ -30,7 +30,6 @@ public class CommandDrive extends Command {
 		this.margin = margin;
 		this.drivetrain.setBrakes(useBrakes);
 		//requires(drivetrain);
-		
 	}
 	
 	protected void initialize(){
@@ -46,7 +45,8 @@ public class CommandDrive extends Command {
 	protected void end(){
 		//drivetrain.disableControl();
 		System.out.println("CommandDrive Ended");
-	}
+		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
+		}
 	
 	protected void interrupted(){
 		System.out.println("CommandDrive Interrupted");
@@ -64,6 +64,13 @@ public class CommandDrive extends Command {
 			E_0 = Array[0];
 			count = 0;
 		}
+		
+		if (drivetrain.isClosedLoopDone(0))
+		{
+			System.out.println("CommandDrive: isClosedLoopDone = true");
+			return true;
+		}
+		
 		return count >= 10;
 	}
 }

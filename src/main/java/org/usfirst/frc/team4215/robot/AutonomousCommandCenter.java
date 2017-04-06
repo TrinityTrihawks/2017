@@ -5,13 +5,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutonomousCommandCenter extends CommandGroup {
 
 	public AutonomousCommandCenter() {
-		addSequential(new CommandDrive(5*12,310));
-		//addSequential(new )
+		addSequential(new CommandDrive(180,10,true));
 	}
 
 	public AutonomousCommandCenter(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
+		addSequential(new CommandDrive(180,10,true));
 	}
 
 }

@@ -124,6 +124,8 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 
 		this.brakesFlag = useUltra; 
 		this.brakes = new UltrasonicHub();
+		this.brakes.addReader("/dev/ttyUSB0");
+		this.brakes.addReader("/dev/ttyUSB1");
 	}
 	
 	public void setBrakes(boolean brakesflag)
@@ -202,12 +204,16 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	}
 	
 	public boolean isClosedLoopDone(int margin){
-		if (frWheel.getClosedLoopError()< margin){
-			System.out.println("Drivetrain closed loop error: " + frWheel.getClosedLoopError());
+		System.out.println("Drivetrain brake: " + brakes.getMinDistance());
+		/*
+		]if (frWheel.getClosedLoopError()< margin){
+			System.out.println("Drivetrain stopped.  closed loop error: " + frWheel.getClosedLoopError());
 			return true;
 		
-		} else if(brakesFlag && brakes.getAvgDistance() <= UltrasonicHub.ULTRASONIC_MIN_DISTANCE){
-			System.out.println("Drivetrain brake: " + brakes.getAvgDistance());
+		} else
+		*/
+		 if(brakesFlag && brakes.getMinDistance() <= UltrasonicHub.ULTRASONIC_MIN_DISTANCE){
+			System.out.println("Drivetrain stopped.  brakes: " + brakes.getMinDistance());
 			return true;
 		}
 		return false;
