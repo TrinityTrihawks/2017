@@ -331,7 +331,12 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	
 	public void strafeControlEnable(){
-		mode = AutoMode.StrafeControl;
+		if(mode != AutoMode.StrafeControl){
+			mode = AutoMode.StrafeControl;
+			System.out.println("Changing AutoMode to StrafeControl");
+		}
+		
+		gyro.reset();
 		strafeControl.enable();
 	}
 	

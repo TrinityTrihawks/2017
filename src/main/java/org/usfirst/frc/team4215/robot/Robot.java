@@ -112,7 +112,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.strafeControlEnable();
 	}
 	
-	boolean strafeState;
+	boolean strafeState = false;
 	@Override
 	public void teleopPeriodic(){
 		
