@@ -24,7 +24,7 @@ public class CommandTurn extends Command {
 		this.angle = angle;
 		conGyro= new PIDController(Kp,Ki,Kd,2,drivetrain,drivetrain);
 		conGyro.setSetpoint(angle);
-		requires(drivetrain);
+		//requires(drivetrain);
 		
 	}
 	
@@ -37,7 +37,7 @@ public class CommandTurn extends Command {
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 	    drivetrain.setPID(Kp, Ki, Kd);
 	    conGyro.enable();
-	  //drivetrain.Go(angle,angle,angle,angle); 
+	    //drivetrain.Go(angle,angle,angle,angle); 
 	}
 	
 	protected void end(){
