@@ -9,7 +9,8 @@ public class AutonomousCommandLeft extends CommandGroup {
 	AutonomousCommandLeft(AxisCamera cameraFront){
 
 		addSequential(new CommandDrive(41.5,450,true));
-		addSequential(new CommandDrive(20,100))
+		addSequential(new CommandDrive(20,100));
+		
 	
 	}
 

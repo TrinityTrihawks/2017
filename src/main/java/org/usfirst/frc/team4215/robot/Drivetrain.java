@@ -203,7 +203,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	public boolean isClosedLoopDone(int margin){
 		if (frWheel.getClosedLoopError()< margin){
-			System.out.println("Drivetrain closed loop error: " frWheel.getClosedLoopError());
+			System.out.println("Drivetrain closed loop error: " + frWheel.getClosedLoopError());
 			return true;
 		
 		} else if(brakesFlag && brakes.getAvgDistance() <= UltrasonicHub.ULTRASONIC_MIN_DISTANCE){
