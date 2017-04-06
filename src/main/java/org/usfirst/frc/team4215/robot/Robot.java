@@ -12,6 +12,7 @@ import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import com.ctre.CANTalon.TalonControlMode;
@@ -40,7 +41,7 @@ public class Robot extends IterativeRobot {
 	PIDController con;
 	VisionThread visionThread;
 	
-	Command autonomousCommandLeft;
+	CommandGroup autonomousCommandLeft;
 	
 	double Kp = .01;
 	double Ki = .05;
@@ -48,7 +49,7 @@ public class Robot extends IterativeRobot {
 	
 	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = 3;
-	int DRIVE_RIGHT_JOYSTICK_ID = 1;
+	int DRIVE_RIGHT_JOYSTICK_ID = RobotProperties.Drive_Right_Joystick_id;
 	int STRAFE_ID = 8;
 	int WINCH_ID = 1;
 	int ARM_ID = 4;
@@ -107,6 +108,9 @@ public class Robot extends IterativeRobot {
 		}catch(Exception e){
 			
 		}
+	    autonomousCommandLeft.cancel();
+		Scheduler.getInstance().disable();
+	
 	}
 	
 	@Override
@@ -147,6 +151,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
+		Scheduler.getInstance().enable();
 		if (autonomousCommandLeft != null){
 			autonomousCommandLeft.start();
 		}	
@@ -159,7 +164,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void disabledInit(){
-		
+		Scheduler.getInstance().disable();
+		System.out.println("disabledInit");
 	}
 	
 	@Override
