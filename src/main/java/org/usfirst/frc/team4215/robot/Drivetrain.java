@@ -3,11 +3,27 @@ package org.usfirst.frc.team4215.robot;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.*;
 	
-public class Drivetrain implements PIDOutput {
+public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
+	
+	@Override
+	protected void initDefaultCommand() {
+
+	}
+	
+	protected void setDefaultCommand(){
+		return;
+	}
+	
+	/*
+	public Command getCurrentCommand(){
+		return super.getCurrentCommand();
+	}
+	*/
+	
 	public enum MotorGranular{
 		FAST,
 		NORMAL,
@@ -17,20 +33,27 @@ public class Drivetrain implements PIDOutput {
 	public enum AutoMode {
 		Turn,
 		Strafe,
+		StrafeControl,
 		Distance
 	}
 	
 	AutoMode mode;
 	
-	double coeffNormal = .666;
-	double coeffFast = 1;
-	double coeffSlow = .3;
+	final double coeffNormal = .666;
+	final double coeffFast = 1;
+	final double coeffSlow = .3;
 	
-	double wheelRadius = 3; // inches
-	double wheelCirc = 2*Math.PI*wheelRadius;
-	double secondsToMinutes = (double) 1/60; // seconds/minutes
+	final double wheelRadius = 3; // inches
+	final double wheelCirc = 2*Math.PI*wheelRadius;
+	final double secondsToMinutes = 1.0/60; // seconds/minutes
 	
 	CANTalon.TalonControlMode controlMode;
+	
+	final double Kp = .1;
+	final double Ki = 0;
+	final double Kd = 0;
+	
+	final public DrivetrainDumkopf dumkopf = new DrivetrainDumkopf();
 	
 	//21-24 declare talons
 	CANTalon flWheel;
@@ -38,6 +61,10 @@ public class Drivetrain implements PIDOutput {
 	CANTalon blWheel;
 	CANTalon brWheel;
 	
+	AnalogGyro gyro;
+	
+	double strafe;
+	PIDController strafeControl;
 	//Declare Lists of wheels to be used for pathmaker trajectories
 	CANTalon[] wheelList = new CANTalon[]{
 			flWheel, frWheel, blWheel, brWheel
@@ -72,22 +99,42 @@ public class Drivetrain implements PIDOutput {
 		blWheel = new CANTalon(3);
 		brWheel = new CANTalon(2);
 		
-		flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+		flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		blWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		brWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		
 		flWheel.setAllowableClosedLoopErr(0);
 		frWheel.setAllowableClosedLoopErr(0);
 		blWheel.setAllowableClosedLoopErr(0);
 		brWheel.setAllowableClosedLoopErr(0);
+
+		flWheel.reverseSensor(true);
+		frWheel.reverseSensor(true);
+		brWheel.reverseSensor(true);
+		blWheel.reverseSensor(true);
 		
 		flWheel.setProfile(0);
 		frWheel.setProfile(0);
 		brWheel.setProfile(0);
 		blWheel.setProfile(0);
 		
+		gyro = new AnalogGyro(0);
+		gyro.calibrate();
+		
+		strafeControl  = new PIDController(Kp,Ki,Kd,0,this,this);
+		strafeControl.setSetpoint(0);
 		mode = AutoMode.Distance;
+}
+	
+	
+	public double getAngle(){
+		return gyro.getAngle();
+	}
+	
+	public void calibrateGyro(){
+		gyro.reset();
+		gyro.calibrate();
 	}
 	
 	public void setPID(double Kp, double Ki, double Kd){
@@ -97,14 +144,15 @@ public class Drivetrain implements PIDOutput {
 		brWheel.setPID(Kp, Ki, Kd);
 	}
 	
-	public void resetEncoder(){
-		int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
+	public void resetEncoder(){		
+		//int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
+		int absolutePosition = 0;
 		flWheel.setEncPosition(absolutePosition);
-		absolutePosition = frWheel.getPulseWidthPosition() & 0xFFF;
+		//absolutePosition = frWheel.getPulseWidthPosition() & 0xFFF;
 		frWheel.setEncPosition(absolutePosition);
-		absolutePosition = blWheel.getPulseWidthPosition() & 0xFFF;
+		//absolutePosition = blWheel.getPulseWidthPosition() & 0xFFF;
 		blWheel.setEncPosition(absolutePosition);
-		absolutePosition = brWheel.getPulseWidthPosition() & 0xFFF;
+		//absolutePosition = brWheel.getPulseWidthPosition() & 0xFFF;
 		brWheel.setEncPosition(absolutePosition);
 	}
 	
@@ -137,6 +185,21 @@ public class Drivetrain implements PIDOutput {
 		blWheel.enableControl();
 	}
 	
+	public boolean isEnabled(){
+		boolean flag = frWheel.isEnabled();
+		flag &= flWheel.isEnabled();
+		flag &= brWheel.isEnabled();
+		flag &= blWheel.isEnabled();
+		return flag;
+	}
+	
+	public boolean isClosedLoopDone(int margin){
+		if (frWheel.getClosedLoopError()< margin){
+			return true;
+		}
+		return false;
+	}
+	
 	public void disableControl(){
 		flWheel.disableControl();
 		frWheel.disableControl();
@@ -146,12 +209,29 @@ public class Drivetrain implements PIDOutput {
 	
 	public double[] getDistance(){
 		double[] dist = new double[4];
-		dist[0] = frWheel.getEncPosition();
-		dist[1] = brWheel.getEncPosition();
-		dist[2] = flWheel.getEncPosition();
-		dist[3] = blWheel.getEncPosition();
+		dist[0] = frWheel.getPosition();
+		dist[1] = brWheel.getPosition();
+		dist[2] = flWheel.getPosition();
+		dist[3] = blWheel.getPosition();
 		
 		return dist;
+	}
+	
+	public int[] getClosedLoopError(){
+		int[] dist = new int[4];
+		dist[0] = frWheel.getClosedLoopError();
+		dist[1] = brWheel.getClosedLoopError();
+		dist[2] = flWheel.getClosedLoopError();
+		dist[3] = blWheel.getClosedLoopError();
+		
+		return dist;
+	}
+	
+	public void setClosedLoopError(int margin){
+		frWheel.setAllowableClosedLoopErr(margin);
+		flWheel.setAllowableClosedLoopErr(margin);
+		brWheel.setAllowableClosedLoopErr(margin);
+		blWheel.setAllowableClosedLoopErr(margin);
 	}
 	
 	/**
@@ -209,7 +289,8 @@ public class Drivetrain implements PIDOutput {
 		}
 		
 		if (IsStrafing){
-			Go(-strafe,strafe,strafe,-strafe);
+			//Go(-strafe,strafe,strafe,-strafe);
+			dumkopf.pidWrite(strafe);
 		}
 
 	}
@@ -232,9 +313,50 @@ public class Drivetrain implements PIDOutput {
 			case Strafe:
 				drive(0,0, -output, true, MotorGranular.FAST);
 				break;
+			case StrafeControl:
+				Go(-strafe-output,strafe-output,strafe+output,-strafe+output);
 			case Turn:
-				drive(output,-output, 0, false, MotorGranular.FAST);
+				drive(-output,output, 0, false, MotorGranular.FAST);
 				break;
 		}
 	}
+	
+	
+	private class DrivetrainDumkopf implements PIDOutput{
+		@Override
+		public void pidWrite(double output) {
+			strafe = output;
+		}
+	}
+	
+	
+	public void strafeControlEnable(){
+		strafeControl.enable();
+	}
+	
+	public void strafeControlDisable(){
+		strafeControl.disable();
+	}
+	
+	
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		// TODO Auto-generated method stub
+		return PIDSourceType.kDisplacement;
+	}
+
+	@Override
+	public double pidGet() {
+		// TODO Auto-generated method stub
+		return gyro.getAngle();
+	}
+
+
+	
 }

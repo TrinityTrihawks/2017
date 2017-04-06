@@ -1,46 +1,24 @@
 package org.usfirst.frc.team4215.robot;
 
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.cscore.AxisCamera;
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CameraServer;
-import java.util.ArrayList;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import org.usfirst.frc.team4215.robot.steamworks.VisionTest;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
-import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
-import com.ctre.CANTalon;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import org.usfirst.frc.team4215.robot.WinchTest;
 import org.usfirst.frc.team4215.robot.prototypes.PIDTask;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 import prototypes.UltrasonicHub;
-import com.ctre.CANTalon;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -55,13 +33,15 @@ public class Robot extends IterativeRobot {
 	Joystick drivestick = new Joystick(1);
 	Drivetrain drivetrain;
 	WinchTest winch;
-	CameraPID vision;
+	CameraPID visionPID;
 	UltrasonicHub hub;
 	PIDTask camAuto;
 	PIDTask ultraAuto;
-	VisionThread visionThread;
 	AnalogGyro gyro;
 	PIDController con;
+	VisionThread visionThread;
+	
+	CommandGroup autonomousCommandLeft;
 	
 	double Kp = .01;
 	double Ki = .05;
@@ -76,8 +56,9 @@ public class Robot extends IterativeRobot {
 	int STRAFE_DRIVE_ID = 0;
 	int DRIVE_LEFT_TOP_TRIGGER = 5;
 	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
-	int IMG_WIDTH = 320;
-	int IMG_HEIGHT = 240;
+	
+	final int IMG_WIDTH = 320;
+	final int IMG_HEIGHT = 240;
 	
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
@@ -90,10 +71,7 @@ public class Robot extends IterativeRobot {
 		 winch = new WinchTest();
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
-		 hub.addReader("/dev/ttyUSB1");
-
-		 gyro = new AnalogGyro(0);
-		 gyro.calibrate();
+		 hub.addReader("/dev/ttyUSB1"); 
 		 
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
@@ -101,7 +79,6 @@ public class Robot extends IterativeRobot {
 		 // Creates the interface to the back camera
 
 		 
-		 //Pipeline pipeline = new Pipeline();
 		 			 
 			 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 			 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
@@ -138,8 +115,24 @@ public class Robot extends IterativeRobot {
 			 //System.out.println("PIDTask is working properly. Expect results");
 			// con = new PIDController(Kp, Ki, Kd, vision, drivetrain);
 			 
+		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
+		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		 System.out.println("Front camera initialized properly");
+/*
+		 visionPID = new CameraPID();
+	     visionThread = new VisionThread(cameraFront, new Pipeline(), visionPID);
+	     System.out.println("VisonThread initialized properly");
+	     
+	     visionThread.setDaemon(false);
+	     System.out.println("Daemon set properly");
+	     
+		 visionThread.start();
+		 System.out.println("VisonThread started without a hitch");
+		 */
 		 drivetrain.setAutoMode(AutoMode.Strafe);
-		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);		 
+		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
+		 
+		autonomousCommandLeft = new AutonomousCommandLeft(cameraFront); 
 	}
 
 	@Override
@@ -199,39 +192,23 @@ public class Robot extends IterativeRobot {
 		//camAuto.setDebug(true);
 		//con.enable();
 		camAuto.run();
+		Scheduler.getInstance().enable();
+		
+		if (autonomousCommandLeft != null){
+			autonomousCommandLeft.start();
+		}
 		
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
-		
-/*		//double sang = gyro.getAngle();
-		//System.out.println(sang);
-		double cang = hub.getCorrectionAngle();
-		System.out.println(cang);
-		drivetrain.setAutoMode(AutoMode.Turn);
-		double tcoeff = 1;
-		//double nang = 0;
-		if (cang > 0){
-			tcoeff = -tcoeff;
-		}
-		while (cang != 0){
-			drivetrain.pidWrite(.1);
-			cang = hub.getCorrectionAngle();
-
-			//nang = gyro.getAngle();
-			//System.out.println(nang);
-		}
-*/		
-		camAuto.run();
-		System.out.println( "  camAuto error: " + camAuto.getError());
-		
+		Scheduler.getInstance().run();		
 	}
 	
 	@Override
 	public void disabledInit(){
-		//con.disable();
-		camAuto.disable();
+		Scheduler.getInstance().disable();
+		autonomousCommandLeft.cancel();
 	}
 	
 	@Override
