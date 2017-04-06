@@ -30,7 +30,7 @@ public class Arm {
 	
 	
 	public void setArm(double power) {		
-		if(!limitSwitch.get()& power < 0){
+		if(!limitSwitch.get()& power > 0){
 			power = 0;
 		}
 		
