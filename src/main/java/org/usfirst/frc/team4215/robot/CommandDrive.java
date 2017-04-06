@@ -23,7 +23,7 @@ public class CommandDrive extends Command {
 		drivetrain = Drivetrain.Create();
 		this.distance = distance;
 		this.margin = margin;
-		requires(drivetrain);
+		//requires(drivetrain);
 		
 	}
 	

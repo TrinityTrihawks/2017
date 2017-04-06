@@ -24,7 +24,7 @@ public class CommandTurn extends Command {
 		this.angle = angle;
 		conGyro= new PIDController(Kp,Ki,Kd,2,drivetrain,drivetrain);
 		conGyro.setSetpoint(angle);
-		requires(drivetrain);
+		//requires(drivetrain);
 		
 	}
 	
