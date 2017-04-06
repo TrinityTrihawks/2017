@@ -65,8 +65,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit(){
-		arm =  new Arm();
-		leftStick = new Joystick(0);
+		 arm =  new Arm();
+		 leftStick = new Joystick(0);
 		 drivetrain = Drivetrain.Create();
 		 winch = new WinchTest();
 		 hub = new UltrasonicHub();
@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
 		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 System.out.println("Front camera initialized properly");
-/*
+		 /*
 		 visionPID = new CameraPID();
 	     visionThread = new VisionThread(cameraFront, new Pipeline(), visionPID);
 	     System.out.println("VisonThread initialized properly");
@@ -112,6 +112,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.strafeControlEnable();
 	}
 	
+	boolean strafeState;
 	@Override
 	public void teleopPeriodic(){
 		
@@ -129,6 +130,15 @@ public class Robot extends IterativeRobot {
 		else if(!drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) 
 					&& drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
 			mode = Drivetrain.MotorGranular.SLOW;
+		}
+		
+		if(isStrafing){
+			drivetrain.strafeControlEnable();
+			strafeState = true;
+		}
+		if(!isStrafing && strafeState){
+			drivetrain.strafeControlDisable();
+			strafeState = false;
 		}
 		
 		drivetrain.drive(left, right, strafe,isStrafing,mode);

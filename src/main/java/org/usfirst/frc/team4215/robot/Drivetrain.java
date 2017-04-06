@@ -331,6 +331,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	
 	public void strafeControlEnable(){
+		mode = AutoMode.StrafeControl;
 		strafeControl.enable();
 	}
 	
