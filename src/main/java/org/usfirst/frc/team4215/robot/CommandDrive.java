@@ -34,16 +34,16 @@ public class CommandDrive extends Command {
 	    drivetrain.setPID(Kp, Ki, Kd); 
 	    drivetrain.enableControl();
 	    drivetrain.Go(distance,distance,distance,distance); 
-	    System.out.println("Initialized");
+	    System.out.println("CommandDrive Initialized");
 	}
 	
 	protected void end(){
 		drivetrain.disableControl();
-		System.out.println("Ended");
+		System.out.println("CommandDrive Ended");
 	}
 	
 	protected void interrupted(){
-		System.out.println("Interrupted");
+		System.out.println("CommandDrive Interrupted");
 	}
 	
 	int E_0 = 0;

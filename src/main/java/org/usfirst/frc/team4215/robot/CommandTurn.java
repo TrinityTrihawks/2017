@@ -29,7 +29,6 @@ public class CommandTurn extends Command {
 	}
 	
 	protected void initialize(){
-		System.out.println("Initialized");
 		drivetrain.disableControl();
 		drivetrain.resetEncoder();
 		drivetrain.calibrateGyro();
@@ -37,16 +36,17 @@ public class CommandTurn extends Command {
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 	    drivetrain.setPID(Kp, Ki, Kd);
 	    conGyro.enable();
+		System.out.println("CommandTurn Initialized");
 	    //drivetrain.Go(angle,angle,angle,angle); 
 	}
 	
 	protected void end(){
-		System.out.println("Turn to" + angle + " finished at " + drivetrain.getAngle());
+		System.out.println("CommandTurn to" + angle + " finished at " + drivetrain.getAngle());
 		conGyro.disable();
 	}
 	
 	protected void interrupted(){
-		
+		System.out.println("COmmandTurn Interuppted");
 	}
 	
 	@Override
