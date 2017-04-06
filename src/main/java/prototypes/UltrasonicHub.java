@@ -33,7 +33,7 @@ public class UltrasonicHub implements PIDSource {
     //Constructs reader object which is where the distance is actually pulled from
     private SimpleRead reader;
     
-    
+    public static int ULTRASONIC_MIN_DISTANCE = 300;
 
     public UltrasonicHub(){
         this.portlist = new ArrayList<String>();
@@ -124,6 +124,22 @@ public class UltrasonicHub implements PIDSource {
         }
         return portReadings;
         
+    }
+    
+    public double getAvgDistance(){
+        ArrayList<Integer> portReadings = getDistancefromallPorts();
+        double sum = 0;
+        int count = 0; 
+        for (int i = 0; i < portReadings.size(); i++){
+        	if (portReadings.get(i) > -1){
+        		sum += portReadings.get(i);
+        		count++;
+        	}
+        }
+        if (sum > 0 && count > 0){
+        	return sum/count;
+        }
+        return 0;
     }
     
     /**
