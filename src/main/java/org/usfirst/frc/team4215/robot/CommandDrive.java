@@ -23,7 +23,7 @@ public class CommandDrive extends Command {
 		drivetrain = Drivetrain.Create();
 		this.distance = distance;
 		this.margin = margin;
-		requires(drivetrain);
+		//requires(drivetrain);
 		
 	}
 	
@@ -38,7 +38,8 @@ public class CommandDrive extends Command {
 	}
 	
 	protected void end(){
-		drivetrain.disableControl();
+		//	public static int Drive_Right_Joystick_id = 1;
+		//drivetrain.disableControl();
 		System.out.println("Ended");
 	}
 	
