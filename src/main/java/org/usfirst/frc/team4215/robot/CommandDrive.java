@@ -13,9 +13,9 @@ public class CommandDrive extends Command {
 	public double distance;
 	boolean repeat;
 	int count = 0;
-	double Kp = 0.0725;
+	double Kp = 0.0225;
 	double Ki = 0;
-	double Kd = 0.01;
+	double Kd = 0.05;
 	
 	int margin;
 
@@ -46,10 +46,11 @@ public class CommandDrive extends Command {
 		//drivetrain.disableControl();
 		System.out.println("CommandDrive Ended");
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
-		}
+	}
 	
 	protected void interrupted(){
 		System.out.println("CommandDrive Interrupted");
+		
 	}
 	
 	int E_0 = 0;
@@ -68,7 +69,10 @@ public class CommandDrive extends Command {
 		if (drivetrain.isClosedLoopDone(0))
 		{
 			System.out.println("CommandDrive: isClosedLoopDone = true");
+			drivetrain.brakeMode();
+			drivetrain.hardStop();
 			return true;
+			
 		}
 		
 		return count >= 10;

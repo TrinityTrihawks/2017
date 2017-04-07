@@ -2,6 +2,7 @@ package org.usfirst.frc.team4215.robot;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -212,18 +213,29 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		
 		} else
 		*/
-		 if(brakesFlag && brakes.getMinDistance() <= UltrasonicHub.ULTRASONIC_MIN_DISTANCE){
+		 if(brakesFlag && brakes.getMinDistance() <= 500){
 			System.out.println("Drivetrain stopped.  brakes: " + brakes.getMinDistance());
 			return true;
 		}
 		return false;
 	}
 	
+	public void brakeMode(){
+		flWheel.enableBrakeMode(true);
+		frWheel.enableBrakeMode(true);
+		brWheel.enableBrakeMode(true);
+		blWheel.enableBrakeMode(true);
+	}
 	public void disableControl(){
 		flWheel.disableControl();
 		frWheel.disableControl();
 		brWheel.disableControl();
 		blWheel.disableControl();
+	}
+	
+	public void hardStop(){
+		this.setTalonControlMode(TalonControlMode.PercentVbus);
+		this.Reset();
 	}
 	
 	public double[] getDistance(){
