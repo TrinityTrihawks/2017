@@ -7,7 +7,6 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.*;
-import prototypes.UltrasonicHub;
 
 public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
@@ -83,15 +82,8 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		return instance;
 	}
 
-	private UltrasonicHub brakes;
-	private boolean brakesFlag;
 	
-	
-	private Drivetrain(){
-		this(false);
-	}
-
-	private Drivetrain(boolean useUltra) {
+	private Drivetrain() {
 		//21-24 declare talons
 		flWheel = new CANTalon(4);
 		frWheel = new CANTalon(1);
@@ -122,13 +114,10 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		gyro.calibrate();
 		
 		mode = AutoMode.Distance;
-
-		this.brakesFlag = useUltra; 
-		this.brakes = new UltrasonicHub();
-		this.brakes.addReader("/dev/ttyUSB0");
-		this.brakes.addReader("/dev/ttyUSB1");
+ 
 	}
 	
+	/*
 	public void setBrakes(boolean brakesflag)
 	{
 		this.brakesFlag = brakesflag;
@@ -138,6 +127,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	{
 		return brakesFlag;
 	}
+	*/
 
 	public double getAngle(){
 		return gyro.getAngle();
@@ -204,6 +194,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		return flag;
 	}
 	
+	/*
 	public boolean isClosedLoopDone(int margin){
 		System.out.println("Drivetrain brake: " + brakes.getMinDistance());
 		/*

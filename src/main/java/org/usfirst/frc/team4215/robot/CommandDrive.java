@@ -5,30 +5,34 @@ import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
+import prototypes.UltrasonicHub;
 
 public class CommandDrive extends Command {
 	
 	
 	Drivetrain drivetrain;
+	UltrasonicHub brakes;
 	public double distance;
+	boolean useBrakes;
 	boolean repeat;
 	int count = 0;
 	double Kp = 0.0225;
 	double Ki = 0;
 	double Kd = 0.05;
 	
-	int margin;
 
-	public CommandDrive(double distance, int margin){
-		this(distance, margin, false);
+	public CommandDrive(double distance){
+		this(distance, false);
 	}
 
-	public CommandDrive(double distance, int margin, boolean useBrakes){
+	public CommandDrive(double distance, boolean useBrakes){
 	
 		drivetrain = Drivetrain.Create();
+		brakes = new UltrasonicHub();
+		brakes.addReader("/dev/ttyUSB0");
+		brakes.addReader("/dev/ttyUSB1");
 		this.distance = distance;
-		this.margin = margin;
-		this.drivetrain.setBrakes(useBrakes);
+		this.useBrakes = useBrakes;
 		//requires(drivetrain);
 	}
 	
@@ -66,11 +70,9 @@ public class CommandDrive extends Command {
 			count = 0;
 		}
 		
-		if (drivetrain.isClosedLoopDone(0))
+		if (useBrakes && brakes.atMinDistance())
 		{
-			System.out.println("CommandDrive: isClosedLoopDone = true");
-			drivetrain.brakeMode();
-			drivetrain.hardStop();
+			System.out.println("CommandDrive: atMinDistance = true");
 			return true;
 			
 		}
