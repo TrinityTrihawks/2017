@@ -50,10 +50,10 @@ public class Robot extends IterativeRobot {
 	// ID's
 	int DRIVE_LEFT_JOYSTICK_ID = RobotProperties.DRIVE_LEFT_JOYSTICK_ID;
 	int DRIVE_RIGHT_JOYSTICK_ID = RobotProperties.DRIVE_RIGHT_JOYSTICK_ID;
-	int STRAFE_ID = RobotProperties.BUTTON_STRAFE_SET_ID;
 	int WINCH_ID = RobotProperties.JOYSTICK_WINCH_ID;
 	int ARM_ID = RobotProperties.JOYSTICK_ARM_ID;
 	int STRAFE_DRIVE_ID = RobotProperties.STRAFE_DRIVE_ID;
+	int BUTTON_STRAFE_SET_ID = RobotProperties.BUTTON_STRAFE_SET_ID;
 	int DRIVE_LEFT_TOP_TRIGGER = RobotProperties.DRIVE_LEFT_TOP_TRIGGER;
 	int DRIVE_LEFT_BOTTOM_TRIGGER = RobotProperties.DRIVE_LEFT_BOTTOM_TRIGGER;
 	int IMG_WIDTH = RobotProperties.IMG_WIDTH;
@@ -65,16 +65,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit(){
 		arm =  new Arm();
-		leftStick = new Joystick(0);
-		 drivetrain = Drivetrain.Create();
-		 winch = new WinchTest();
-		 hub = new UltrasonicHub();
-		 hub.addReader("/dev/ttyUSB0");
-		 hub.addReader("/dev/ttyUSB1"); 
+		leftStick = new Joystick(RobotProperties.DRIVE_LEFT_JOYSTICK_ID);
+		drivetrain = Drivetrain.Create();
+		winch = new WinchTest();
+		hub = new UltrasonicHub();
+		hub.addReader("/dev/ttyUSB0");
+		hub.addReader("/dev/ttyUSB1"); 
 		 
-		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 System.out.println("Back camera initialized properly");
+		cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
+		cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		System.out.println("Back camera initialized properly");
 		 // Creates the interface to the back camera
 
 		 
@@ -118,8 +118,8 @@ public class Robot extends IterativeRobot {
 		
 		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
 		double right = -drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
-		double strafe = drivestick.getRawAxis(STRAFE_DRIVE_ID);
-		boolean isStrafing = drivestick.getRawButton(STRAFE_ID);
+		double strafe = -drivestick.getRawAxis(STRAFE_DRIVE_ID);
+		boolean isStrafing = drivestick.getRawButton(BUTTON_STRAFE_SET_ID);
 		
 		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.NORMAL;
 		if(drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) 
@@ -132,7 +132,7 @@ public class Robot extends IterativeRobot {
 			mode = Drivetrain.MotorGranular.SLOW;
 		}
 		
-		drivetrain.drive(left, right, strafe,isStrafing,mode);
+		drivetrain.drive(left, right, strafe, isStrafing, mode);
 		
 		if(leftStick.getRawButton(1)){
 			arm.armCompress();

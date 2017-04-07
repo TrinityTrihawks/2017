@@ -12,8 +12,9 @@ public class Arm {
 	private DoubleSolenoid ds;
 	DigitalInput limitSwitch;
 	
+	
 	public Arm() {
-		arm = new Victor(1);
+		arm = new Victor(RobotProperties.VICTOR_ARM_ID);
 		
 		//so that up on joystick goes up on arm
 		arm.setInverted(true);
@@ -25,7 +26,7 @@ public class Arm {
 		ds = new DoubleSolenoid(6, 5);
 		//These are sample port numbers. Change them to the correct ones.
 		//might need to include moduleNumber in parameters
-		limitSwitch = new DigitalInput(0);
+		limitSwitch = new DigitalInput(RobotProperties.LIMITSWITCH_DIO_ID);
 	}
 	
 	
