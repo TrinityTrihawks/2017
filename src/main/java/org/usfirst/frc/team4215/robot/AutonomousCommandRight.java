@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.*;
 public class AutonomousCommandRight extends CommandGroup {
 
 	AutonomousCommandRight(){
-		addSequential(new CommandDrive(180, 10));
+		addSequential(new CommandDrive(180));
 	}
 
 }

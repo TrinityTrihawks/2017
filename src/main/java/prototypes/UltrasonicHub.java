@@ -142,7 +142,7 @@ public class UltrasonicHub implements PIDSource {
         return 0;
     }
     
-    public double getMinDistance(){
+    public int getMinDistance(){
         ArrayList<Integer> portReadings = getDistancefromallPorts();
         int currentmin = 5000;
         for (int i = 0; i < portReadings.size(); i++){
@@ -152,6 +152,14 @@ public class UltrasonicHub implements PIDSource {
         }
 
         return currentmin;
+    }
+    
+    public boolean atMinDistance(){
+    	int mindist = getMinDistance();
+    	if (mindist <= ULTRASONIC_MIN_DISTANCE){
+    		return true;
+    	}
+    	return false;
     }
     
     /**
