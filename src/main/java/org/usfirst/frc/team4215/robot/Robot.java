@@ -48,16 +48,16 @@ public class Robot extends IterativeRobot {
 	double Kd = 0;
 	
 	// ID's
-	int DRIVE_LEFT_JOYSTICK_ID = 3;
-	int DRIVE_RIGHT_JOYSTICK_ID = RobotProperties.Drive_Right_Joystick_id;
-	int STRAFE_ID = 8;
-	int WINCH_ID = 1;
-	int ARM_ID = 4;
-	int STRAFE_DRIVE_ID = 0;
-	int DRIVE_LEFT_TOP_TRIGGER = 5;
-	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
-	int IMG_WIDTH = 320;
-	int IMG_HEIGHT = 240;
+	int DRIVE_LEFT_JOYSTICK_ID = RobotProperties.DRIVE_LEFT_JOYSTICK_ID;
+	int DRIVE_RIGHT_JOYSTICK_ID = RobotProperties.DRIVE_RIGHT_JOYSTICK_ID;
+	int STRAFE_ID = RobotProperties.BUTTON_STRAFE_SET_ID;
+	int WINCH_ID = RobotProperties.JOYSTICK_WINCH_ID;
+	int ARM_ID = RobotProperties.JOYSTICK_ARM_ID;
+	int STRAFE_DRIVE_ID = RobotProperties.STRAFE_DRIVE_ID;
+	int DRIVE_LEFT_TOP_TRIGGER = RobotProperties.DRIVE_LEFT_TOP_TRIGGER;
+	int DRIVE_LEFT_BOTTOM_TRIGGER = RobotProperties.DRIVE_LEFT_BOTTOM_TRIGGER;
+	int IMG_WIDTH = RobotProperties.IMG_WIDTH;
+	int IMG_HEIGHT = RobotProperties.IMG_HEIGHT;
 	
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
@@ -145,8 +145,8 @@ public class Robot extends IterativeRobot {
 			arm.armOff();
 		}
 		
-		arm.setArm(leftStick.getRawAxis(1));		
-		winch.set(leftStick.getRawAxis(4));
+		arm.setArm(leftStick.getRawAxis(ARM_ID));		
+		winch.set(leftStick.getRawAxis(WINCH_ID));
 	}
 	
 	@Override
