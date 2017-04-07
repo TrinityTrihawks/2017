@@ -118,7 +118,7 @@ public class Robot extends IterativeRobot {
 		
 		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
 		double right = -drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
-		double strafe = drivestick.getRawAxis(STRAFE_DRIVE_ID);
+		double strafe = -drivestick.getRawAxis(STRAFE_DRIVE_ID);
 		boolean isStrafing = drivestick.getRawButton(STRAFE_ID);
 		
 		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.NORMAL;
