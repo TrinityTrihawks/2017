@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 	PIDController con;
 	VisionThread visionThread;
 	
-	CommandGroup autonomousCommandLeft;
+	CommandGroup autonomousCommand;
 	
 	double Kp = .01;
 	double Ki = .05;
@@ -56,8 +56,9 @@ public class Robot extends IterativeRobot {
 	int STRAFE_DRIVE_ID = 0;
 	int DRIVE_LEFT_TOP_TRIGGER = 5;
 	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
-	int IMG_WIDTH = 320;
-	int IMG_HEIGHT = 240;
+	
+	final int IMG_WIDTH = 320;
+	final int IMG_HEIGHT = 240;
 	
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
@@ -68,10 +69,11 @@ public class Robot extends IterativeRobot {
 		leftStick = new Joystick(0);
 		 drivetrain = Drivetrain.Create();
 		 winch = new WinchTest();
+/*
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1"); 
-		 
+*/		 
 		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		 System.out.println("Back camera initialized properly");
@@ -96,7 +98,7 @@ public class Robot extends IterativeRobot {
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
-		autonomousCommandLeft = new AutonomousCommandLeft(cameraFront); 
+		autonomousCommand = new AutonomousCommandCenter(); 
 	}
 
 	@Override
@@ -160,12 +162,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();		
+		
 	}
 	
 	@Override
 	public void disabledInit(){
 		Scheduler.getInstance().disable();
-		System.out.println("disabledInit");
+		autonomousCommand.cancel();
 	}
 	
 	@Override

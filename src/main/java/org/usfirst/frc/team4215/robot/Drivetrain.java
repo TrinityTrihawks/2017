@@ -2,11 +2,12 @@ package org.usfirst.frc.team4215.robot;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.*;
-	
+
 public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	@Override
@@ -80,8 +81,8 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		}
 		return instance;
 	}
-	
 
+	
 	private Drivetrain() {
 		//21-24 declare talons
 		flWheel = new CANTalon(4);
@@ -113,9 +114,21 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		gyro.calibrate();
 		
 		mode = AutoMode.Distance;
-}
+ 
+	}
 	
+	/*
+	public void setBrakes(boolean brakesflag)
+	{
+		this.brakesFlag = brakesflag;
+	}
 	
+	public boolean getBrakes()
+	{
+		return brakesFlag;
+	}
+	*/
+
 	public double getAngle(){
 		return gyro.getAngle();
 	}
@@ -181,18 +194,40 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		return flag;
 	}
 	
+	/*
 	public boolean isClosedLoopDone(int margin){
-		if (frWheel.getClosedLoopError()< margin){
+		System.out.println("Drivetrain brake: " + brakes.getMinDistance());
+		/*
+		]if (frWheel.getClosedLoopError()< margin){
+			System.out.println("Drivetrain stopped.  closed loop error: " + frWheel.getClosedLoopError());
+			return true;
+		
+		} else
+		*/
+		/* if(brakesFlag && brakes.getMinDistance() <= 1000){
+			System.out.println("Drivetrain stopped.  brakes: " + brakes.getMinDistance());
 			return true;
 		}
 		return false;
 	}
 	
+	*/
+	public void brakeMode(){
+		flWheel.enableBrakeMode(true);
+		frWheel.enableBrakeMode(true);
+		brWheel.enableBrakeMode(true);
+		blWheel.enableBrakeMode(true);
+	}
 	public void disableControl(){
 		flWheel.disableControl();
 		frWheel.disableControl();
 		brWheel.disableControl();
 		blWheel.disableControl();
+	}
+	
+	public void hardStop(){
+		this.setTalonControlMode(TalonControlMode.PercentVbus);
+		this.Reset();
 	}
 	
 	public double[] getDistance(){
@@ -203,6 +238,15 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		dist[3] = blWheel.getPosition();
 		
 		return dist;
+	}
+	
+	public double[] getVoltages(){
+		double[] volts = new double[4];
+		volts[0] = frWheel.getBusVoltage();
+		volts[1] = brWheel.getBusVoltage();
+		volts[2] = flWheel.getBusVoltage();
+		volts[3] = blWheel.getBusVoltage();
+		return volts;
 	}
 	
 	public int[] getClosedLoopError(){

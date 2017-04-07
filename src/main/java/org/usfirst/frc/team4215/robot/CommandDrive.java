@@ -5,26 +5,38 @@ import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
+import prototypes.UltrasonicHub;
 
 public class CommandDrive extends Command {
 	
 	
 	Drivetrain drivetrain;
+	UltrasonicHub brakes;
 	public double distance;
+	boolean useBrakes;
 	boolean repeat;
 	int count = 0;
-	double Kp = 0.0725;
+	double Kp = 0.0225;
 	double Ki = 0;
-	double Kd = 0.01;
+	double Kd = 0.05;
 	
-	int margin;
-	public CommandDrive(double distance, int margin){
+
+	public CommandDrive(double distance){
+		this(distance, false);
+	}
+
+	public CommandDrive(double distance, boolean useBrakes){
 	
 		drivetrain = Drivetrain.Create();
+		brakes = new UltrasonicHub();
+		brakes.addReader("/dev/ttyUSB0");
+		brakes.addReader("/dev/ttyUSB1");
 		this.distance = distance;
 		this.margin = margin;
 		//requires(drivetrain);
 		
+		this.useBrakes = useBrakes;
+		//requires(drivetrain);
 	}
 	
 	protected void initialize(){
@@ -34,17 +46,18 @@ public class CommandDrive extends Command {
 	    drivetrain.setPID(Kp, Ki, Kd); 
 	    drivetrain.enableControl();
 	    drivetrain.Go(distance,distance,distance,distance); 
-	    System.out.println("Initialized");
+	    System.out.println("CommandDrive Initialized");
 	}
 	
 	protected void end(){
-		//	public static int Drive_Right_Joystick_id = 1;
 		//drivetrain.disableControl();
-		System.out.println("Ended");
+		System.out.println("CommandDrive Ended");
+		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 	}
 	
 	protected void interrupted(){
-		System.out.println("Interrupted");
+		System.out.println("CommandDrive Interrupted");
+		
 	}
 	
 	int E_0 = 0;
@@ -59,6 +72,14 @@ public class CommandDrive extends Command {
 			E_0 = Array[0];
 			count = 0;
 		}
+		
+		if (useBrakes && brakes.atMinDistance())
+		{
+			System.out.println("CommandDrive: atMinDistance = true");
+			return true;
+			
+		}
+		
 		return count >= 10;
 	}
 }
