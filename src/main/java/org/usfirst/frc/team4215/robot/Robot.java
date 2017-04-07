@@ -110,7 +110,7 @@ public class Robot extends IterativeRobot {
 		}catch(Exception e){
 			
 		}
-	    autonomousCommandLeft.cancel();
+	    autonomousCommand.cancel();
 		Scheduler.getInstance().disable();
 	
 	}
