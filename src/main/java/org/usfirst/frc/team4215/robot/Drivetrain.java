@@ -213,7 +213,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		
 		} else
 		*/
-		 if(brakesFlag && brakes.getMinDistance() <= 500){
+		 if(brakesFlag && brakes.getMinDistance() <= 1000){
 			System.out.println("Drivetrain stopped.  brakes: " + brakes.getMinDistance());
 			return true;
 		}
