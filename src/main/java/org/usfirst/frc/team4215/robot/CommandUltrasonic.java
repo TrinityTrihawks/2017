@@ -26,14 +26,15 @@ public class CommandUltrasonic extends Command {
 		hub.addReader("/dev/ttyUSB0");
 		hub.addReader("/dev/ttyUSB1"); 
 		drivetrain = Drivetrain.Create();
-		correction = hub.getCorrectionAngle();
 		correctionPID = new PIDController(Kp, Ki, Kd, 0, drivetrain, drivetrain);
-		correctionPID.setSetpoint(correction);
+
 		//requires(drivetrain);
 	}
 	
 	protected void initialize() {
 		drivetrain.calibrateGyro();
+		correction = hub.getCorrectionAngle();
+		correctionPID.setSetpoint(correction);
 		drivetrain.setAutoMode(AutoMode.Turn);
 	    drivetrain.setPID(Kp, Ki, Kd);
 		correctionPID.enable();
@@ -51,7 +52,7 @@ public class CommandUltrasonic extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		if (correctionPID.getError() == 0){
+		if (Math.abs(correctionPID.getAvgError()) <= Math.abs(4)){
 			System.out.println("IsFinished = " + correction + "at" + drivetrain.getAngle());
 			return true;
 		}
