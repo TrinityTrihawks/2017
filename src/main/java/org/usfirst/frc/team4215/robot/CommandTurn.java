@@ -24,33 +24,35 @@ public class CommandTurn extends Command {
 		this.angle = angle;
 		conGyro= new PIDController(Kp,Ki,Kd,2,drivetrain,drivetrain);
 		conGyro.setSetpoint(angle);
-		requires(drivetrain);
+		//requires(drivetrain);
 		
 	}
 	
 	protected void initialize(){
-		System.out.println("Initialized");
-		drivetrain.disableControl();
+		//drivetrain.disableControl();
 		drivetrain.resetEncoder();
 		drivetrain.calibrateGyro();
 		drivetrain.setAutoMode(AutoMode.Turn);
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
 	    drivetrain.setPID(Kp, Ki, Kd);
 	    conGyro.enable();
-	  //drivetrain.Go(angle,angle,angle,angle); 
+		System.out.println("CommandTurn Initialized");
+	    //drivetrain.Go(angle,angle,angle,angle); 
 	}
 	
 	protected void end(){
-		System.out.println("Turn to" + angle + " finished at " + drivetrain.getAngle());
+		System.out.println("CommandTurn to" + angle + " finished at " + drivetrain.getAngle());
 		conGyro.disable();
 	}
 	
 	protected void interrupted(){
-		
+		System.out.println("COmmandTurn Interuppted");
 	}
 	
 	@Override
 	protected boolean isFinished() {
+		double[] volts = drivetrain.getVoltages();
+		System.out.println(volts[0] + ", " + volts[1] + ", " + volts[2] + ", " + volts[3]);
 		return Math.abs(conGyro.getError()) < Math.abs(4);
 	}
 
