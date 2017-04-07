@@ -52,7 +52,8 @@ public class CommandUltrasonic extends Command {
 	
 	@Override
 	protected boolean isFinished() {
-		if (Math.abs(correctionPID.getAvgError()) <= Math.abs(4)){
+		System.out.println(drivetrain.getAngle() + " " + correction);
+		if (Math.abs(correctionPID.getError()) <= Math.abs(4)){
 			System.out.println("IsFinished = " + correction + "at" + drivetrain.getAngle());
 			return true;
 		}

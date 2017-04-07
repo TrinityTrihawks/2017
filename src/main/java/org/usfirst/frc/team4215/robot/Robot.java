@@ -153,9 +153,10 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-
 		Scheduler.getInstance().enable();
-		autonomousCommand.start();
+		if (autonomousCommandLeft != null){
+			autonomousCommandLeft.start();
+		}	
 	}
 	
 	@Override
