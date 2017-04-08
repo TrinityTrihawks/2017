@@ -16,7 +16,7 @@ public class CommandDrive extends Command {
 	boolean useBrakes;
 	boolean repeat;
 	int count = 0;
-	double Kp = 0.0225;
+	double Kp = 0.0150;
 	double Ki = 0;
 	double Kd = 0.05;
 	
