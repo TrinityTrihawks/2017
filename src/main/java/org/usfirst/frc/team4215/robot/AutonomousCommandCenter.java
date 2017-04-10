@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutonomousCommandCenter extends CommandGroup {
 
 	public AutonomousCommandCenter() {
-		addSequential(new CommandDrive(106, true));
+		addSequential(new CommandDrive(24, true));
 		//addSequential(new CommandDrive(36));
 		//addSequential(new CommandUltrasonic());
 	}
