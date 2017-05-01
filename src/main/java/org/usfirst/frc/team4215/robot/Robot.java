@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
+import org.usfirst.frc.team4215.robot.Drivetrain.MotorGranular;
+
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -153,16 +155,18 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit(){
-		Scheduler.getInstance().enable();
-		if (autonomousCommand != null){
-			autonomousCommand.start();
-		}	
+		//Scheduler.getInstance().enable();
+		//if (autonomousCommand != null){
+		//	autonomousCommand.start();
+		//}	
+		drivetrain.setPID(10, 0, 0);
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
+		drivetrain.drive(24, -24, 0, false, MotorGranular.NORMAL);
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();		
-		
+		//Scheduler.getInstance().run();		
 	}
 	
 	@Override
