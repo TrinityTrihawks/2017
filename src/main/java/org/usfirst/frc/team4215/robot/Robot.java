@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot {
 	
 	final int IMG_WIDTH = 320;
 	final int IMG_HEIGHT = 240;
-	
+	SimpleCsvLogger logger = new SimpleCsvLogger();
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
 	
@@ -158,7 +158,9 @@ public class Robot extends IterativeRobot {
 		//Scheduler.getInstance().enable();
 		//if (autonomousCommand != null){
 		//	autonomousCommand.start();
-		//}	
+		//}
+		String[] ls = new String[] { "s", "s", "s", "s"};
+		logger.init(ls, ls);
 		drivetrain.setPID(10, 0, 0);
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.drive(24, -24, 0, false, MotorGranular.NORMAL);
@@ -166,7 +168,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-		//Scheduler.getInstance().run();		
+		//Scheduler.getInstance().run();
+		logger.writeData(drivetrain.getDistance());
 	}
 	
 	@Override
