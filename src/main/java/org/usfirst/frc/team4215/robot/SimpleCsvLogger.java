@@ -79,7 +79,7 @@ public class SimpleCsvLogger {
             log_name = output_dir + "log_" + getDateTimeString() + ".csv";
 
             // Open File
-            FileWriter fstream = new FileWriter(log_name, true);
+            FileWriter fstream = new FileWriter(log_name, false);
             log_file = new BufferedWriter(fstream);
 
             // Write user-defined header line

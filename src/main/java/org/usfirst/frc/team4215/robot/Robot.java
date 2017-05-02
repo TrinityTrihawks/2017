@@ -159,11 +159,11 @@ public class Robot extends IterativeRobot {
 		//if (autonomousCommand != null){
 		//	autonomousCommand.start();
 		//}
-		String[] ls = new String[] { "s", "s", "s", "s"};
+		String[] ls = new String[] { "1", "1", "1", "1"};
 		logger.init(ls, ls);
 		drivetrain.setPID(10, 0, 0);
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.drive(24, -24, 0, false, MotorGranular.NORMAL);
+		drivetrain.drive(84, -84, 0, false, MotorGranular.NORMAL);
 	}
 	
 	@Override
@@ -174,6 +174,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void disabledInit(){
+		System.out.print(logger.close());
 		Scheduler.getInstance().disable();
 		autonomousCommand.cancel();
 	}
