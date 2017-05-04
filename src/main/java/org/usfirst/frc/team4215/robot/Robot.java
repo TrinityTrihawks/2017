@@ -47,15 +47,7 @@ public class Robot extends IterativeRobot {
 	double Ki = .05;
 	double Kd = 0;
 	
-	// ID's
-	int DRIVE_LEFT_JOYSTICK_ID = 3;
-	int DRIVE_RIGHT_JOYSTICK_ID = RobotProperties.Drive_Right_Joystick_id;
-	int STRAFE_ID = 8;
-	int WINCH_ID = 1;
-	int ARM_ID = 4;
-	int STRAFE_DRIVE_ID = 0;
-	int DRIVE_LEFT_TOP_TRIGGER = 5;
-	int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
+	
 	
 	final int IMG_WIDTH = 320;
 	final int IMG_HEIGHT = 240;
@@ -67,23 +59,23 @@ public class Robot extends IterativeRobot {
 	public void robotInit(){
 		arm =  new Arm();
 		leftStick = new Joystick(0);
-		 drivetrain = Drivetrain.Create();
-		 winch = new WinchTest();
+		drivetrain = Drivetrain.Create();
+		winch = new WinchTest();
 /*
 		 hub = new UltrasonicHub();
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1"); 
 */		 
-		 cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
-		 cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 System.out.println("Back camera initialized properly");
+		cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
+		cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		System.out.println("Back camera initialized properly");
 		 // Creates the interface to the back camera
 
 		 
 		 			 
-		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
-		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 System.out.println("Front camera initialized properly");
+		cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
+		cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		System.out.println("Front camera initialized properly");
 /*
 		 visionPID = new CameraPID();
 	     visionThread = new VisionThread(cameraFront, new Pipeline(), visionPID);
@@ -118,32 +110,32 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic(){
 		
-		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
-		double right = -drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
-		double strafe = drivestick.getRawAxis(STRAFE_DRIVE_ID);
-		boolean isStrafing = drivestick.getRawButton(STRAFE_ID);
+		double left = -drivestick.getRawAxis(Portmap.DRIVE_LEFT_JOYSTICK_ID);
+		double right = -drivestick.getRawAxis(Portmap.DRIVE_RIGHT_JOYSTICK_ID);
+		double strafe = drivestick.getRawAxis(Portmap.STRAFE_DRIVE_ID);
+		boolean isStrafing = drivestick.getRawButton(Portmap.STRAFE_ID);
 		
 		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.NORMAL;
-		if(drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) 
-				&& !drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
+		if(drivestick.getRawButton(Portmap.DRIVE_LEFT_BOTTOM_TRIGGER_ID) 
+				&& !drivestick.getRawButton(Portmap.DRIVE_LEFT_TOP_TRIGGER_ID)){
 			 mode = Drivetrain.MotorGranular.FAST;
 		}
 		
-		else if(!drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) 
-					&& drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
+		else if(!drivestick.getRawButton(Portmap.DRIVE_LEFT_BOTTOM_TRIGGER_ID) 
+					&& drivestick.getRawButton(Portmap.DRIVE_LEFT_TOP_TRIGGER_ID)){
 			mode = Drivetrain.MotorGranular.SLOW;
 		}
 		
 		drivetrain.drive(left, right, strafe,isStrafing,mode);
 		
-		if(leftStick.getRawButton(1)){
+		if(leftStick.getRawButton(Portmap.ARM_COMPRESS_BUTTON_ID)){
 			arm.armCompress();
 		}
 		
-		if(leftStick.getRawButton(2)){
+		if(leftStick.getRawButton(Portmap.ARM_DECOMPRESS_BUTTON_ID)){
 			arm.armDecompress();
 		}
-		if(!leftStick.getRawButton(1)&&!leftStick.getRawButton(2)){
+		if(!leftStick.getRawButton(Portmap.ARM_COMPRESS_BUTTON_ID)&&!leftStick.getRawButton(Portmap.ARM_DECOMPRESS_BUTTON_ID)){
 			arm.armOff();
 		}
 		
