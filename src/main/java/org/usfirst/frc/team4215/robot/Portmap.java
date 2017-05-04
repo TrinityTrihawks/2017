@@ -8,6 +8,8 @@ public class Portmap {
 	public static final int WINCH_ID = 1;
 	public static final int ARM_ID = 4;
 	public static final int STRAFE_DRIVE_ID = 0;
-	public static final int DRIVE_LEFT_TOP_TRIGGER = 5;
-	public static final int DRIVE_LEFT_BOTTOM_TRIGGER = 7;
+	public static final int DRIVE_LEFT_TOP_TRIGGER_ID = 5;
+	public static final int DRIVE_LEFT_BOTTOM_TRIGGER_ID = 7;
+	public static final int ARM_COMPRESS_BUTTON_ID = 0;
+	public static final int ARM_DECOMPRESS_BUTTON_ID = 1;
 }

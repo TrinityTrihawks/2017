@@ -32,7 +32,6 @@ public class CommandDrive extends Command {
 		brakes.addReader("/dev/ttyUSB0");
 		brakes.addReader("/dev/ttyUSB1");
 		this.distance = distance;
-		this.margin = margin;
 		//requires(drivetrain);
 		
 		this.useBrakes = useBrakes;
