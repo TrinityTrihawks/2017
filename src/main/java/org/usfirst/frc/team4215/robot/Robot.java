@@ -139,8 +139,8 @@ public class Robot extends IterativeRobot {
 			arm.armOff();
 		}
 		
-		arm.setArm(leftStick.getRawAxis(ARM_ID));		
-		winch.set(leftStick.getRawAxis(WINCH_ID));
+		arm.setArm(leftStick.getRawAxis(Portmap.JOYSTICK_ARM_ID));		
+		winch.set(leftStick.getRawAxis(Portmap.JOYSTICK_WINCH_ID));
 	}
 	
 	@Override
