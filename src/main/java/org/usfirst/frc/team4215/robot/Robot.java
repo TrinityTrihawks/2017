@@ -41,23 +41,16 @@ public class Robot extends IterativeRobot {
 	PIDController con;
 	VisionThread visionThread;
 	
-	CommandGroup autonomousCommandLeft;
+	CommandGroup autonomousCommand;
 	
 	double Kp = .01;
 	double Ki = .05;
 	double Kd = 0;
 	
-	// ID's
-	int DRIVE_LEFT_JOYSTICK_ID = RobotProperties.DRIVE_LEFT_JOYSTICK_ID;
-	int DRIVE_RIGHT_JOYSTICK_ID = RobotProperties.DRIVE_RIGHT_JOYSTICK_ID;
-	int WINCH_ID = RobotProperties.JOYSTICK_WINCH_ID;
-	int ARM_ID = RobotProperties.JOYSTICK_ARM_ID;
-	int STRAFE_DRIVE_ID = RobotProperties.STRAFE_DRIVE_ID;
-	int BUTTON_STRAFE_SET_ID = RobotProperties.BUTTON_STRAFE_SET_ID;
-	int DRIVE_LEFT_TOP_TRIGGER = RobotProperties.DRIVE_LEFT_TOP_TRIGGER;
-	int DRIVE_LEFT_BOTTOM_TRIGGER = RobotProperties.DRIVE_LEFT_BOTTOM_TRIGGER;
-	int IMG_WIDTH = RobotProperties.IMG_WIDTH;
-	int IMG_HEIGHT = RobotProperties.IMG_HEIGHT;
+	
+	
+	final int IMG_WIDTH = 320;
+	final int IMG_HEIGHT = 240;
 	
 	AxisCamera cameraFront;
 	AxisCamera cameraBack;
@@ -65,13 +58,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit(){
 		arm =  new Arm();
-		leftStick = new Joystick(RobotProperties.DRIVE_LEFT_JOYSTICK_ID);
+		leftStick = new Joystick(0);
 		drivetrain = Drivetrain.Create();
 		winch = new WinchTest();
-		hub = new UltrasonicHub();
-		hub.addReader("/dev/ttyUSB0");
-		hub.addReader("/dev/ttyUSB1"); 
-		 
+/*
+		 hub = new UltrasonicHub();
+		 hub.addReader("/dev/ttyUSB0");
+		 hub.addReader("/dev/ttyUSB1"); 
+*/		 
 		cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		System.out.println("Back camera initialized properly");
@@ -79,9 +73,9 @@ public class Robot extends IterativeRobot {
 
 		 
 		 			 
-		 cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
-		 cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		 System.out.println("Front camera initialized properly");
+		cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
+		cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		System.out.println("Front camera initialized properly");
 /*
 		 visionPID = new CameraPID();
 	     visionThread = new VisionThread(cameraFront, new Pipeline(), visionPID);
@@ -96,7 +90,7 @@ public class Robot extends IterativeRobot {
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
-		autonomousCommandLeft = new AutonomousCommandLeft(cameraFront); 
+		autonomousCommand = new AutonomousCommandCenter(); 
 	}
 
 	@Override
@@ -108,7 +102,7 @@ public class Robot extends IterativeRobot {
 		}catch(Exception e){
 			
 		}
-	    autonomousCommandLeft.cancel();
+	    autonomousCommand.cancel();
 		Scheduler.getInstance().disable();
 	
 	}
@@ -116,32 +110,32 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic(){
 		
-		double left = -drivestick.getRawAxis(DRIVE_LEFT_JOYSTICK_ID);
-		double right = -drivestick.getRawAxis(DRIVE_RIGHT_JOYSTICK_ID);
-		double strafe = -drivestick.getRawAxis(STRAFE_DRIVE_ID);
-		boolean isStrafing = drivestick.getRawButton(STRAFE_ID);
+		double left = -drivestick.getRawAxis(Portmap.DRIVE_LEFT_JOYSTICK_ID);
+		double right = -drivestick.getRawAxis(Portmap.DRIVE_RIGHT_JOYSTICK_ID);
+		double strafe = drivestick.getRawAxis(Portmap.STRAFE_DRIVE_ID);
+		boolean isStrafing = drivestick.getRawButton(Portmap.STRAFE_ID);
 		
 		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.NORMAL;
-		if(drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) 
-				&& !drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
+		if(drivestick.getRawButton(Portmap.DRIVE_LEFT_BOTTOM_TRIGGER_ID) 
+				&& !drivestick.getRawButton(Portmap.DRIVE_LEFT_TOP_TRIGGER_ID)){
 			 mode = Drivetrain.MotorGranular.FAST;
 		}
 		
-		else if(!drivestick.getRawButton(DRIVE_LEFT_BOTTOM_TRIGGER) 
-					&& drivestick.getRawButton(DRIVE_LEFT_TOP_TRIGGER)){
+		else if(!drivestick.getRawButton(Portmap.DRIVE_LEFT_BOTTOM_TRIGGER_ID) 
+					&& drivestick.getRawButton(Portmap.DRIVE_LEFT_TOP_TRIGGER_ID)){
 			mode = Drivetrain.MotorGranular.SLOW;
 		}
 		
 		drivetrain.drive(left, right, strafe, isStrafing, mode);
 		
-		if(leftStick.getRawButton(1)){
+		if(leftStick.getRawButton(Portmap.ARM_COMPRESS_BUTTON_ID)){
 			arm.armCompress();
 		}
 		
-		if(leftStick.getRawButton(2)){
+		if(leftStick.getRawButton(Portmap.ARM_DECOMPRESS_BUTTON_ID)){
 			arm.armDecompress();
 		}
-		if(!leftStick.getRawButton(1)&&!leftStick.getRawButton(2)){
+		if(!leftStick.getRawButton(Portmap.ARM_COMPRESS_BUTTON_ID)&&!leftStick.getRawButton(Portmap.ARM_DECOMPRESS_BUTTON_ID)){
 			arm.armOff();
 		}
 		
@@ -152,20 +146,21 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit(){
 		Scheduler.getInstance().enable();
-		if (autonomousCommandLeft != null){
-			autonomousCommandLeft.start();
+		if (autonomousCommand != null){
+			autonomousCommand.start();
 		}	
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();		
+		
 	}
 	
 	@Override
 	public void disabledInit(){
 		Scheduler.getInstance().disable();
-		System.out.println("disabledInit");
+		autonomousCommand.cancel();
 	}
 	
 	@Override
