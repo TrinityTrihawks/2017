@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.CANTalon.TalonControlMode;
 import org.usfirst.frc.team4215.robot.WinchTest;
@@ -42,6 +43,19 @@ public class Robot extends IterativeRobot {
 	VisionThread visionThread;
 	
 	CommandGroup autonomousCommand;
+	
+	//currently not used
+	public enum autonomousModes {
+		LEFT,
+		MIDDLE,
+		RIGHT,
+	}
+	
+	private boolean leftMode;
+	private boolean middleMode;
+	private boolean rightMode;
+	
+	
 	
 	double Kp = .01;
 	double Ki = .05;
@@ -95,6 +109,23 @@ public class Robot extends IterativeRobot {
 		 visionThread.start();
 		 System.out.println("VisonThread started without a hitch");
 		 */
+		 
+		 leftMode = SmartDashboard.getBoolean("DB/Button 1", false);
+		 middleMode = SmartDashboard.getBoolean("DB/Button 2", false);
+		 rightMode = SmartDashboard.getBoolean("DB/Button 3", false);
+		 /* Reads from Dashboard buttons.
+		  * 
+		  * NOTE: Buttons aren't the best input type for autononous mode (possibility of two buttons on, etc.)
+		  * Will change later.
+		  */
+		 
+		 if (leftMode) System.out.println("Button for left autonomous mode on");
+		 if (middleMode) System.out.println("Button for middle autonomous mode on");
+		 if (rightMode) System.out.println("Button for right autonomous mode on");
+		 
+		 
+
+		 
 		 drivetrain.setAutoMode(AutoMode.Strafe);
 		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
