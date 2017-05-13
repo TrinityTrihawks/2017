@@ -7,12 +7,18 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.vision.VisionThread;
+
+import edu.wpi.first.wpilibj.Timer;
+
+import java.lang.reflect.Array;
+
 import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import org.usfirst.frc.team4215.robot.Drivetrain.MotorGranular;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -49,7 +55,10 @@ public class Robot extends IterativeRobot {
 	double Ki = .05;
 	double Kd = 0;
 	
+	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
+	Timer timer = new Timer();
+
 	
 	final int IMG_WIDTH = 320;
 	final int IMG_HEIGHT = 240;
@@ -59,6 +68,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit(){
+
 		arm =  new Arm();
 		leftStick = new Joystick(0);
 		drivetrain = Drivetrain.Create();
@@ -145,23 +155,47 @@ public class Robot extends IterativeRobot {
 		winch.set(leftStick.getRawAxis(Portmap.JOYSTICK_WINCH_ID));
 	}
 	
+	
 	@Override
 	public void autonomousInit(){
-		//Scheduler.getInstance().enable();
-		//if (autonomousCommand != null){
-		//	autonomousCommand.start();
-		//}
-		String[] ls = new String[] { "1", "1", "1", "1"};
+		/*
+		Scheduler.getInstance().enable();
+		if (autonomousCommand != null){
+			autonomousCommand.start();
+		}
+		*/
+		drivetrain.resetEncoder();
+		String[] ls = new String[] { "1", "1", "1", "1", "1"};
 		logger.init(ls, ls);
-		drivetrain.setPID(10, 0, 0);
+		drivetrain.setPID(15, 0, 0);
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.drive(84, -84, 0, false, MotorGranular.NORMAL);
+		timer.start();
+		
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
 		//Scheduler.getInstance().run();
-		logger.writeData(drivetrain.getDistance());
+		double[] getDistance = drivetrain.getDistance();
+		double[] getVoltage = drivetrain.getVoltages();
+		double[] logs =  new double[12];
+		logs[4] = timer.get();
+
+		for (int i = 0;i < 4; i++){
+			logs[i] = getDistance[i];
+		}
+		for (int i = 5;i < 8; i++){
+			logs[i] = getVoltage[i-5];
+		}
+		logs[8] = pdp.getCurrent(Portmap.CAN_Bus_Channel_Front_Left);
+		logs[9] = pdp.getCurrent(Portmap.CAN_Bus_Channel_Front_Right);
+		logs[10] = pdp.getCurrent(Portmap.CAN_Bus_Channel_Back_Left);
+		logs[11] = pdp.getCurrent(Portmap.CAN_Bus_Channel_Back_Right);
+		
+		logger.writeData(logs);
+		
+		
 	}
 	
 	@Override

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.*;
 
 public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
+	
 	@Override
 	protected void initDefaultCommand() {
 
@@ -85,10 +86,10 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	private Drivetrain() {
 		//21-24 declare talons
-		flWheel = new CANTalon(4);
-		frWheel = new CANTalon(1);
-		blWheel = new CANTalon(3);
-		brWheel = new CANTalon(2);
+		flWheel = new CANTalon(Portmap.Talon_Front_Left_ID);
+		frWheel = new CANTalon(Portmap.Talon_Front_Right_ID);
+		blWheel = new CANTalon(Portmap.Talon_Back_Left_ID);
+		brWheel = new CANTalon(Portmap.Talon_Back_Right_ID);
 		
 		flWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		frWheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
