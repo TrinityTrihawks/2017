@@ -69,7 +69,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit(){
 
-		arm =  new Arm();
+		//arm =  new Arm();
 		leftStick = new Joystick(0);
 		drivetrain = Drivetrain.Create();
 		winch = new WinchTest();
@@ -179,20 +179,26 @@ public class Robot extends IterativeRobot {
 		//Scheduler.getInstance().run();
 		double[] getDistance = drivetrain.getDistance();
 		double[] getVoltage = drivetrain.getVoltages();
-		double[] logs =  new double[12];
-		logs[4] = timer.get();
+		double[] getTemperature = drivetrain.getTemperature();
+		double[] logs =  new double[16];
+		
+		logs[0] = timer.get();
 
-		for (int i = 0;i < 4; i++){
-			logs[i] = getDistance[i];
+		
+		for (int i = 1;i < 5; i++){
+			logs[i] = getDistance[i-1];
 		}
-		for (int i = 5;i < 8; i++){
+		for (int i = 5;i < 9; i++){
 			logs[i] = getVoltage[i-5];
 		}
-		logs[8] = pdp.getCurrent(Portmap.CAN_Bus_Channel_Front_Left);
-		logs[9] = pdp.getCurrent(Portmap.CAN_Bus_Channel_Front_Right);
-		logs[10] = pdp.getCurrent(Portmap.CAN_Bus_Channel_Back_Left);
-		logs[11] = pdp.getCurrent(Portmap.CAN_Bus_Channel_Back_Right);
+		logs[9] = pdp.getCurrent(Portmap.PDP_Bus_Channel_Front_Left);
+		logs[10] = pdp.getCurrent(Portmap.PDP_Bus_Channel_Front_Right);
+		logs[11] = pdp.getCurrent(Portmap.PDP_Bus_Channel_Back_Left);
+		logs[12] = pdp.getCurrent(Portmap.PDP_Bus_Channel_Back_Right);
 		
+		for (int i = 13;i < 17; i++){
+			logs[i] = getTemperature[i-13];
+		} 
 		logger.writeData(logs);
 		
 		

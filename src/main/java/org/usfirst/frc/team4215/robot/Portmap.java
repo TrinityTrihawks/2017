@@ -20,9 +20,9 @@ public class Portmap {
 	public static final int Talon_Front_Right_ID = 1;
 	public static final int Talon_Back_Left_ID = 3;
 	public static final int	Talon_Back_Right_ID = 2;
-	public static final int CAN_Bus_Channel_Front_Left = 4;
-	public static final int CAN_Bus_Channel_Front_Right = 1;
-	public static final int CAN_Bus_Channel_Back_Left = 3;
-	public static final int CAN_Bus_Channel_Back_Right = 2;
+	public static final int PDP_Bus_Channel_Front_Left = 12;
+	public static final int PDP_Bus_Channel_Front_Right = 3;
+	public static final int PDP_Bus_Channel_Back_Left = 15;
+	public static final int PDP_Bus_Channel_Back_Right = 0;
 
 }

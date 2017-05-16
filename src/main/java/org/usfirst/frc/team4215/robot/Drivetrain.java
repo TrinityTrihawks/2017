@@ -250,6 +250,14 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		return volts;
 	}
 	
+	public double[] getTemperature(){
+		double[] temp = new double[4];
+		temp[0] = frWheel.getTemperature();
+		temp[1] = brWheel.getTemperature();
+		temp[2] = flWheel.getTemperature();
+		temp[3] = blWheel.getTemperature();
+		return temp;
+	}
 	public int[] getClosedLoopError(){
 		int[] dist = new int[4];
 		dist[0] = frWheel.getClosedLoopError();
