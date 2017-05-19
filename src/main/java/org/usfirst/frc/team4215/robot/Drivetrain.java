@@ -233,14 +233,33 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 	
 	public double[] getDistance(){
 		double[] dist = new double[4];
-		dist[0] = frWheel.getPosition();
-		dist[1] = brWheel.getPosition();
-		dist[2] = flWheel.getPosition();
-		dist[3] = blWheel.getPosition();
+		dist[0] = frWheel.getEncPosition();
+		dist[1] = brWheel.getEncPosition();
+		dist[2] = flWheel.getEncPosition();
+		dist[3] = blWheel.getEncPosition();
 		
 		return dist;
 	}
 	
+	public double[] getVelocity(){
+		double[] velocity = new double[4];
+		velocity[0] = frWheel.getSpeed();
+		velocity[1] = brWheel.getSpeed();
+		velocity[2] = flWheel.getSpeed();
+		velocity[3] = blWheel.getSpeed();
+		return velocity;
+
+	}
+	
+	public double[] getOutput(){
+		double[] output = new double[4];
+		output[0] = frWheel.get();
+		output[1] = brWheel.get();
+		output[2] = flWheel.get();
+		output[3] = blWheel.get();
+		return output;
+		
+	}
 	public double[] getVoltages(){
 		double[] volts = new double[4];
 		volts[0] = frWheel.getBusVoltage();

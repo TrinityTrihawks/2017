@@ -167,8 +167,8 @@ public class Robot extends IterativeRobot {
 		drivetrain.resetEncoder();
 		String[] ls = new String[] { "1", "1", "1", "1", "1"};
 		logger.init(ls, ls);
-		drivetrain.setPID(15, 0, 0);
-		drivetrain.setTalonControlMode(TalonControlMode.Position);
+		drivetrain.setPID(10, 0, 0);
+		drivetrain.setTalonControlMode(TalonControlMode.Current);
 		drivetrain.drive(84, -84, 0, false, MotorGranular.NORMAL);
 		timer.start();
 		
@@ -180,10 +180,12 @@ public class Robot extends IterativeRobot {
 		double[] getDistance = drivetrain.getDistance();
 		double[] getVoltage = drivetrain.getVoltages();
 		double[] getTemperature = drivetrain.getTemperature();
-		double[] logs =  new double[16];
+		double[] getVelocity = drivetrain.getVelocity();
+		double[] getOutput = drivetrain.getOutput();
+		
+		double[] logs =  new double[25];
 		
 		logs[0] = timer.get();
-
 		
 		for (int i = 1;i < 5; i++){
 			logs[i] = getDistance[i-1];
@@ -199,6 +201,14 @@ public class Robot extends IterativeRobot {
 		for (int i = 13;i < 17; i++){
 			logs[i] = getTemperature[i-13];
 		} 
+		
+		for (int i = 17;i < 21; i++){
+			logs[i] = getVelocity[i-17];
+		}
+		for (int i = 21;i < 25; i++){
+			logs[i] = getOutput[i-21];
+		}
+		
 		logger.writeData(logs);
 		
 		
