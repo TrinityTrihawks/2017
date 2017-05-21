@@ -24,5 +24,8 @@ public class Portmap {
 	public static final int PDP_Bus_Channel_Front_Right = 3;
 	public static final int PDP_Bus_Channel_Back_Left = 15;
 	public static final int PDP_Bus_Channel_Back_Right = 0;
-
+	
+	public static final double ULTRASONIC_STEREO_DISTANCE = 457.2;
+	public static final String ULTRASONIC_STEREO_READERID_LEFT = "/dev/ttyUSB0";
+	public static final String ULTRASONIC_STEREO_READERID_RIGHT = "/dev/ttyUSB1";
 }

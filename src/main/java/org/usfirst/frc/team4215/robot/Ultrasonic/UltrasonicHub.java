@@ -1,4 +1,4 @@
-package prototypes;
+package org.usfirst.frc.team4215.robot.ultrasonic;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -86,7 +86,6 @@ public class UltrasonicHub implements PIDSource {
         } catch (Exception e) {
             System.out.println(e);
         }
-        
     }
     
     /**
