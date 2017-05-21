@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-//import org.json.JSONObject;
-import org.usfirst.frc.team4215.robot;
-import org.usfirst.frc.team4215.robot.prototypes.JSONDebug;
-
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-//from RXTX library
+
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
+
+import org.usfirst.frc.team4215.robot.*;
+import org.usfirst.frc.team4215.robot.ultrasonic.*;
+
 
 /**
  * This class encapsulates two UltrasonicReaders 
@@ -24,7 +24,7 @@ import gnu.io.SerialPort;
  */
 public class UltrasonicStereo implements PIDSource {
 
-	private const double Facelength = 457.2;
+	private final double Facelength = 457.2;
     
 	private UltrasonicReader Left;
     private UltrasonicReader Right;
@@ -37,10 +37,10 @@ public class UltrasonicStereo implements PIDSource {
     }
     
     public double getAvgDistance(){
-        double sum = 0;
+        int sum = 0;
         int count = 0; 
                 
-        double dist = this.Left.getDistance();
+        int dist = this.Left.getDistance();
         if (dist != UltrasonicReader.ERR_DISTANCE)
         {
         	sum += dist;
@@ -62,10 +62,10 @@ public class UltrasonicStereo implements PIDSource {
     }
     
     public int getMinDistance(){
-        double min = UltrasonicReader.ERR_DISTANCE;
+        int min = UltrasonicReader.ERR_DISTANCE;
 
-        double distL = this.Left.getDistance();
-        double distR = this.Right.getDistance();
+        int distL = this.Left.getDistance();
+        int distR = this.Right.getDistance();
 
         if (distL == UltrasonicReader.ERR_DISTANCE)
         {
@@ -82,7 +82,7 @@ public class UltrasonicStereo implements PIDSource {
     }
     
     public boolean atMinDistance(){
-    	return getMinDistance() == ULTRASONIC_MIN_DISTANCE ? true : false;
+    	return getMinDistance() == UltrasonicReader.MIN_DISTANCE ? true : false;
     }
     
     /**

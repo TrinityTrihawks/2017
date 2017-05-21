@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import java.lang.reflect.Array;
 
+import org.usfirst.frc.team4215.robot.commandgroup.*;
 import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
@@ -26,7 +27,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import com.ctre.CANTalon.TalonControlMode;
 import org.usfirst.frc.team4215.robot.WinchTest;
 import org.usfirst.frc.team4215.robot.prototypes.PIDTask;
-import prototypes.UltrasonicHub;
+import org.usfirst.frc.team4215.robot.ultrasonic.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the

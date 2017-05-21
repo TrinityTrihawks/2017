@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-//import org.json.JSONObject;
-import org.usfirst.frc.team4215.robot.prototypes.JSONDebug;
-
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 //from RXTX library
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
+
+import org.usfirst.frc.team4215.robot.ultrasonic.*;
+
 
 /**
  * This class encapsulates all the Ultrasonic devices defined by SimpleRead and allows us to iterate over them.

@@ -1,8 +1,10 @@
-package org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot.CommandGroup;
 
 import edu.wpi.cscore.AxisCamera;
-import edu.wpi.first.wpilibj.command.*;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.vision.VisionThread;
+import org.usfirst.frc.team4215.robot.command.*;
 
 public class AutonomousCommandLeft extends CommandGroup {
 		

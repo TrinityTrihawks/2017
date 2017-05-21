@@ -8,6 +8,10 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
+import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
+
+import org.usfirst.frc.team4215.robot.ultrasonic.*;
 
 /**
  * This class defines an Ultrasonic device and reads its buffer converting the Ascii returns into a distance in mm.
@@ -17,11 +21,11 @@ import gnu.io.UnsupportedCommOperationException;
  */
 public class UltrasonicReader implements Runnable, SerialPortEventListener {
 
-	public static const int MAX_DISTANCE = 5000;
-	public static const int MIN_DISTANCE = 300;
-	public static const int ERR_DISTANCE = -1;
+	public static final int MAX_DISTANCE = 5000;
+	public static final int MIN_DISTANCE = 300;
+	public static final int ERR_DISTANCE = -1;
 	
-	private static HashMap<string,UltrasonicReader> ReaderMap = new HashMap<string,UltrasonicReader>();
+	private static HashMap<String,UltrasonicReader> ReaderMap = new HashMap<String,UltrasonicReader>();
 	
     //length of the data you hope to get
     private int BytesSize = 6;
@@ -33,14 +37,14 @@ public class UltrasonicReader implements Runnable, SerialPortEventListener {
     private int alignment = 0;
     private int distance = 0;
 
-    private string Name;
+    private String Name;
     
     // UltrasonicReader Constructor
     private UltrasonicReader() {    	
     }
 
     // UltrasonicReader Constructor
-    private UltrasonicReader(SerialPort serialPort, string name) {
+    private UltrasonicReader(SerialPort serialPort, String name) {
         try {
             //defines port
             this.serialPort = serialPort;
@@ -77,11 +81,11 @@ public class UltrasonicReader implements Runnable, SerialPortEventListener {
         	
         	if (UltrasonicReader.ReaderMap == null) 
         	{
-        		UltrasonicReader.ReaderMap = new HashMap<string,UltrasonicReader>();
+        		UltrasonicReader.ReaderMap = new HashMap<String,UltrasonicReader>();
         	}
         	else if (UltrasonicReader.ReaderMap.containsKey(extendedPortName))
         	{
-        		return UltrasonicReader.ReaderMap[extendedPortName];
+        		return UltrasonicReader.ReaderMap.get(extendedPortName);
         	}
         	
             //creates portlist to parse for given port name
@@ -101,17 +105,16 @@ public class UltrasonicReader implements Runnable, SerialPortEventListener {
                     {
                         SerialPort serialPort = (SerialPort) portId.open(extendedPortName, 2000);
                         //Creates the reader which is used to pull data from
-                        UltrasonicReader.ReaderMap.Add( new UltrasonicReader(serialPort, extendedPortName) );
+                        UltrasonicReader.ReaderMap.put(extendedPortName, new UltrasonicReader(serialPort, extendedPortName));
                         
-                        return UltrasonicReader.ReaderMap[extendedPortName];
+                        return UltrasonicReader.ReaderMap.get(extendedPortName);
                     }
                 } 
-            }
-        } catch (PortInUseException e) {
-            //thrown if port in use by open(String app, int time) method
-            System.out.println(e);
+            }            
+            return null;
         } catch (Exception e) {
-            System.out.println(e);
+            //System.out.println(e);
+            return null;
         }    	
     }
     
@@ -217,7 +220,7 @@ public class UltrasonicReader implements Runnable, SerialPortEventListener {
 				this.distance = UltrasonicReader.ERR_DISTANCE;
 			}
         } 
-        catch 
+        catch(Exception e)
         {
 			this.distance = UltrasonicReader.ERR_DISTANCE;
         }
@@ -228,7 +231,7 @@ public class UltrasonicReader implements Runnable, SerialPortEventListener {
 	    return this.distance;
 	}
 	
-	public string getName()
+	public String getName()
 	{
 		return this.Name;
 	}

@@ -1,8 +1,9 @@
-package org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot.ultrasonic;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import prototypes.UltrasonicHub;
+
+import org.usfirst.frc.team4215.robot.ultrasonic.*;
 
 public class UltrasonicPID implements PIDSource {
 

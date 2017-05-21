@@ -1,9 +1,8 @@
-package org.usfirst.frc.team4215.robot;
+package org.usfirst.frc.team4215.robot.command;
 
+import org.usfirst.frc.team4215.robot.*;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
-
 import com.ctre.CANTalon.TalonControlMode;
-
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 

@@ -1,4 +1,4 @@
-package prototypes;
+package org.usfirst.frc.team4215.robot.ultrasonic;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import gnu.io.SerialPortEvent;
-import prototypes.SimpleRead;
+import org.usfirst.frc.team4215.robot.ultrasonic.SimpleRead;
 
 public class SimpleReadTest {
 

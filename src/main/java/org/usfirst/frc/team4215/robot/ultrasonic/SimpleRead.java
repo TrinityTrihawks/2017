@@ -9,6 +9,9 @@ import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
 
+import org.usfirst.frc.team4215.robot.ultrasonic.*;
+
+
 /**
  * This class defines an Ultrasonic device and reads its buffer converting the Ascii returns into a distance in mm.
  * @author Jack Rausch

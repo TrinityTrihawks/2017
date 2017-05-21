@@ -1,4 +1,4 @@
-package prototypes
+package org.usfirst.frc.team4215.robot.ultrasonic
 
 import spock.lang.Specification
 import org.springframework.test.util.ReflectionTestUtils

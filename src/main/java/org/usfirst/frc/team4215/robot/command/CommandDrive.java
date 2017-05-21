@@ -1,14 +1,12 @@
-package org.usfirst.frc.team4215.robot;
-
-import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
+package org.usfirst.frc.team4215.robot.command;
 
 import com.ctre.CANTalon.TalonControlMode;
-
 import edu.wpi.first.wpilibj.command.Command;
-import prototypes.UltrasonicHub;
+import org.usfirst.frc.team4215.robot.*;
+import org.usfirst.frc.team4215.robot.ultrasonic.*;
+import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 
 public class CommandDrive extends Command {
-	
 	
 	Drivetrain drivetrain;
 	UltrasonicHub brakes;
