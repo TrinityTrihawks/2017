@@ -2,6 +2,9 @@ package org.usfirst.frc.team4215.robot;
 
 public class Portmap {
 	
+	public static final int JOYSTICK_DRIVER_LEFT = 0;
+	public static final int JOYSTICK_DRIVER_RIGHT = 1;
+	
 	public static final int DRIVE_LEFT_JOYSTICK_ID = 3;
 	public static final int DRIVE_RIGHT_JOYSTICK_ID = 1;
 	public static final int STRAFE_ID = 8;
