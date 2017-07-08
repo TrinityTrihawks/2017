@@ -47,9 +47,9 @@ public class Robot extends IterativeRobot {
 	PIDTask ultraAuto;
 	AnalogGyro gyro;
 	PIDController con;
-	VisionThread visionThread;
+//	VisionThread visionThread;
 	
-	CommandGroup autonomousCommand;
+	//CommandGroup autonomousCommand;
 	
 	double Kp = .01;
 	double Ki = .05;
@@ -63,8 +63,8 @@ public class Robot extends IterativeRobot {
 	final int IMG_WIDTH = 320;
 	final int IMG_HEIGHT = 240;
 	SimpleCsvLogger logger = new SimpleCsvLogger();
-	AxisCamera cameraFront;
-	AxisCamera cameraBack;
+//	AxisCamera cameraFront;
+//	AxisCamera cameraBack;
 	
 	@Override
 	public void robotInit(){
@@ -78,6 +78,7 @@ public class Robot extends IterativeRobot {
 		 hub.addReader("/dev/ttyUSB0");
 		 hub.addReader("/dev/ttyUSB1"); 
 */		 
+		/*
 		cameraBack = CameraServer.getInstance().addAxisCamera("Back", "10.42.15.37");
 		cameraBack.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		System.out.println("Back camera initialized properly");
@@ -88,6 +89,7 @@ public class Robot extends IterativeRobot {
 		cameraFront = CameraServer.getInstance().addAxisCamera("Front", "10.42.15.39");
 		cameraFront.setResolution(IMG_WIDTH, IMG_HEIGHT);
 		System.out.println("Front camera initialized properly");
+		*/
 /*
 		 visionPID = new CameraPID();
 	     visionThread = new VisionThread(cameraFront, new Pipeline(), visionPID);
@@ -99,10 +101,10 @@ public class Robot extends IterativeRobot {
 		 visionThread.start();
 		 System.out.println("VisonThread started without a hitch");
 		 */
-		 drivetrain.setAutoMode(AutoMode.Strafe);
-		 drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
+		 //drivetrain.setAutoMode(AutoMode.Strafe);
+		 //drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
-		autonomousCommand = new AutonomousCommandCenter(); 
+		//autonomousCommand = new AutonomousCommandCenter(); 
 	}
 
 	@Override
@@ -114,8 +116,8 @@ public class Robot extends IterativeRobot {
 		}catch(Exception e){
 			
 		}
-	    autonomousCommand.cancel();
-		Scheduler.getInstance().disable();
+	    //autonomousCommand.cancel();
+		//Scheduler.getInstance().disable();
 	
 	}
 	
@@ -165,13 +167,17 @@ public class Robot extends IterativeRobot {
 		}
 		*/
 		drivetrain.resetEncoder();
+		 //drivetrain.setAutoMode(AutoMode.Strafe);
+		 //drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
+
 		String[] ls = new String[] { "1", "1", "1", "1", "1"};
 		logger.init(ls, ls);
-		drivetrain.setPID(10, 0, 0);
-		drivetrain.setTalonControlMode(TalonControlMode.Current);
-		drivetrain.drive(84, -84, 0, false, MotorGranular.NORMAL);
+		drivetrain.setVoltageRampRate(3);
+		drivetrain.setPID(.25, 0, 0);
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
+		//drivetrain.GotoPosition(1000);
+		drivetrain.drive(10, 10, 0, false, MotorGranular.FAST);
 		timer.start();
-		
 	}
 	
 	@Override
@@ -217,8 +223,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit(){
 		System.out.print(logger.close());
-		Scheduler.getInstance().disable();
-		autonomousCommand.cancel();
+		//Scheduler.getInstance().disable();
+		//autonomousCommand.cancel();
 	}
 	
 	@Override
