@@ -3,7 +3,8 @@
 	<component name="ChangeListManager">
 		<<<<<<< Updated upstream
 		<<<<<<< Updated upstream
-		<<<<<<< Updated upstream
+		<<<<<<< Updated
+		upstream
 		<list default="true" id="efa3e17e-05a6-4d8d-a5f9-9fe6862bdf0d"
 			name="Default" comment="" />
 		=======
@@ -34,12 +35,14 @@
 	<component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
 	<<<<<<< Updated upstream
 	<<<<<<< Updated upstream
-	<<<<<<< Updated upstream
+	<<<<<<< Updated
+	upstream
 	=======
 	=======
 	>>>>>>> Stashed changes
 	=======
-	>>>>>>> Stashed changes
+	>>>>>>> Stashed
+	changes
 	<component name="FileEditorManager">
 		<leaf>
 			<file leaf-file-name="VisionTest.java" pinned="false"
@@ -111,7 +114,8 @@
 		<panes>
 			<<<<<<< Updated upstream
 			<<<<<<< Updated upstream
-			<<<<<<< Updated upstream
+			<<<<<<< Updated
+			upstream
 			<pane id="PackagesPane" />
 			=======
 			<pane id="Scratches" />
@@ -144,7 +148,8 @@
 					</PATH>
 					<<<<<<< Updated upstream
 					<<<<<<< Updated upstream
-					<<<<<<< Updated upstream
+					<<<<<<< Updated
+					upstream
 				</subPane>
 			</pane>
 			<pane id="Scope" />
@@ -235,12 +240,14 @@
 		</configuration>
 		<<<<<<< Updated upstream
 		<<<<<<< Updated upstream
-		<<<<<<< Updated upstream
+		<<<<<<< Updated
+		upstream
 		=======
 		=======
 		>>>>>>> Stashed changes
 		=======
-		>>>>>>> Stashed changes
+		>>>>>>> Stashed
+		changes
 		<configuration default="true" type="AndroidRunConfigurationType"
 			factoryName="Android App">
 			<module name="" />
@@ -300,7 +307,8 @@
 		</configuration>
 		<<<<<<< Updated upstream
 		<<<<<<< Updated upstream
-		>>>>>>> Stashed changes
+		>>>>>>> Stashed
+		changes
 		=======
 		>>>>>>> Stashed changes
 		=======
@@ -332,12 +340,14 @@
 		</configuration>
 		<<<<<<< Updated upstream
 		<<<<<<< Updated upstream
-		<<<<<<< Updated upstream
+		<<<<<<< Updated
+		upstream
 		=======
 		=======
 		>>>>>>> Stashed changes
 		=======
-		>>>>>>> Stashed changes
+		>>>>>>> Stashed
+		changes
 		<configuration default="true" type="GradleRunConfiguration"
 			factoryName="Gradle">
 			<ExternalSystemSettings>
@@ -357,7 +367,8 @@
 		</configuration>
 		<<<<<<< Updated upstream
 		<<<<<<< Updated upstream
-		>>>>>>> Stashed changes
+		>>>>>>> Stashed
+		changes
 		=======
 		>>>>>>> Stashed changes
 		=======
@@ -386,12 +397,14 @@
 		</configuration>
 		<<<<<<< Updated upstream
 		<<<<<<< Updated upstream
-		<<<<<<< Updated upstream
+		<<<<<<< Updated
+		upstream
 		=======
 		=======
 		>>>>>>> Stashed changes
 		=======
-		>>>>>>> Stashed changes
+		>>>>>>> Stashed
+		changes
 		<configuration default="true" type="JarApplication"
 			factoryName="JAR Application">
 			<extension name="coverage" enabled="false" merge="false"
@@ -448,7 +461,8 @@
 		</configuration>
 		<<<<<<< Updated upstream
 		<<<<<<< Updated upstream
-		>>>>>>> Stashed changes
+		>>>>>>> Stashed
+		changes
 		=======
 		>>>>>>> Stashed changes
 		=======
@@ -498,7 +512,8 @@
 		<task active="true" id="Default" summary="Default task">
 			<<<<<<< Updated upstream
 			<<<<<<< Updated upstream
-			<<<<<<< Updated upstream
+			<<<<<<< Updated
+			upstream
 			<changelist id="efa3e17e-05a6-4d8d-a5f9-9fe6862bdf0d"
 				name="Default" comment="" />
 			<created>1487250809499</created>
@@ -518,7 +533,8 @@
 			<updated>1487135864633</updated>
 			<<<<<<< Updated upstream
 			<<<<<<< Updated upstream
-			>>>>>>> Stashed changes
+			>>>>>>> Stashed
+			changes
 			=======
 			>>>>>>> Stashed changes
 			=======
@@ -530,7 +546,8 @@
 		<frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
 		<<<<<<< Updated upstream
 		<<<<<<< Updated upstream
-		<<<<<<< Updated upstream
+		<<<<<<< Updated
+		upstream
 		<editor active="false" />
 		=======
 		<editor active="true" />
@@ -600,7 +617,8 @@
 				side_tool="false" content_ui="tabs" />
 			<<<<<<< Updated upstream
 			<<<<<<< Updated upstream
-			<<<<<<< Updated upstream
+			<<<<<<< Updated
+			upstream
 			<window_info id="Project" active="true" anchor="left"
 				auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true"
 				show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0"
@@ -677,7 +695,8 @@
 				side_tool="false" content_ui="tabs" />
 			<<<<<<< Updated upstream
 			<<<<<<< Updated upstream
-			<<<<<<< Updated upstream
+			<<<<<<< Updated
+			upstream
 			<window_info id="Find" active="false" anchor="bottom"
 				auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false"
 				show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1"
@@ -707,7 +726,8 @@
 	</component>
 	<<<<<<< Updated upstream
 	<<<<<<< Updated upstream
-	<<<<<<< Updated upstream
+	<<<<<<< Updated
+	upstream
 	<component name="masterDetails">
 		<states>
 			<state key="ArtifactsStructureConfigurable.UI">
@@ -817,7 +837,8 @@
 				<states>
 					<<<<<<< Updated upstream
 					<<<<<<< Updated upstream
-					>>>>>>> Stashed changes
+					>>>>>>> Stashed
+					changes
 					=======
 					>>>>>>> Stashed changes
 					=======
@@ -835,7 +856,8 @@
 					</state>
 					<<<<<<< Updated upstream
 					<<<<<<< Updated upstream
-					<<<<<<< Updated upstream
+					<<<<<<< Updated
+					upstream
 					<state key="ProjectLibrariesConfigurable.UI">
 						<settings>
 							<last-edited>WPILib</last-edited>

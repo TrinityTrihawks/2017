@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.*;
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain {
 	
-	
+	/*
 	@Override
 	protected void initDefaultCommand() {
 
@@ -20,7 +20,7 @@ public class Drivetrain extends Subsystem {
 		return;
 	}
 	
-	/*
+	
 	public Command getCurrentCommand(){
 		return super.getCurrentCommand();
 	}
@@ -56,7 +56,7 @@ public class Drivetrain extends Subsystem {
 	CANTalon blWheel;
 	CANTalon brWheel;
 		
-	AnalogGyro gyro;
+	//AnalogGyro gyro;
 	//Declare Lists of wheels to be used for pathmaker trajectories
 	CANTalon[] wheelList = new CANTalon[]{
 			flWheel, frWheel, blWheel, brWheel
@@ -116,8 +116,8 @@ public class Drivetrain extends Subsystem {
 		brWheel.setProfile(0);
 		blWheel.setProfile(0);
 		
-		gyro = new AnalogGyro(0);
-		gyro.calibrate();
+		//gyro = new AnalogGyro(0);
+		//gyro.calibrate();
 		
 		mode = AutoMode.Distance;
  
@@ -134,7 +134,7 @@ public class Drivetrain extends Subsystem {
 		return brakesFlag;
 	}
 	*/
-
+	/*
 	public double getAngle(){
 		return gyro.getAngle();
 	}
@@ -150,7 +150,7 @@ public class Drivetrain extends Subsystem {
 		blWheel.setPID(Kp, Ki, Kd);
 		brWheel.setPID(Kp, Ki, Kd);
 	}
-	
+	*/
 	public void resetEncoder(){		
 		//int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
 		int absolutePosition = 0;
@@ -218,12 +218,14 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	*/
+	/*
 	public void brakeMode(){
 		flWheel.enableBrakeMode(true);
 		frWheel.enableBrakeMode(true);
 		brWheel.enableBrakeMode(true);
 		blWheel.enableBrakeMode(true);
 	}
+	*/
 	public void disableControl(){
 		flWheel.disableControl();
 		frWheel.disableControl();

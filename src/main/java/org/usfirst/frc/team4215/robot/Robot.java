@@ -38,37 +38,26 @@ import org.usfirst.frc.team4215.robot.ultrasonic.*;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	Arm arm;
-	Joystick leftStick = new Joystick(Portmap.JOYSTICK_DRIVER_LEFT);
-	Joystick drivestick = new Joystick(Portmap.JOYSTICK_DRIVER_RIGHT);
+	//Arm arm;
+	//Joystick leftStick = new Joystick(Portmap.JOYSTICK_DRIVER_LEFT);
+	//Joystick drivestick = new Joystick(Portmap.JOYSTICK_DRIVER_RIGHT);
 
 	Drivetrain drivetrain;
-	Winch winch;
-	CameraPID visionPID;
-	UltrasonicHub hub;
-	PIDTask camAuto;
-	PIDTask ultraAuto;
-	AnalogGyro gyro;
-	PIDController con;
-	VisionThread visionThread;
+	//Winch winch;
+	//CameraPID visionPID;
+	//UltrasonicHub hub;
+	//PIDTask camAuto;
+	//PIDTask ultraAuto;
+	//AnalogGyro gyro;
+	//PIDController con;
 	
-	CommandGroup autonomousCommand;
 	
-	double Kp = .01;
-	double Ki = .05;
-	double Kd = 0;
 	
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
 	Timer timer = new Timer();
 	
-	final int IMG_WIDTH = 320;
-	final int IMG_HEIGHT = 240;
-	
 	SimpleCsvLogger logger = new SimpleCsvLogger();
-
-	AxisCamera cameraFront;
-	AxisCamera cameraBack;
 	
 	@Override
 	public void robotInit(){
@@ -76,7 +65,6 @@ public class Robot extends IterativeRobot {
 		//arm =  new Arm();
 		leftStick = new Joystick(0);
 		drivetrain = Drivetrain.Create();
-		winch = new Winch();
 
 		//hub = UltrasonicStereo.Create();
 
@@ -106,68 +94,16 @@ public class Robot extends IterativeRobot {
 		drivetrain.setAutoMode(AutoMode.Strafe);
 		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);	
 		 
-		autonomousCommand = new AutonomousCommandCenter(); 
 	}
 
 	@Override
 	public void teleopInit(){		
-		//drivetrain.disableControl();
-		drivetrain.setTalonControlMode(TalonControlMode.PercentVbus);
-		try{
-			ultraAuto.disable();
-		}catch(Exception e){
-			
-		}
-	    autonomousCommand.cancel();
-		Scheduler.getInstance().disable();
-	
-	}
+		
 	
 	@Override
 	public void teleopPeriodic(){
 		
-		double left = -drivestick.getRawAxis(Portmap.DRIVE_LEFT_JOYSTICK_ID);
-		double right = -drivestick.getRawAxis(Portmap.DRIVE_RIGHT_JOYSTICK_ID);
-		double strafe = drivestick.getRawAxis(Portmap.STRAFE_DRIVE_ID);
-		boolean isStrafing = drivestick.getRawButton(Portmap.STRAFE_ID);
 		
-		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.NORMAL;
-		
-		// DRIVE
-		if( drivestick.getRawButton(Portmap.DRIVE_LEFT_BOTTOM_TRIGGER_ID) && 
-			!drivestick.getRawButton(Portmap.DRIVE_LEFT_TOP_TRIGGER_ID))
-		{
-			 mode = Drivetrain.MotorGranular.FAST;
-		}		
-		else if(!drivestick.getRawButton(Portmap.DRIVE_LEFT_BOTTOM_TRIGGER_ID) 
-					&& drivestick.getRawButton(Portmap.DRIVE_LEFT_TOP_TRIGGER_ID)){
-			mode = Drivetrain.MotorGranular.SLOW;
-		}
-		
-		drivetrain.drive(left, right, strafe, isStrafing, mode);
-		
-		// ARM Claw
-		if(leftStick.getRawButton(Portmap.ARM_COMPRESS_BUTTON_ID))
-		{
-			arm.ClawCompress();
-		}
-		else if(leftStick.getRawButton(Portmap.ARM_DECOMPRESS_BUTTON_ID))
-		{
-			arm.ClawDecompress();
-		}
-		else
-		{
-			arm.ClawOff();
-		}
-
-		// ARM position
-		arm.setArm(leftStick.getRawAxis(Portmap.JOYSTICK_ARM_ID));
-		
-		// WINCH
-		winch.set(leftStick.getRawAxis(Portmap.JOYSTICK_WINCH_ID));
-	}
-	
-	
 	@Override
 	public void autonomousInit(){
 		/*
@@ -229,8 +165,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit(){
 		System.out.print(logger.close());
-		Scheduler.getInstance().disable();
-		autonomousCommand.cancel();
+		//Scheduler.getInstance().disable();
+		//autonomousCommand.cancel();
 	}
 	
 	@Override
