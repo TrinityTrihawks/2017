@@ -99,10 +99,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit(){		
 		
-	
+	}
 	@Override
 	public void teleopPeriodic(){
-		
+	}
 		
 	@Override
 	public void autonomousInit(){
@@ -115,9 +115,9 @@ public class Robot extends IterativeRobot {
 		drivetrain.resetEncoder();
 		String[] ls = new String[] { "1", "1", "1", "1", "1"};
 		logger.init(ls, ls);
-		drivetrain.setPID(10, 0, 0);
+		drivetrain.setPID(2, 0, 0);
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
-		drivetrain.drive(84, -84, 0, false, MotorGranular.NORMAL);
+		drivetrain.drive(10, 10, 0, false, MotorGranular.NORMAL);
 		timer.start();
 		
 	}
@@ -171,5 +171,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void disabledPeriodic(){
+		
 	}
-}
+	}
+

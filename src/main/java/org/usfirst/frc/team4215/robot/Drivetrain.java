@@ -133,7 +133,9 @@ public class Drivetrain {
 	{
 		return brakesFlag;
 	}
+	
 	*/
+	
 	/*
 	public double getAngle(){
 		return gyro.getAngle();
@@ -143,14 +145,14 @@ public class Drivetrain {
 		gyro.reset();
 		gyro.calibrate();
 	}
-	
+	*/
 	public void setPID(double Kp, double Ki, double Kd){
 		flWheel.setPID(Kp, Ki, Kd);
 		frWheel.setPID(Kp, Ki, Kd);
 		blWheel.setPID(Kp, Ki, Kd);
 		brWheel.setPID(Kp, Ki, Kd);
 	}
-	*/
+	
 	public void resetEncoder(){		
 		//int absolutePosition = flWheel.getPulseWidthPosition() & 0xFFF;
 		int absolutePosition = 0;
