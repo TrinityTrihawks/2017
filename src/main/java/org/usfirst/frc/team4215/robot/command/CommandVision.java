@@ -42,7 +42,7 @@ public class CommandVision extends Command {
 	protected void initialize(){
 		visionThread.start();
 		System.out.println("VisonThread started without a hitch");
-		camAuto = new PIDController(Kp, Ki, Kd, visionPID, drivetrain);
+		//camAuto = new PIDController(Kp, Ki, Kd, visionPID, drivetrain);
 		camAuto.enable();
 		drivetrain.enableControl();
 	}

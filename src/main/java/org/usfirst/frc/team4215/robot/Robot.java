@@ -180,7 +180,7 @@ public class Robot extends IterativeRobot {
 		String[] ls = new String[] { "1", "1", "1", "1", "1"};
 		logger.init(ls, ls);
 		drivetrain.setPID(10, 0, 0);
-		drivetrain.setTalonControlMode(TalonControlMode.Current);
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.drive(84, -84, 0, false, MotorGranular.NORMAL);
 		timer.start();
 		

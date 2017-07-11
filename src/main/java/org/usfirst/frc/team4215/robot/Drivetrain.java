@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.*;
 
-public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
+public class Drivetrain extends Subsystem {
 	
 	
 	@Override
@@ -100,6 +100,11 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		frWheel.setAllowableClosedLoopErr(0);
 		blWheel.setAllowableClosedLoopErr(0);
 		brWheel.setAllowableClosedLoopErr(0);
+		
+		flWheel.setVoltageRampRate(3);
+		frWheel.setVoltageRampRate(3);
+		blWheel.setVoltageRampRate(3);
+		brWheel.setVoltageRampRate(3);
 
 		flWheel.reverseSensor(true);
 		frWheel.reverseSensor(true);
@@ -362,40 +367,5 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		return mode;
 	}
 	
-	@Override
-	public void pidWrite(double output) {
-
-		switch(mode){			
-			case Distance:
-				drive(output,output, 0, false, MotorGranular.FAST);
-				break;
-			case Strafe:
-				drive(0,0, -output, true, MotorGranular.FAST);
-				break;
-			case Turn:
-				drive(-output,output, 0, false, MotorGranular.FAST);
-				break;
-		}
-	}
-
-	@Override
-	public void setPIDSourceType(PIDSourceType pidSource) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public PIDSourceType getPIDSourceType() {
-		// TODO Auto-generated method stub
-		return PIDSourceType.kDisplacement;
-	}
-
-	@Override
-	public double pidGet() {
-		// TODO Auto-generated method stub
-		return gyro.getAngle();
-	}
-
-
 	
 }

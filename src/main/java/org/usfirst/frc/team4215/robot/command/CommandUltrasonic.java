@@ -27,7 +27,7 @@ public class CommandUltrasonic extends Command {
 		hub.addReader("/dev/ttyUSB0");
 		hub.addReader("/dev/ttyUSB1"); 
 		drivetrain = Drivetrain.Create();
-		correctionPID = new PIDController(Kp, Ki, Kd, 0, drivetrain, drivetrain);
+		//correctionPID = new PIDController(Kp, Ki, Kd, 0, drivetrain, drivetrain);
 
 		//requires(drivetrain);
 	}

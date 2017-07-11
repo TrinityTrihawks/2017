@@ -21,7 +21,7 @@ public class CommandTurn extends Command {
 		
 		drivetrain = Drivetrain.Create();
 		this.angle = angle;
-		conGyro= new PIDController(Kp,Ki,Kd,2,drivetrain,drivetrain);
+		//conGyro= new PIDController(Kp,Ki,Kd,2,drivetrain,drivetrain);
 		conGyro.setSetpoint(angle);
 		//requires(drivetrain);
 		
