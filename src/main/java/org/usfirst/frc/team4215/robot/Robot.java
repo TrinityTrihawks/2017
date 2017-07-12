@@ -20,12 +20,9 @@ import edu.wpi.first.wpilibj.Timer;
 import com.ctre.CANTalon.TalonControlMode;
 
 // 4215
-import org.usfirst.frc.team4215.robot.commandgroup.*;
-import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import org.usfirst.frc.team4215.robot.Drivetrain.MotorGranular;
-import org.usfirst.frc.team4215.robot.Winch;
 import org.usfirst.frc.team4215.robot.prototypes.PIDTask;
 import org.usfirst.frc.team4215.robot.ultrasonic.*;
 
@@ -63,7 +60,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit(){
 
 		//arm =  new Arm();
-		leftStick = new Joystick(0);
+		//leftStick = new Joystick(0);
 		drivetrain = Drivetrain.Create();
 
 		//hub = UltrasonicStereo.Create();
@@ -115,7 +112,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.resetEncoder();
 		String[] ls = new String[] { "1", "1", "1", "1", "1"};
 		logger.init(ls, ls);
-		drivetrain.setPID(2, 0, 0);
+		drivetrain.setPID(.5, 0, 0);
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.drive(10, 10, 0, false, MotorGranular.NORMAL);
 		timer.start();

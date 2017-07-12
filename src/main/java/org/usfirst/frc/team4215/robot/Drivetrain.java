@@ -101,15 +101,26 @@ public class Drivetrain {
 		blWheel.setAllowableClosedLoopErr(0);
 		brWheel.setAllowableClosedLoopErr(0);
 		
-		flWheel.setVoltageRampRate(3);
-		frWheel.setVoltageRampRate(3);
-		blWheel.setVoltageRampRate(3);
-		brWheel.setVoltageRampRate(3);
-
-		flWheel.reverseSensor(true);
+		flWheel.setVoltageRampRate(6);
+		frWheel.setVoltageRampRate(6);
+		blWheel.setVoltageRampRate(6);
+		brWheel.setVoltageRampRate(6);
+		
+		flWheel.setCloseLoopRampRate(3);
+		frWheel.setCloseLoopRampRate(3);
+		blWheel.setCloseLoopRampRate(3);
+		brWheel.setCloseLoopRampRate(3);
+		
+		/*
+		flWheel.setStatusFrameRateMs(StatusFrameRate.Feedback, 5);
+		frWheel.setStatusFrameRateMs(StatusFrameRate.Feedback, 5);
+		blWheel.setStatusFrameRateMs(StatusFrameRate.Feedback, 5);
+		brWheel.setStatusFrameRateMs(StatusFrameRate.Feedback, 5);
+*/
+		flWheel.reverseOutput(true);
 		frWheel.reverseSensor(true);
 		brWheel.reverseSensor(true);
-		blWheel.reverseSensor(true);
+		blWheel.reverseOutput(true);
 		
 		flWheel.setProfile(0);
 		frWheel.setProfile(0);
@@ -321,8 +332,8 @@ public class Drivetrain {
 			rBack = rBack*secondsToMinutes/wheelCirc;
 		}
 
-		flWheel.set(-lFront);
-		blWheel.set(-lBack);
+		flWheel.set(lFront);
+		blWheel.set(lBack);
 		frWheel.set(rFront);
 		brWheel.set(rBack);
 		 
