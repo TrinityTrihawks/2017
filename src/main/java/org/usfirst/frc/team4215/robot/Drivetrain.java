@@ -102,16 +102,20 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		blWheel.setAllowableClosedLoopErr(0);
 		brWheel.setAllowableClosedLoopErr(0);
 
+		/*
 		flWheel.setVoltageRampRate(3);
 		frWheel.setVoltageRampRate(3);
 		blWheel.setVoltageRampRate(3);
 		brWheel.setVoltageRampRate(3);
-
+		*/
+		
+		/*
 		flWheel.setCloseLoopRampRate(3);
 		frWheel.setCloseLoopRampRate(3);
 		blWheel.setCloseLoopRampRate(3);
 		brWheel.setCloseLoopRampRate(3);
-
+		*/
+		
 		flWheel.configNominalOutputVoltage(0, 0);
 		frWheel.configNominalOutputVoltage(0, 0);
 		blWheel.configNominalOutputVoltage(0, 0);
@@ -122,10 +126,12 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		blWheel.configPeakOutputVoltage(12, -12);
 		brWheel.configPeakOutputVoltage(12, -12);
 		
+		/*
 		flWheel.setStatusFrameRateMs(StatusFrameRate.Feedback, 5);
 		frWheel.setStatusFrameRateMs(StatusFrameRate.Feedback, 5);
 		blWheel.setStatusFrameRateMs(StatusFrameRate.Feedback, 5);
 		brWheel.setStatusFrameRateMs(StatusFrameRate.Feedback, 5);
+		*/
 		
 		/*
 		flWheel.setIZone(1000);
@@ -149,11 +155,10 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 		brWheel.setProfile(0);
 		blWheel.setProfile(0);
 		
-		gyro = new AnalogGyro(0);
-		gyro.calibrate();
+		//gyro = new AnalogGyro(0);
+		//gyro.calibrate();
 		
 		mode = AutoMode.Distance;
- 
 	}
 	
 	/*
@@ -383,6 +388,7 @@ public class Drivetrain extends Subsystem implements PIDOutput, PIDSource{
 
 	public void drive(double left, double right, double strafe, boolean IsStrafing
 						, MotorGranular m){
+
 		switch(m){
 			case FAST:
 				left *= coeffFast;
