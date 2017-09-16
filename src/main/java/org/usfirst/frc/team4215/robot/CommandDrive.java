@@ -23,13 +23,11 @@ public class CommandDrive extends Command {
 	//double Kd = 0.05;
 	double Kd = 0;
 
-	public CommandDrive(double distance)
-	{
+	public CommandDrive(double distance){
 		this(distance, false);
 	}
 
-	public CommandDrive(double distance, boolean useBrakes)
-	{
+	public CommandDrive(double distance, boolean useBrakes){
 	
 		drivetrain = Drivetrain.Create();
 		brakes = new UltrasonicHub();
@@ -42,8 +40,7 @@ public class CommandDrive extends Command {
 		//requires(drivetrain);
 	}
 	
-	protected void initialize()
-	{
+	protected void initialize(){
 		drivetrain.resetEncoder();
 		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.setAutoMode(AutoMode.Distance);
