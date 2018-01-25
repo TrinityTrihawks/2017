@@ -136,8 +136,9 @@ public class Robot extends IterativeRobot {
 
 		//System.out.println("l: " + left + "  r: " + right + " strafe: " + isStrafing + + " - " + strafe);
 		
-		/* Removed to make sure the mode is fast
 		Drivetrain.MotorGranular mode = Drivetrain.MotorGranular.NORMAL;
+		/* Removed to make sure the mode is fast
+
 		if(drivestick.getRawButton(Portmap.DRIVE_LEFT_BOTTOM_TRIGGER_ID) 
 				&& !drivestick.getRawButton(Portmap.DRIVE_LEFT_TOP_TRIGGER_ID)){
 			 mode = Drivetrain.MotorGranular.FAST;

@@ -118,7 +118,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
 			//System.out.printf("READ COMPLETE: %d", index);
 	
 	        int dist = -1;
-	        //Searches for '82' which starts each datastream
+	  s      //Searches for '82' which starts each datastream
 			for (int i = 0; i < index; i++) 
 			{
 				if (bytes[i] == 82) {
