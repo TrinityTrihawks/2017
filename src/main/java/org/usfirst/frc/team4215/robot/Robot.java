@@ -7,18 +7,12 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.vision.VisionThread;
-
-import edu.wpi.first.wpilibj.Timer;
-
-import java.lang.reflect.Array;
-
 import org.usfirst.frc.team4215.robot.Arm;
 import org.usfirst.frc.team4215.robot.Drivetrain;
 import org.usfirst.frc.team4215.robot.Drivetrain.AutoMode;
 import org.usfirst.frc.team4215.robot.Drivetrain.MotorGranular;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -55,10 +49,7 @@ public class Robot extends IterativeRobot {
 	double Ki = .05;
 	double Kd = 0;
 	
-	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
-	Timer timer = new Timer();
-
 	
 	final int IMG_WIDTH = 320;
 	final int IMG_HEIGHT = 240;
@@ -68,8 +59,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit(){
-
-		//arm =  new Arm();
+		arm =  new Arm();
 		leftStick = new Joystick(0);
 		drivetrain = Drivetrain.Create();
 		winch = new WinchTest();
@@ -155,63 +145,23 @@ public class Robot extends IterativeRobot {
 		winch.set(leftStick.getRawAxis(Portmap.JOYSTICK_WINCH_ID));
 	}
 	
-	
 	@Override
 	public void autonomousInit(){
-		/*
-		Scheduler.getInstance().enable();
-		if (autonomousCommand != null){
-			autonomousCommand.start();
-		}
-		*/
-		drivetrain.resetEncoder();
-		String[] ls = new String[] { "1", "1", "1", "1", "1"};
+		//Scheduler.getInstance().enable();
+		//if (autonomousCommand != null){
+		//	autonomousCommand.start();
+		//}
+		String[] ls = new String[] { "1", "1", "1", "1"};
 		logger.init(ls, ls);
 		drivetrain.setPID(10, 0, 0);
-		drivetrain.setTalonControlMode(TalonControlMode.Current);
+		drivetrain.setTalonControlMode(TalonControlMode.Position);
 		drivetrain.drive(84, -84, 0, false, MotorGranular.NORMAL);
-		timer.start();
-		
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
 		//Scheduler.getInstance().run();
-		double[] getDistance = drivetrain.getDistance();
-		double[] getVoltage = drivetrain.getVoltages();
-		double[] getTemperature = drivetrain.getTemperature();
-		double[] getVelocity = drivetrain.getVelocity();
-		double[] getOutput = drivetrain.getOutput();
-		
-		double[] logs =  new double[25];
-		
-		logs[0] = timer.get();
-		
-		for (int i = 1;i < 5; i++){
-			logs[i] = getDistance[i-1];
-		}
-		for (int i = 5;i < 9; i++){
-			logs[i] = getVoltage[i-5];
-		}
-		logs[9] = pdp.getCurrent(Portmap.PDP_Bus_Channel_Front_Left);
-		logs[10] = pdp.getCurrent(Portmap.PDP_Bus_Channel_Front_Right);
-		logs[11] = pdp.getCurrent(Portmap.PDP_Bus_Channel_Back_Left);
-		logs[12] = pdp.getCurrent(Portmap.PDP_Bus_Channel_Back_Right);
-		
-		for (int i = 13;i < 17; i++){
-			logs[i] = getTemperature[i-13];
-		} 
-		
-		for (int i = 17;i < 21; i++){
-			logs[i] = getVelocity[i-17];
-		}
-		for (int i = 21;i < 25; i++){
-			logs[i] = getOutput[i-21];
-		}
-		
-		logger.writeData(logs);
-		
-		
+		logger.writeData(drivetrain.getDistance());
 	}
 	
 	@Override
